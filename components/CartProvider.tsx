@@ -4,13 +4,21 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
+  useEffect,
+  useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { getProducto } from "@/lib/productos";
-import { normalizarCarrito } from "@/lib/utils";
-import type { ItemCarrito } from "@/types";
+import { costeEnvio, normalizarCarrito } from "@/lib/utils";
+import type {
+  CarritoValidado,
+  ItemCarrito,
+  LineaCarrito,
+  ProductoCarrito,
+  Variante,
+} from "@/types";
 
 const CLAVE = "norte-carrito";
 const VACIO: ItemCarrito[] = [];
@@ -18,6 +26,32 @@ const oyentes = new Set<() => void>();
 
 let estado: ItemCarrito[] = [];
 let hidratado = false;
+
+type DatosLinea = {
+  producto: ProductoCarrito;
+  variante: Variante;
+};
+
+function claveItem(productoId: string, varianteId: string) {
+  return JSON.stringify([productoId, varianteId]);
+}
+
+function mismosItems(actuales: ItemCarrito[], siguientes: ItemCarrito[]) {
+  if (actuales.length !== siguientes.length) return false;
+
+  const cantidades = new Map(
+    actuales.map((item) => [
+      claveItem(item.productoId, item.varianteId),
+      item.cantidad,
+    ]),
+  );
+
+  return siguientes.every(
+    (item) =>
+      cantidades.get(claveItem(item.productoId, item.varianteId)) ===
+      item.cantidad,
+  );
+}
 
 function leerGuardado(): ItemCarrito[] {
   try {
@@ -62,14 +96,6 @@ function avisar() {
   oyentes.forEach((oyente) => oyente());
 }
 
-function stockDe(productoId: string, varianteId: string) {
-  return (
-    getProducto(productoId)?.variantes.find(
-      (variante) => variante.id === varianteId,
-    )?.stock ?? 0
-  );
-}
-
 function guardar(siguientes: ItemCarrito[]) {
   estado = siguientes;
   try {
@@ -101,13 +127,20 @@ async function actualizar(
 
 interface CartContextValue {
   items: ItemCarrito[];
-  agregar: (item: ItemCarrito) => Promise<boolean>;
+  lineas: LineaCarrito[];
+  subtotal: number;
+  envio: number;
+  total: number;
+  cargando: boolean;
+  error: string | null;
+  agregar: (item: ItemCarrito, datos?: DatosLinea) => Promise<boolean>;
   quitar: (productoId: string, varianteId: string) => Promise<void>;
   cambiarCantidad: (
     productoId: string,
     varianteId: string,
     cantidad: number,
   ) => Promise<void>;
+  vaciar: () => Promise<void>;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -118,14 +151,118 @@ export function CartProvider({ children }: { children: ReactNode }) {
     getSnapshot,
     getServerSnapshot,
   );
+  const [conocidas, setConocidas] = useState(
+    () => new Map<string, DatosLinea>(),
+  );
+  const [error, setError] = useState<string | null>(null);
 
-  async function agregar(item: ItemCarrito): Promise<boolean> {
+  useEffect(() => {
+    if (items.length === 0) return;
+
+    const controller = new AbortController();
+    let activo = true;
+
+    fetch("/api/carrito", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items }),
+      signal: controller.signal,
+    })
+      .then(async (respuesta) => {
+        if (!respuesta.ok) {
+          throw new Error("No se pudo validar el carrito");
+        }
+        return (await respuesta.json()) as CarritoValidado;
+      })
+      .then((datos) => {
+        if (!activo) return;
+
+        setConocidas(() => {
+          const siguientes = new Map<string, DatosLinea>();
+          for (const linea of datos.lineas) {
+            siguientes.set(
+              claveItem(linea.producto.id, linea.variante.id),
+              {
+                producto: linea.producto,
+                variante: linea.variante,
+              },
+            );
+          }
+          return siguientes;
+        });
+
+        if (!mismosItems(items, datos.items)) {
+          guardar(datos.items);
+        }
+
+        setError(null);
+      })
+      .catch((err: unknown) => {
+        if (!activo) return;
+        if (err instanceof Error && err.name === "AbortError") return;
+        setError("No pudimos actualizar precios y stock.");
+      });
+
+    return () => {
+      activo = false;
+      controller.abort();
+    };
+  }, [items]);
+
+  const cargando =
+    items.length > 0 &&
+    !error &&
+    items.some(
+      (item) =>
+        !conocidas.has(
+          claveItem(item.productoId, item.varianteId),
+        ),
+    );
+
+  const lineas: LineaCarrito[] = items.flatMap((item) => {
+    const datos = conocidas.get(
+      claveItem(item.productoId, item.varianteId),
+    );
+    if (!datos) return [];
+
+    return [
+      {
+        producto: datos.producto,
+        variante: datos.variante,
+        cantidad: item.cantidad,
+        subtotal: datos.producto.precio * item.cantidad,
+      },
+    ];
+  });
+
+  const subtotal = lineas.reduce(
+    (total, linea) => total + linea.subtotal,
+    0,
+  );
+  const envio = lineas.length === 0 ? 0 : costeEnvio(subtotal);
+  const total = subtotal + envio;
+
+  async function agregar(
+    item: ItemCarrito,
+    datos?: DatosLinea,
+  ): Promise<boolean> {
+    setError(null);
+
+    if (datos) {
+      setConocidas((previas) =>
+        new Map(previas).set(
+          claveItem(item.productoId, item.varianteId),
+          datos,
+        ),
+      );
+    }
+
     let cambio = false;
+    const cantidad = Number.isFinite(item.cantidad)
+      ? Math.max(1, Math.floor(item.cantidad))
+      : 1;
 
     await actualizar((items) => {
-      const stock = stockDe(item.productoId, item.varianteId);
-      if (stock <= 0) return items;
-
       const existente = items.find(
         (previo) =>
           previo.productoId === item.productoId &&
@@ -134,18 +271,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
       if (!existente) {
         cambio = true;
-        return [
-          ...items,
-          { ...item, cantidad: Math.min(item.cantidad, stock) },
-        ];
+        return [...items, { ...item, cantidad }];
       }
-
-      const cantidad = Math.min(existente.cantidad + item.cantidad, stock);
-      if (cantidad === existente.cantidad) return items;
 
       cambio = true;
       return items.map((previo) =>
-        previo === existente ? { ...previo, cantidad } : previo,
+        previo === existente
+          ? { ...previo, cantidad: previo.cantidad + cantidad }
+          : previo,
       );
     });
 
@@ -153,43 +286,58 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }
 
   async function quitar(productoId: string, varianteId: string) {
+    setError(null);
+
     await actualizar((items) =>
       items.filter(
         (item) =>
-          item.productoId !== productoId || item.varianteId !== varianteId,
+          item.productoId !== productoId ||
+          item.varianteId !== varianteId,
       ),
     );
   }
+
+  const vaciar = useCallback(async () => {
+    setError(null);
+    await actualizar(() => []);
+  }, []);
 
   async function cambiarCantidad(
     productoId: string,
     varianteId: string,
     cantidad: number,
   ) {
-    await actualizar((items) => {
-      const stock = stockDe(productoId, varianteId);
+    setError(null);
 
-      if (stock <= 0) {
-        return items.filter(
-          (item) =>
-            item.productoId !== productoId || item.varianteId !== varianteId,
-        );
-      }
+    const siguiente = Number.isFinite(cantidad)
+      ? Math.max(1, Math.floor(cantidad))
+      : 1;
 
-      return items.map((item) =>
-        item.productoId === productoId && item.varianteId === varianteId
-          ? {
-              ...item,
-              cantidad: Math.min(Math.max(1, cantidad), stock),
-            }
+    await actualizar((items) =>
+      items.map((item) =>
+        item.productoId === productoId &&
+        item.varianteId === varianteId
+          ? { ...item, cantidad: siguiente }
           : item,
-      );
-    });
+      ),
+    );
   }
 
   return (
     <CartContext.Provider
-      value={{ items, agregar, quitar, cambiarCantidad }}
+      value={{
+        items,
+        lineas,
+        subtotal,
+        envio,
+        total,
+        cargando,
+        error,
+        agregar,
+        quitar,
+        cambiarCantidad,
+        vaciar,
+      }}
     >
       {children}
     </CartContext.Provider>

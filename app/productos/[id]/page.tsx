@@ -4,13 +4,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { AddToCart } from "@/components/AddToCart";
-import { getProducto, productos } from "@/lib/productos";
+import { getProducto } from "@/lib/productos";
 import { ENVIO_GRATIS_DESDE, formatearPrecio } from "@/lib/utils";
-
-export function generateStaticParams() {
-  return productos.map((producto) => ({ id: producto.id }));
-}
 
 export async function generateMetadata({
   params,
@@ -18,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const producto = getProducto(id);
+  const producto = await getProducto(id);
 
   return {
     title: producto?.nombre ?? "Producto no encontrado",
@@ -26,13 +23,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProductoPage({
+async function FichaProducto({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const producto = getProducto(id);
+  const producto = await getProducto(id);
 
   if (!producto) notFound();
 
@@ -50,14 +47,20 @@ export default async function ProductoPage({
       <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-16">
         {/* Imagen del producto */}
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-stone-200">
-          <Image
-            src={producto.imagen}
-            alt={producto.nombre}
-            fill
-            priority
-            sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover"
-          />
+          {producto.imagen ? (
+            <Image
+              src={producto.imagen}
+              alt={producto.nombre}
+              fill
+              priority
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-sm text-stone-400">
+              Sin imagen
+            </div>
+          )}
         </div>
 
         {/* Información y compra */}
@@ -97,5 +100,36 @@ export default async function ProductoPage({
         </div>
       </div>
     </div>
+  );
+}
+
+function FichaProductoSkeleton() {
+  return (
+    <div className="mx-auto max-w-6xl animate-pulse px-6 py-10 md:py-16">
+      <div className="h-4 w-40 rounded bg-stone-200" />
+      <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-16">
+        <div className="aspect-[4/5] rounded-2xl bg-stone-200" />
+        <div className="md:py-6">
+          <div className="h-3 w-20 rounded bg-stone-200" />
+          <div className="mt-4 h-9 w-64 max-w-full rounded bg-stone-200" />
+          <div className="mt-4 h-6 w-32 rounded bg-stone-200" />
+          <div className="mt-6 h-4 w-full rounded bg-stone-200" />
+          <div className="mt-2 h-4 w-5/6 rounded bg-stone-200" />
+          <div className="mt-8 h-40 rounded-2xl bg-stone-200" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ProductoPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  return (
+    <Suspense fallback={<FichaProductoSkeleton />}>
+      <FichaProducto params={params} />
+    </Suspense>
   );
 }

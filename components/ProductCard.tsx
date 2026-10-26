@@ -11,13 +11,19 @@ export function ProductCard({ producto }: { producto: Producto }) {
   return (
     <Link href={`/productos/${producto.id}`} className="group block">
       <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-stone-200">
-        <Image
-          src={producto.imagen}
-          alt={producto.nombre}
-          fill
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition-transform duration-500 ease-out motion-reduce:transition-none lg:group-hover:scale-105"
-        />
+        {producto.imagen ? (
+          <Image
+            src={producto.imagen}
+            alt={producto.nombre}
+            fill
+            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 ease-out motion-reduce:transition-none lg:group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center text-xs text-stone-400">
+            Sin imagen
+          </div>
+        )}
         {agotado && (
           <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-stone-700">
             Agotado

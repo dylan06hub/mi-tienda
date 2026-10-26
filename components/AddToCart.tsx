@@ -47,11 +47,23 @@ export function AddToCart({ producto }: { producto: Producto }) {
 
   async function handleAgregar() {
     if (!variante || maximo) return;
-    const cambio = await agregar({
-      productoId: producto.id,
-      varianteId: variante.id,
-      cantidad: 1,
-    });
+    const cambio = await agregar(
+      {
+        productoId: producto.id,
+        varianteId: variante.id,
+        cantidad: 1,
+      },
+      {
+        producto: {
+          id: producto.id,
+          nombre: producto.nombre,
+          precio: producto.precio,
+          imagen: producto.imagen,
+          categoria: producto.categoria,
+        },
+        variante,
+      },
+    );
     if (cambio) setAgregado(true);
   }
 

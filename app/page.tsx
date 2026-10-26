@@ -2,9 +2,47 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { ProductCard } from "@/components/ProductCard";
-import { productosDestacados } from "@/lib/productos";
+import { getProductos } from "@/lib/productos";
 import { ENVIO_GRATIS_DESDE, formatearPrecio } from "@/lib/utils";
+
+const IDS_DESTACADOS = [
+  "camiseta-esencial",
+  "camisa-lino",
+  "buzo-norte",
+  "chaqueta-cuero",
+];
+
+async function ProductosDestacados() {
+  const productos = await getProductos();
+  const destacados = IDS_DESTACADOS.flatMap((id) => {
+    const producto = productos.find((item) => item.id === id);
+    return producto ? [producto] : [];
+  });
+
+  return (
+    <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      {destacados.map((producto) => (
+        <ProductCard key={producto.id} producto={producto} />
+      ))}
+    </div>
+  );
+}
+
+function ProductosDestacadosSkeleton() {
+  return (
+    <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      {IDS_DESTACADOS.map((id) => (
+        <div key={id} className="animate-pulse">
+          <div className="aspect-[3/4] rounded-xl bg-stone-200" />
+          <div className="mt-3 h-3 w-24 rounded bg-stone-200" />
+          <div className="mt-2 h-4 w-40 rounded bg-stone-200" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function Home() {
   return (
@@ -79,11 +117,9 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {productosDestacados.map((producto) => (
-            <ProductCard key={producto.id} producto={producto} />
-          ))}
-        </div>
+        <Suspense fallback={<ProductosDestacadosSkeleton />}>
+          <ProductosDestacados />
+        </Suspense>
       </section>
 
       {/* Ventajas */}
