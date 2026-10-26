@@ -25,7 +25,7 @@ function leerGuardado(): ItemCarrito[] {
     const datos = guardado ? JSON.parse(guardado) : [];
     return Array.isArray(datos) ? normalizarCarrito(datos) : [];
   } catch {
-    return [];
+    return estado;
   }
 }
 
@@ -80,15 +80,34 @@ function guardar(siguientes: ItemCarrito[]) {
   avisar();
 }
 
+// Serializa lectura y escritura para no pisar cambios de otra pestaña.
+async function actualizar(
+  aplicar: (items: ItemCarrito[]) => ItemCarrito[],
+): Promise<ItemCarrito[]> {
+  const ejecutar = () => {
+    const siguientes = aplicar(leerGuardado());
+    guardar(siguientes);
+    return siguientes;
+  };
+
+  if (!navigator.locks) return ejecutar();
+
+  try {
+    return await navigator.locks.request(CLAVE, ejecutar);
+  } catch {
+    return ejecutar();
+  }
+}
+
 interface CartContextValue {
   items: ItemCarrito[];
-  agregar: (item: ItemCarrito) => void;
-  quitar: (productoId: string, varianteId: string) => void;
+  agregar: (item: ItemCarrito) => Promise<boolean>;
+  quitar: (productoId: string, varianteId: string) => Promise<void>;
   cambiarCantidad: (
     productoId: string,
     varianteId: string,
     cantidad: number,
-  ) => void;
+  ) => Promise<void>;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -100,75 +119,72 @@ export function CartProvider({ children }: { children: ReactNode }) {
     getServerSnapshot,
   );
 
-  function agregar(item: ItemCarrito) {
-    const stock = stockDe(item.productoId, item.varianteId);
+  async function agregar(item: ItemCarrito): Promise<boolean> {
+    let cambio = false;
 
-    if (stock <= 0) return;
+    await actualizar((items) => {
+      const stock = stockDe(item.productoId, item.varianteId);
+      if (stock <= 0) return items;
 
-    const existente = estado.find(
-      (previo) =>
-        previo.productoId === item.productoId &&
-        previo.varianteId === item.varianteId,
-    );
+      const existente = items.find(
+        (previo) =>
+          previo.productoId === item.productoId &&
+          previo.varianteId === item.varianteId,
+      );
 
-    if (!existente) {
-      guardar([
-        ...estado,
-        { ...item, cantidad: Math.min(item.cantidad, stock) },
-      ]);
-      return;
-    }
+      if (!existente) {
+        cambio = true;
+        return [
+          ...items,
+          { ...item, cantidad: Math.min(item.cantidad, stock) },
+        ];
+      }
 
-    guardar(
-      estado.map((previo) =>
-        previo === existente
-          ? {
-              ...previo,
-              cantidad: Math.min(previo.cantidad + item.cantidad, stock),
-            }
-          : previo,
-      ),
-    );
+      const cantidad = Math.min(existente.cantidad + item.cantidad, stock);
+      if (cantidad === existente.cantidad) return items;
+
+      cambio = true;
+      return items.map((previo) =>
+        previo === existente ? { ...previo, cantidad } : previo,
+      );
+    });
+
+    return cambio;
   }
 
-  function quitar(productoId: string, varianteId: string) {
-    guardar(
-      estado.filter(
+  async function quitar(productoId: string, varianteId: string) {
+    await actualizar((items) =>
+      items.filter(
         (item) =>
           item.productoId !== productoId || item.varianteId !== varianteId,
       ),
     );
   }
 
-  function cambiarCantidad(
+  async function cambiarCantidad(
     productoId: string,
     varianteId: string,
     cantidad: number,
   ) {
-    const stock = stockDe(productoId, varianteId);
+    await actualizar((items) => {
+      const stock = stockDe(productoId, varianteId);
 
-    if (stock <= 0) {
-      if (
-        estado.some(
+      if (stock <= 0) {
+        return items.filter(
           (item) =>
-            item.productoId === productoId && item.varianteId === varianteId,
-        )
-      ) {
-        quitar(productoId, varianteId);
+            item.productoId !== productoId || item.varianteId !== varianteId,
+        );
       }
-      return;
-    }
 
-    guardar(
-      estado.map((item) =>
+      return items.map((item) =>
         item.productoId === productoId && item.varianteId === varianteId
           ? {
               ...item,
               cantidad: Math.min(Math.max(1, cantidad), stock),
             }
           : item,
-      ),
-    );
+      );
+    });
   }
 
   return (

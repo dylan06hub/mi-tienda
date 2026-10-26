@@ -8,7 +8,7 @@ import { useCart } from "./CartProvider";
 import type { Producto } from "@/types";
 
 export function AddToCart({ producto }: { producto: Producto }) {
-  const { agregar } = useCart();
+  const { items, agregar } = useCart();
   const colores = [...new Set(producto.variantes.map((item) => item.color))];
   const inicial =
     producto.variantes.find((variante) => variante.stock > 0) ??
@@ -22,6 +22,14 @@ export function AddToCart({ producto }: { producto: Producto }) {
   );
   const talles = producto.variantes.filter((item) => item.color === color);
   const sinStock = !variante || variante.stock === 0;
+  const enCarrito = variante
+    ? (items.find(
+        (item) =>
+          item.productoId === producto.id &&
+          item.varianteId === variante.id,
+      )?.cantidad ?? 0)
+    : 0;
+  const maximo = !!variante && enCarrito >= variante.stock;
 
   function elegirColor(nuevoColor: string) {
     setColor(nuevoColor);
@@ -37,14 +45,14 @@ export function AddToCart({ producto }: { producto: Producto }) {
     setAgregado(false);
   }
 
-  function handleAgregar() {
-    if (!variante) return;
-    agregar({
+  async function handleAgregar() {
+    if (!variante || maximo) return;
+    const cambio = await agregar({
       productoId: producto.id,
       varianteId: variante.id,
       cantidad: 1,
     });
-    setAgregado(true);
+    if (cambio) setAgregado(true);
   }
 
   return (
@@ -111,14 +119,16 @@ export function AddToCart({ producto }: { producto: Producto }) {
       <button
         type="button"
         onClick={handleAgregar}
-        disabled={sinStock}
+        disabled={sinStock || maximo}
         className="mt-6 w-full rounded-full bg-stone-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-700 disabled:cursor-not-allowed disabled:bg-stone-300"
       >
         {sinStock
           ? "Agotado"
-          : agregado
-            ? "Agregado al carrito"
-            : "Agregar al carrito"}
+          : maximo
+            ? "Máximo en carrito"
+            : agregado
+              ? "Agregado al carrito"
+              : "Agregar al carrito"}
       </button>
 
       <div aria-live="polite" className="mt-3 min-h-5 text-sm">
