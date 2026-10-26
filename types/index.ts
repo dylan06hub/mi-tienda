@@ -1,9 +1,9 @@
 // Tipos compartidos del dominio de la tienda.
 
-/** Variante concreta de un producto: talla, color y stock disponible. */
+/** Variante concreta de un producto: talle, color y stock disponible. */
 export interface Variante {
   id: string;
-  talla: string;
+  talle: string;
   color: string;
   stock: number;
 }

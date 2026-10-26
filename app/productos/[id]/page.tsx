@@ -1,4 +1,4 @@
-// Ficha de producto: imagen, datos, selector de variantes y añadir al carrito.
+// Ficha de producto: imagen, datos, selector de variantes y agregar al carrito.
 
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCart } from "@/components/AddToCart";
 import { getProducto, productos } from "@/lib/productos";
-import { formatearPrecio } from "@/lib/utils";
+import { ENVIO_GRATIS_DESDE, formatearPrecio } from "@/lib/utils";
 
 export function generateStaticParams() {
   return productos.map((producto) => ({ id: producto.id }));
@@ -83,7 +83,8 @@ export default async function ProductoPage({
             <div>
               <dt className="font-medium text-stone-900">Envío</dt>
               <dd className="mt-1 text-stone-600">
-                Gratis a partir de 80 €. Entrega en 2–4 días laborables.
+                Gratis a partir de {formatearPrecio(ENVIO_GRATIS_DESDE)}.
+                Entrega en 2–4 días hábiles.
               </dd>
             </div>
             <div>

@@ -17,6 +17,10 @@
 /.next/
 /out/
 
+# herramientas locales
+/.opencode/
+/graphify-out/
+
 # production
 /build
 

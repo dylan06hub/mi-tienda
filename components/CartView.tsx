@@ -9,6 +9,7 @@ import { getProducto } from "@/lib/productos";
 import {
   buscarVariante,
   costeEnvio,
+  ENVIO_GRATIS_DESDE,
   formatearPrecio,
 } from "@/lib/utils";
 import { useCart } from "./CartProvider";
@@ -76,7 +77,7 @@ export function CartView() {
                     {producto.nombre}
                   </Link>
                   <p className="mt-1 text-sm text-stone-500">
-                    Talla {variante.talla} · {variante.color}
+                    Talle {variante.talle} · {variante.color}
                   </p>
                 </div>
                 <p className="text-sm tabular-nums text-stone-900">
@@ -106,7 +107,7 @@ export function CartView() {
                   </span>
                   <button
                     type="button"
-                    aria-label="Añadir una unidad"
+                    aria-label="Agregar una unidad"
                     disabled={item.cantidad >= variante.stock}
                     onClick={() =>
                       cambiarCantidad(
@@ -172,7 +173,7 @@ export function CartView() {
         </div>
 
         <p className="mt-2 text-xs text-stone-400">
-          Envío gratis a partir de 80 €.
+          Envío gratis a partir de {formatearPrecio(ENVIO_GRATIS_DESDE)}.
         </p>
       </aside>
     </div>

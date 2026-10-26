@@ -1,6 +1,6 @@
 "use client";
 
-// Selector de variante y botón para añadir el producto al carrito.
+// Selector de color y talle, y botón para agregar el producto al carrito.
 
 import Link from "next/link";
 import { useState } from "react";
@@ -9,14 +9,33 @@ import type { Producto } from "@/types";
 
 export function AddToCart({ producto }: { producto: Producto }) {
   const { agregar } = useCart();
-  const [varianteId, setVarianteId] = useState(
-    producto.variantes.find((variante) => variante.stock > 0)?.id ??
-      producto.variantes[0].id,
-  );
+  const colores = [...new Set(producto.variantes.map((item) => item.color))];
+  const inicial =
+    producto.variantes.find((variante) => variante.stock > 0) ??
+    producto.variantes[0];
+  const [color, setColor] = useState(inicial.color);
+  const [talle, setTalle] = useState(inicial.talle);
   const [agregado, setAgregado] = useState(false);
 
-  const variante = producto.variantes.find((item) => item.id === varianteId);
+  const variante = producto.variantes.find(
+    (item) => item.color === color && item.talle === talle,
+  );
+  const talles = producto.variantes.filter((item) => item.color === color);
   const sinStock = !variante || variante.stock === 0;
+
+  function elegirColor(nuevoColor: string) {
+    setColor(nuevoColor);
+    const opcion =
+      producto.variantes.find(
+        (item) =>
+          item.color === nuevoColor && item.talle === talle && item.stock > 0,
+      ) ??
+      producto.variantes.find(
+        (item) => item.color === nuevoColor && item.stock > 0,
+      );
+    if (opcion) setTalle(opcion.talle);
+    setAgregado(false);
+  }
 
   function handleAgregar() {
     if (!variante) return;
@@ -30,46 +49,76 @@ export function AddToCart({ producto }: { producto: Producto }) {
 
   return (
     <div>
-      {/* Selector de talla */}
-      <p className="text-sm font-medium text-stone-900">Talla</p>
+      {/* Selector de color */}
+      <p className="text-sm font-medium text-stone-900">Color</p>
       <div className="mt-3 flex flex-wrap gap-2">
-        {producto.variantes.map((opcion) => {
-          const seleccionada = opcion.id === varianteId;
+        {colores.map((opcion) => {
+          const disponible = producto.variantes.some(
+            (item) => item.color === opcion && item.stock > 0,
+          );
+          const seleccionado = opcion === color;
           return (
             <button
-              key={opcion.id}
+              key={opcion}
               type="button"
-              aria-pressed={seleccionada}
-              disabled={opcion.stock === 0}
-              onClick={() => {
-                setVarianteId(opcion.id);
-                setAgregado(false);
-              }}
-              className={`min-w-11 rounded-full border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-stone-200 disabled:text-stone-300 disabled:line-through ${
-                seleccionada
+              aria-pressed={seleccionado}
+              disabled={!disponible}
+              onClick={() => elegirColor(opcion)}
+              className={`rounded-full border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-stone-200 disabled:text-stone-300 disabled:line-through ${
+                seleccionado
                   ? "border-stone-900 bg-stone-900 text-white"
                   : "border-stone-300 text-stone-800 hover:border-stone-900"
               }`}
             >
-              {opcion.talla}
+              {opcion}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Selector de talle */}
+      <p className="mt-5 text-sm font-medium text-stone-900">Talle</p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {talles.map((opcion) => {
+          const seleccionado = opcion.talle === talle;
+          return (
+            <button
+              key={opcion.id}
+              type="button"
+              aria-pressed={seleccionado}
+              disabled={opcion.stock === 0}
+              onClick={() => {
+                setTalle(opcion.talle);
+                setAgregado(false);
+              }}
+              className={`min-w-11 rounded-full border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-stone-200 disabled:text-stone-300 disabled:line-through ${
+                seleccionado
+                  ? "border-stone-900 bg-stone-900 text-white"
+                  : "border-stone-300 text-stone-800 hover:border-stone-900"
+              }`}
+            >
+              {opcion.talle}
             </button>
           );
         })}
       </div>
 
       <p className="mt-3 text-sm text-stone-500">
-        {variante?.color} ·{" "}
         {sinStock ? "Sin stock" : `${variante.stock} disponibles`}
       </p>
 
-      {/* Añadir y confirmación */}
+      {/* Agregar y confirmación */}
       <button
         type="button"
         onClick={handleAgregar}
         disabled={sinStock}
         className="mt-6 w-full rounded-full bg-stone-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-700 disabled:cursor-not-allowed disabled:bg-stone-300"
       >
-        {sinStock ? "Agotado" : agregado ? "Añadido al carrito" : "Añadir al carrito"}
+        {sinStock
+          ? "Agotado"
+          : agregado
+            ? "Agregado al carrito"
+            : "Agregar al carrito"}
       </button>
 
       <div aria-live="polite" className="mt-3 min-h-5 text-sm">

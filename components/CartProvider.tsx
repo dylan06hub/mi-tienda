@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { getProducto } from "@/lib/productos";
+import { normalizarCarrito } from "@/lib/utils";
 import type { ItemCarrito } from "@/types";
 
 const CLAVE = "norte-carrito";
@@ -22,7 +23,7 @@ function leerGuardado(): ItemCarrito[] {
   try {
     const guardado = localStorage.getItem(CLAVE);
     const datos = guardado ? JSON.parse(guardado) : [];
-    return Array.isArray(datos) ? datos : [];
+    return Array.isArray(datos) ? normalizarCarrito(datos) : [];
   } catch {
     return [];
   }
@@ -61,6 +62,14 @@ function avisar() {
   oyentes.forEach((oyente) => oyente());
 }
 
+function stockDe(productoId: string, varianteId: string) {
+  return (
+    getProducto(productoId)?.variantes.find(
+      (variante) => variante.id === varianteId,
+    )?.stock ?? 0
+  );
+}
+
 function guardar(siguientes: ItemCarrito[]) {
   estado = siguientes;
   try {
@@ -92,10 +101,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   function agregar(item: ItemCarrito) {
-    const stock =
-      getProducto(item.productoId)?.variantes.find(
-        (variante) => variante.id === item.varianteId,
-      )?.stock ?? 0;
+    const stock = stockDe(item.productoId, item.varianteId);
 
     if (stock <= 0) return;
 
@@ -139,10 +145,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
     varianteId: string,
     cantidad: number,
   ) {
+    const stock = stockDe(productoId, varianteId);
+
+    if (stock <= 0) {
+      if (
+        estado.some(
+          (item) =>
+            item.productoId === productoId && item.varianteId === varianteId,
+        )
+      ) {
+        quitar(productoId, varianteId);
+      }
+      return;
+    }
+
     guardar(
       estado.map((item) =>
         item.productoId === productoId && item.varianteId === varianteId
-          ? { ...item, cantidad: Math.max(1, cantidad) }
+          ? {
+              ...item,
+              cantidad: Math.min(Math.max(1, cantidad), stock),
+            }
           : item,
       ),
     );

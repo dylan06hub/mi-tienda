@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/ProductCard";
 import { productosDestacados } from "@/lib/productos";
+import { ENVIO_GRATIS_DESDE, formatearPrecio } from "@/lib/utils";
 
 export default function Home() {
   return (
@@ -89,9 +90,11 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
         <div className="grid gap-8 rounded-2xl bg-stone-900 px-8 py-10 text-white sm:grid-cols-3">
           <div>
-            <p className="text-sm font-medium">Envío gratis desde 80 €</p>
+            <p className="text-sm font-medium">
+              Envío gratis desde {formatearPrecio(ENVIO_GRATIS_DESDE)}
+            </p>
             <p className="mt-2 text-sm leading-6 text-stone-400">
-              Entrega en 2–4 días laborables en península.
+              Entrega en 2–4 días hábiles en todo el país.
             </p>
           </div>
           <div>
