@@ -44,3 +44,5 @@ export function Header() {
     </header>
   );
 }
+
+// Componente de la cabecera: marca, navegación y contador de unidades del carrito.
