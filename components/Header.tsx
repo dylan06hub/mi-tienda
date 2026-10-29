@@ -21,9 +21,12 @@ export function Header() {
         </Link>
 
         {/* Navegación */}
-        <nav className="flex items-center gap-6 text-sm text-stone-700">
+        <nav className="flex items-center gap-5 text-sm text-stone-700">
           <Link href="/productos" className="transition-colors hover:text-stone-950">
             Productos
+          </Link>
+          <Link href="/contacto" className="transition-colors hover:text-stone-950">
+            Contacto
           </Link>
           <Link
             href="/carrito"
