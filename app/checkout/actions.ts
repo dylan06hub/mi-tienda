@@ -350,9 +350,16 @@ export async function crearPedido(
       return { error: "No pudimos iniciar el pago con Mercado Pago." };
     }
 
-    const creada = (await respuesta.json()) as { init_point?: unknown };
+    const creada = (await respuesta.json()) as {
+      init_point?: unknown;
+      sandbox_init_point?: unknown;
+    };
+    const initPoint =
+      process.env.MP_SANDBOX === "true"
+        ? creada.sandbox_init_point
+        : creada.init_point;
 
-    if (typeof creada.init_point !== "string") {
+    if (typeof initPoint !== "string") {
       console.error("Mercado Pago no devolvió init_point:", creada);
       await borrarPedido(supabase, id);
 
@@ -365,7 +372,7 @@ export async function crearPedido(
         subtotal,
         envio,
         total,
-        initPoint: creada.init_point,
+        initPoint,
       },
     };
   } catch (error) {
