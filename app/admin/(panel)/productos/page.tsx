@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/admin-auth";
 import { getProductosAdmin } from "@/lib/productos";
 import { formatearPrecio } from "@/lib/utils";
+import { alternarSeccion } from "./actions";
 import { DeleteProductButton } from "./DeleteProductButton";
 
 export const metadata: Metadata = {
@@ -57,7 +58,7 @@ export default async function AdminProductosPage() {
         </div>
       ) : (
         <div className="mt-8 overflow-x-auto rounded-2xl border border-stone-200 bg-white">
-          <table className="w-full min-w-[760px] text-left text-sm">
+          <table className="w-full min-w-[940px] text-left text-sm">
             <thead className="border-b border-stone-200 bg-stone-50 text-xs uppercase tracking-[0.12em] text-stone-500">
               <tr>
                 <th className="px-5 py-3 font-medium">Producto</th>
@@ -65,6 +66,7 @@ export default async function AdminProductosPage() {
                 <th className="px-5 py-3 font-medium">Variantes</th>
                 <th className="px-5 py-3 font-medium">Stock</th>
                 <th className="px-5 py-3 font-medium">Estado</th>
+                <th className="px-5 py-3 font-medium">Secciones</th>
                 <th className="px-5 py-3 text-right font-medium">
                   Acciones
                 </th>
@@ -106,6 +108,50 @@ export default async function AdminProductosPage() {
                       >
                         {producto.activo ? "Publicado" : "Oculto"}
                       </span>
+                    </td>
+                    <td className="px-5 py-4">
+                      <div className="flex flex-wrap gap-2">
+                        <form action={alternarSeccion}>
+                          <input type="hidden" name="id" value={producto.id} />
+                          <input type="hidden" name="campo" value="destacado" />
+                          <input
+                            type="hidden"
+                            name="valor"
+                            value={String(!producto.destacado)}
+                          />
+                          <button
+                            type="submit"
+                            aria-pressed={producto.destacado}
+                            className={`h-8 whitespace-nowrap rounded-full border px-3 text-xs font-medium transition ${
+                              producto.destacado
+                                ? "border-stone-900 bg-stone-900 text-white hover:bg-stone-700"
+                                : "border-stone-300 text-stone-700 hover:border-stone-900"
+                            }`}
+                          >
+                            Imprescindibles
+                          </button>
+                        </form>
+                        <form action={alternarSeccion}>
+                          <input type="hidden" name="id" value={producto.id} />
+                          <input type="hidden" name="campo" value="oferta" />
+                          <input
+                            type="hidden"
+                            name="valor"
+                            value={String(!producto.oferta)}
+                          />
+                          <button
+                            type="submit"
+                            aria-pressed={producto.oferta}
+                            className={`h-8 whitespace-nowrap rounded-full border px-3 text-xs font-medium transition ${
+                              producto.oferta
+                                ? "border-stone-900 bg-stone-900 text-white hover:bg-stone-700"
+                                : "border-stone-300 text-stone-700 hover:border-stone-900"
+                            }`}
+                          >
+                            Ofertas
+                          </button>
+                        </form>
+                      </div>
                     </td>
                     <td className="px-5 py-4">
                       <div className="flex items-start justify-end gap-5">

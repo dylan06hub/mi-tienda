@@ -7,39 +7,61 @@ import { ProductCard } from "@/components/ProductCard";
 import { getProductos } from "@/lib/productos";
 import { ENVIO_GRATIS_DESDE, formatearPrecio } from "@/lib/utils";
 
-const IDS_DESTACADOS = [
-  "camiseta-esencial",
-  "camisa-lino",
-  "buzo-norte",
-  "chaqueta-cuero",
-];
-
-async function ProductosDestacados() {
+async function SeccionPortada({
+  titulo,
+  filtro,
+}: {
+  titulo: string;
+  filtro: "destacado" | "oferta";
+}) {
   const productos = await getProductos();
-  const destacados = IDS_DESTACADOS.flatMap((id) => {
-    const producto = productos.find((item) => item.id === id);
-    return producto ? [producto] : [];
-  });
+  const seleccion = productos.filter((producto) => producto[filtro]);
+
+  // Sin productos en la sección no se muestra el bloque vacío.
+  if (seleccion.length === 0) return null;
 
   return (
-    <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-      {destacados.map((producto) => (
-        <ProductCard key={producto.id} producto={producto} />
-      ))}
-    </div>
+    <section className="mx-auto max-w-6xl px-6 py-8 md:py-12">
+      <div className="flex items-end justify-between gap-6">
+        <div>
+          <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
+            Selección
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight">
+            {titulo}
+          </h2>
+        </div>
+        <Link
+          href="/productos"
+          className="text-sm underline underline-offset-4 hover:text-stone-600"
+        >
+          Ver todo
+        </Link>
+      </div>
+
+      <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        {seleccion.map((producto) => (
+          <ProductCard key={producto.id} producto={producto} />
+        ))}
+      </div>
+    </section>
   );
 }
 
-function ProductosDestacadosSkeleton() {
+function SeccionSkeleton() {
   return (
-    <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-      {IDS_DESTACADOS.map((id) => (
-        <div key={id} className="animate-pulse">
-          <div className="aspect-[3/4] rounded-xl bg-stone-200" />
-          <div className="mt-3 h-3 w-24 rounded bg-stone-200" />
-          <div className="mt-2 h-4 w-40 rounded bg-stone-200" />
-        </div>
-      ))}
+    <div className="mx-auto max-w-6xl animate-pulse px-6 py-8 md:py-12">
+      <div className="h-3 w-24 rounded bg-stone-200" />
+      <div className="mt-3 h-7 w-56 rounded bg-stone-200" />
+      <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        {[0, 1, 2, 3].map((indice) => (
+          <div key={indice}>
+            <div className="aspect-[3/4] rounded-xl bg-stone-200" />
+            <div className="mt-3 h-3 w-24 rounded bg-stone-200" />
+            <div className="mt-2 h-4 w-40 rounded bg-stone-200" />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -49,29 +71,15 @@ export default function Home() {
     <div>
       <HomeCarousel />
 
-      {/* Productos destacados */}
-      <section className="mx-auto max-w-6xl px-6 py-8 md:py-12">
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
-              Selección
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight">
-              Los imprescindibles
-            </h2>
-          </div>
-          <Link
-            href="/productos"
-            className="text-sm underline underline-offset-4 hover:text-stone-600"
-          >
-            Ver todo
-          </Link>
-        </div>
+      {/* Los imprescindibles */}
+      <Suspense fallback={<SeccionSkeleton />}>
+        <SeccionPortada titulo="Los imprescindibles" filtro="destacado" />
+      </Suspense>
 
-        <Suspense fallback={<ProductosDestacadosSkeleton />}>
-          <ProductosDestacados />
-        </Suspense>
-      </section>
+      {/* Ofertas */}
+      <Suspense fallback={<SeccionSkeleton />}>
+        <SeccionPortada titulo="Ofertas" filtro="oferta" />
+      </Suspense>
 
       {/* Ventajas */}
       <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">

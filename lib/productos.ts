@@ -9,10 +9,10 @@ const ALIAS_PRODUCTOS: Record<string, string> = {
 };
 
 const CAMPOS_PRODUCTO =
-  "id, nombre, descripcion, precio, categoria, imagen, variantes(id, talle, color, stock)";
+  "id, nombre, descripcion, precio, categoria, imagen, destacado, oferta, variantes(id, talle, color, stock)";
 
 const CAMPOS_PRODUCTO_ADMIN =
-  "id, nombre, descripcion, precio, categoria, imagen, activo, variantes(id, talle, color, stock)";
+  "id, nombre, descripcion, precio, categoria, imagen, activo, destacado, oferta, variantes(id, talle, color, stock)";
 
 type VarianteFila = {
   id: string;
@@ -28,6 +28,8 @@ type ProductoFila = {
   precio: number | string;
   categoria: string;
   imagen: string | null;
+  destacado: boolean;
+  oferta: boolean;
   variantes: VarianteFila[] | null;
 };
 
@@ -48,6 +50,8 @@ function aProducto(fila: ProductoFila): Producto {
     precio: Number(fila.precio),
     categoria: fila.categoria,
     imagen: fila.imagen ?? "",
+    destacado: fila.destacado,
+    oferta: fila.oferta,
     variantes,
   };
 }

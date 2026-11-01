@@ -187,6 +187,26 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
           Publicar en la tienda
         </label>
 
+        <label className="flex items-center gap-3 text-sm text-stone-700">
+          <input
+            type="checkbox"
+            name="destacado"
+            defaultChecked={producto?.destacado ?? false}
+            className="size-4 rounded border-stone-300 accent-stone-900"
+          />
+          Sección &ldquo;Los imprescindibles&rdquo;
+        </label>
+
+        <label className="flex items-center gap-3 text-sm text-stone-700">
+          <input
+            type="checkbox"
+            name="oferta"
+            defaultChecked={producto?.oferta ?? false}
+            className="size-4 rounded border-stone-300 accent-stone-900"
+          />
+          Sección &ldquo;Ofertas&rdquo;
+        </label>
+
         {producto && (
           <p className="text-xs text-stone-500 sm:col-span-2">
             ID: <span className="font-mono">{producto.id}</span>

@@ -362,6 +362,8 @@ export async function guardarProducto(
     categoria,
     imagen: imagen || null,
     activo: formData.get("activo") === "on",
+    destacado: formData.get("destacado") === "on",
+    oferta: formData.get("oferta") === "on",
   };
 
   const { error: guardarError } = idExistente
@@ -410,6 +412,29 @@ export async function guardarProducto(
 
   revalidarCatalogo(id);
   redirect("/admin/productos");
+}
+
+export async function alternarSeccion(formData: FormData) {
+  await requireAdmin();
+
+  const id = texto(formData, "id");
+  const campo = texto(formData, "campo");
+
+  if (!id) return;
+
+  if (campo !== "destacado" && campo !== "oferta") return;
+
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
+    .from("productos")
+    .update({ [campo]: formData.get("valor") === "true" })
+    .eq("id", id);
+
+  if (error) {
+    throw new Error("No se pudo actualizar la sección del producto.");
+  }
+
+  revalidarCatalogo(id);
 }
 
 export async function eliminarProducto(

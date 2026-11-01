@@ -11,7 +11,9 @@ create table public.productos (
   precio numeric(12, 2) not null check (precio >= 0),
   categoria text not null,
   imagen text,
-  activo boolean not null default true
+  activo boolean not null default true,
+  destacado boolean not null default false,
+  oferta boolean not null default false
 );
 
 -- variantes.id es text y la PK es (producto_id, id): el id de la app es

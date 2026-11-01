@@ -16,6 +16,10 @@ export interface Producto {
   precio: number;
   categoria: string;
   imagen: string;
+  /** Aparece en la sección "Los imprescindibles" de la portada. */
+  destacado: boolean;
+  /** Aparece en la sección "Ofertas" de la portada. */
+  oferta: boolean;
   variantes: Variante[];
 }
 
