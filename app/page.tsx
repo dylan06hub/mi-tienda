@@ -1,6 +1,7 @@
 // Página de inicio: carrusel, productos destacados y ventajas de la tienda.
 
 import Link from "next/link";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { HomeCarousel } from "@/components/HomeCarousel";
 import { ProductCard } from "@/components/ProductCard";
@@ -14,6 +15,9 @@ async function SeccionPortada({
   titulo: string;
   filtro: "destacado" | "oferta";
 }) {
+  // El cliente Supabase lee la sesión de las cookies y usa Date.now(), que
+  // bloquea el prerender: se difiere a tiempo de request.
+  await connection();
   const productos = await getProductos();
   const seleccion = productos.filter((producto) => producto[filtro]);
 

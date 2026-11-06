@@ -1,6 +1,7 @@
 // Catálogo completo de productos con filtros.
 
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { getProductos } from "@/lib/productos";
@@ -37,6 +38,8 @@ async function Catalogo({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
+  // Difiere la consulta Supabase (Date.now() en auth) al tiempo de request.
+  await connection();
   const categoriasActivas = aArray(params.categoria).map((v) => v.trim());
   const tallesActivos = aArray(params.talle).map((v) => v.trim());
   const coloresActivos = aArray(params.color).map((v) => v.trim());

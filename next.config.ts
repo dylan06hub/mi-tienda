@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["*.trycloudflare.com"],
   images: {
     remotePatterns: [
       {
@@ -23,6 +24,9 @@ const nextConfig: NextConfig = {
     agentFeedback: true,
     serverActions: {
       bodySizeLimit: "6mb",
+      ...(process.env.NODE_ENV === "development"
+        ? { allowedOrigins: ["*.trycloudflare.com"] }
+        : {}),
     },
   },
   cacheComponents: true,

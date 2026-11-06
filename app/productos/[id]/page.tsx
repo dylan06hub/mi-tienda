@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { AddToCart } from "@/components/AddToCart";
 import { getProducto } from "@/lib/productos";
@@ -15,6 +16,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
+  await connection();
   const producto = await getProducto(id);
 
   return {
@@ -29,6 +31,7 @@ async function FichaProducto({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  await connection();
   const producto = await getProducto(id);
 
   if (!producto) notFound();
