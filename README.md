@@ -207,3 +207,12 @@ colores de combinaciones guardadas no se renombran: para cambiarlos, crear una
 combinación nueva. El stock sigue siendo editable y se conserva la comprobación
 de cambios concurrentes. Eliminar queda dentro de la edición, con confirmación y
 las mismas restricciones de historial de pedidos.
+
+## Identidad streetwear neón · fase 1
+
+La dirección visual está documentada en `DESIGN.md`. `app/streetwear.css` define
+los colores, Barlow Condensed Black y los estilos base para títulos y botones.
+Se activa mediante `.street-theme`; la aplicación a las pantallas queda para
+las siguientes fases. La fuente se aloja en `public/fonts` con su licencia.
+`tests/streetwear-contraste.test.mjs` comprueba los pares de texto y fondo antes
+de usarlos. El panel administrativo conserva su identidad de trabajo.

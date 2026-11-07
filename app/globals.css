@@ -1,5 +1,6 @@
 /* Estilos globales y tema base de la tienda. */
 @import "tailwindcss";
+@import "./streetwear.css";
 
 :root {
   --background: #f7f5f0;

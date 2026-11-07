@@ -1,0 +1,116 @@
+/* Identidad streetwear. Se aplica a las pantallas mediante .street-theme. */
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("/fonts/barlow-condensed-black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --street-background: #0b0b0d;
+  --street-surface: #17171b;
+  --street-foreground: #f4f4ed;
+  --street-muted: #adada8;
+  --street-border: #424247;
+  --street-accent: #ccff00;
+  --street-accent-hover: #b8e600;
+  --street-secondary: #00f0ff;
+  --street-on-accent: #0b0b0d;
+  --street-font-display: "Barlow Condensed", sans-serif;
+}
+
+@theme inline {
+  --color-street-background: var(--street-background);
+  --color-street-surface: var(--street-surface);
+  --color-street-foreground: var(--street-foreground);
+  --color-street-muted: var(--street-muted);
+  --color-street-border: var(--street-border);
+  --color-street-accent: var(--street-accent);
+  --color-street-accent-hover: var(--street-accent-hover);
+  --color-street-secondary: var(--street-secondary);
+  --color-street-on-accent: var(--street-on-accent);
+  --font-display: var(--street-font-display);
+  --radius-street: 0.25rem;
+}
+
+.street-theme {
+  color-scheme: dark;
+  background: var(--street-background);
+  color: var(--street-foreground);
+}
+
+.street-title {
+  font-family: var(--street-font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.street-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--street-accent);
+  border-radius: 0.25rem;
+  background: var(--street-accent);
+  color: var(--street-on-accent);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out;
+}
+
+.street-button:hover {
+  background: var(--street-accent-hover);
+  border-color: var(--street-accent-hover);
+}
+
+.street-button--secondary {
+  background: transparent;
+  color: var(--street-foreground);
+  border-color: var(--street-foreground);
+}
+
+.street-button--secondary:hover {
+  background: var(--street-foreground);
+  color: var(--street-background);
+  border-color: var(--street-foreground);
+}
+
+.street-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.street-button:disabled {
+  background: var(--street-surface);
+  color: var(--street-muted);
+  border-color: var(--street-border);
+  cursor: not-allowed;
+}
+
+.street-theme ::selection {
+  background: var(--street-accent);
+  color: var(--street-on-accent);
+}
+
+.street-theme :where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--street-secondary);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .street-button {
+    transition: none;
+  }
+
+  .street-button:active:not(:disabled) {
+    transform: none;
+  }
+}
