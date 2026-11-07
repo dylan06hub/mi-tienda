@@ -123,3 +123,13 @@ export interface IncidenciaPago {
   resuelta_en: string | null;
   resolucion: string | null;
 }
+
+export interface ConsultaAdmin {
+  id: string;
+  nombre: string;
+  email: string;
+  telefono: string | null;
+  asunto: string;
+  mensaje: string;
+  creado_en: string;
+}

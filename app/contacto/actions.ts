@@ -1,6 +1,7 @@
 "use server";
 
-import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 type ResultadoConsulta =
   | { error: string }
@@ -8,10 +9,6 @@ type ResultadoConsulta =
 
 function validarEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function limitar(texto: string, max: number) {
-  return texto.trim().slice(0, max);
 }
 
 export async function enviarConsulta(
@@ -33,16 +30,17 @@ export async function enviarConsulta(
     typeof nombre !== "string" ||
     typeof email !== "string" ||
     typeof asunto !== "string" ||
-    typeof mensaje !== "string"
+    typeof mensaje !== "string" ||
+    (telefono !== null && typeof telefono !== "string")
   ) {
     return { error: "Completá todos los campos obligatorios." };
   }
 
-  const nombreLimpio = limitar(nombre, 80);
-  const emailLimpio = limitar(email, 120).toLowerCase();
-  const telefonoLimpio = typeof telefono === "string" ? limitar(telefono, 40) : "";
-  const asuntoLimpio = limitar(asunto, 120);
-  const mensajeLimpio = limitar(mensaje, 1000);
+  const nombreLimpio = nombre.trim();
+  const emailLimpio = email.trim().toLowerCase();
+  const telefonoLimpio = telefono?.trim() ?? "";
+  const asuntoLimpio = asunto.trim();
+  const mensajeLimpio = mensaje.trim();
 
   if (!nombreLimpio || !emailLimpio || !asuntoLimpio || !mensajeLimpio) {
     return { error: "Completá todos los campos obligatorios." };
@@ -52,16 +50,25 @@ export async function enviarConsulta(
     return { error: "Ingresá un email válido." };
   }
 
-  const cabeceras = await headers();
-  const userAgent = cabeceras.get("user-agent") ?? "";
-  const ip =
-    cabeceras.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    cabeceras.get("x-real-ip") ??
-    "desconocido";
+  if (nombreLimpio.length > 80 || emailLimpio.length > 120 ||
+    telefonoLimpio.length > 40 || asuntoLimpio.length > 120 || mensajeLimpio.length > 1000) {
+    return { error: "Revisá la extensión de los campos. El mensaje admite hasta 1000 caracteres." };
+  }
 
-  console.log(
-    `[contacto] ${new Date().toISOString()} ip=${ip} ua=${userAgent.slice(0, 80)} nombre=${nombreLimpio} email=${emailLimpio} telefono=${telefonoLimpio} asunto=${asuntoLimpio} mensaje=${mensajeLimpio.replace(/\n/g, " ")}`,
-  );
+  try {
+    const { error } = await createSupabaseAdminClient().from("consultas").insert({
+      nombre: nombreLimpio,
+      email: emailLimpio,
+      telefono: telefonoLimpio || null,
+      asunto: asuntoLimpio,
+      mensaje: mensajeLimpio,
+    });
+    if (error) throw error;
+  } catch {
+    console.error("No se pudo guardar la consulta de contacto.");
+    return { error: "No pudimos recibir tu consulta. Intentá de nuevo en unos minutos." };
+  }
 
+  revalidatePath("/admin/consultas");
   return { ok: "Consulta enviada correctamente. Te respondemos a la brevedad." };
 }

@@ -36,6 +36,12 @@ export default async function AdminPage() {
         >
           Administrar pedidos
         </Link>
+        <Link
+          href="/admin/consultas"
+          className="inline-flex h-11 items-center rounded-full border border-stone-300 px-5 text-sm font-medium text-stone-900 transition hover:bg-stone-100"
+        >
+          Ver consultas
+        </Link>
       </div>
 
       <form action={cerrarSesionAdmin} className="mt-8">

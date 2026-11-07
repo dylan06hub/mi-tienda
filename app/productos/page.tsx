@@ -59,22 +59,13 @@ async function Catalogo({
     if (categoriasSet.size > 0) {
       if (!categoriasSet.has(normalizar(producto.categoria))) return false;
     }
-    if (soloStock) {
-      if (!producto.variantes.some((variante) => variante.stock > 0)) {
-        return false;
-      }
-    }
-    if (tallesSet.size > 0) {
-      const tieneTalle = producto.variantes.some(
-        (variante) => tallesSet.has(normalizar(variante.talle)),
+    if (soloStock || tallesSet.size > 0 || coloresSet.size > 0) {
+      const coincide = producto.variantes.some((variante) =>
+        (!soloStock || variante.stock > 0) &&
+        (tallesSet.size === 0 || tallesSet.has(normalizar(variante.talle))) &&
+        (coloresSet.size === 0 || coloresSet.has(normalizar(variante.color))),
       );
-      if (!tieneTalle) return false;
-    }
-    if (coloresSet.size > 0) {
-      const tieneColor = producto.variantes.some(
-        (variante) => coloresSet.has(normalizar(variante.color)),
-      );
-      if (!tieneColor) return false;
+      if (!coincide) return false;
     }
     if (!Number.isNaN(min) && producto.precio < min) return false;
     if (!Number.isNaN(max) && producto.precio > max) return false;
@@ -141,7 +132,7 @@ async function Catalogo({
           </div>
         ) : (
         <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
-          {filtrados.slice(0, 50).map((producto) => (
+          {filtrados.map((producto) => (
             <ProductCard key={producto.id} producto={producto} />
           ))}
         </div>

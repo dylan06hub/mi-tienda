@@ -1,3 +1,57 @@
+## Verificación (fase 4)
+
+```sh
+npm test
+npm run test:db
+npm run lint
+npm run typecheck
+npm run build
+```
+
+`test:db` requiere PostgreSQL (`initdb`, `pg_ctl`, `psql`) y Python 3 en PATH.
+Crea una base temporal con conexión por socket local, instala el esquema y
+ejecuta pruebas de transacciones, permisos y concurrencia. Detiene PostgreSQL
+y elimina sus datos al terminar. No usa la base configurada en `.env.local`.
+La autenticación de Supabase se simula; este comando no prueba GoTrue ni pg_cron.
+
+Se verificaron 84 pruebas Node, las pruebas SQL y cinco escenarios concurrentes,
+ESLint y TypeScript. El webhook ahora devuelve un error controlado si Mercado
+Pago responde con un cuerpo nulo o que no es un objeto; se probaron también
+firmas HMAC válidas e inválidas y fallos del proveedor.
+
+El ensayo sandbox creó una preferencia real por $34.995 ARS y abrió el checkout
+de Mercado Pago con las URLs de retorno y notificación previstas. El usuario
+decidió no iniciar sesión: no se completaron el pago, el retorno ni la recepción
+del webhook real. El pedido de prueba se conservó cancelado, se devolvió su stock,
+se cerró el túnel temporal y se restauró `APP_URL`.
+
+Pendientes antes de publicar: configurar una `APP_URL` pública activa y
+`MP_WEBHOOK_SECRET`, completar la compra sandbox y obtener un build de producción.
+En este entorno, Turbopack falla al abrir el socket de su proceso de plugins con
+`Operation not permitted`; el build no quedó validado.
+
+## Consultas y catálogo (fase 3)
+
+Aplicar `supabase/consultas.sql` después de `schema.sql` antes de desplegar esta
+versión. El formulario de contacto guarda las consultas desde el servidor y
+confirma su recepción solo después de guardarlas. Los campos demasiado largos
+se rechazan en lugar de truncarse; los datos de contacto no se escriben en logs.
+
+La bandeja de solo lectura está en **Administración → Ver consultas**
+(`/admin/consultas`), ordenada de más reciente a más antigua. Solo los
+administradores pueden leerla; el cliente no tiene permisos de escritura.
+No se envían correos automáticamente.
+
+Los filtros de talle, color y disponibilidad deben coincidir en una misma
+variante. El catálogo ya no recorta el listado a 50 productos.
+
+Pruebas de permisos y validación (solo en una base de prueba):
+
+```sh
+npm test
+psql "$TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/consultas.sql
+```
+
 ## Reservas y pagos (fase 2)
 
 Después de `checkout.sql`, aplicar `supabase/reservas.sql` y

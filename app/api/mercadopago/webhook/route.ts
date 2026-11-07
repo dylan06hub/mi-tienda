@@ -152,7 +152,9 @@ export async function POST(request: Request) {
       return responder(500);
     }
 
-    pago = (await respuesta.json()) as Pago;
+    const datos: unknown = await respuesta.json();
+    if (!datos || typeof datos !== "object" || Array.isArray(datos)) return responder(500);
+    pago = datos as Pago;
   } catch (error) {
     console.error(`No se pudo consultar el pago ${pagoId}:`, error);
     return responder(500);
