@@ -1,8 +1,8 @@
 import type { EstadoPedido } from "@/types";
 
 const ETIQUETAS: Record<EstadoPedido, string> = {
-  pendiente: "Pendiente",
-  pagado: "Pagado",
+  pendiente: "Pendiente de pago",
+  pagado: "Pagado · por enviar",
   enviado: "Enviado",
   cancelado: "Cancelado",
 };

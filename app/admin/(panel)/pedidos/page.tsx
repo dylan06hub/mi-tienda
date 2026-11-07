@@ -11,10 +11,21 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function AdminPedidosPage() {
+export default async function AdminPedidosPage({ searchParams }: {
+  searchParams: Promise<{ q?: string; estado?: string }>;
+}) {
   await requireAdmin();
   const pedidos = await getPedidosAdmin();
   const incidencias = await getIncidenciasPago();
+  const params = await searchParams;
+  const q = typeof params.q === "string" ? params.q.trim() : "";
+  const estado = typeof params.estado === "string" ? params.estado : "";
+  const filtrados = pedidos.filter((pedido) =>
+    (!estado || pedido.estado === estado) &&
+    `${pedido.id} ${pedido.nombre} ${pedido.email}`.toLocaleLowerCase("es").includes(q.toLocaleLowerCase("es")),
+  );
+  const pendientes = incidencias.filter((incidencia) => !incidencia.resuelta_en);
+  const resueltas = incidencias.filter((incidencia) => incidencia.resuelta_en);
   const motivos: Record<string, string> = {
     reserva_vencida: "Pago recibido después del vencimiento de la reserva",
     no_pendiente: "Pago recibido para un pedido cancelado",
@@ -28,111 +39,89 @@ export default async function AdminPedidosPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
-      <Link
-        href="/admin"
-        className="text-sm text-stone-500 underline-offset-4 hover:text-stone-900 hover:underline"
-      >
-        ← Panel
-      </Link>
+    <div className="py-6 md:py-8">
+      <h1 className="text-3xl font-semibold tracking-tight">Pedidos</h1>
+      <p className="mt-2 text-sm text-stone-600">Buscá un pedido o elegí un estado. Abrí el detalle para preparar el envío o gestionar una cancelación.</p>
 
-      <div className="mt-6">
-        <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
-          Administración
-        </p>
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-          Pedidos
-        </h1>
-        <p className="mt-2 text-sm text-stone-600">
-          {pedidos.length} pedidos registrados.
-        </p>
+      <form key={`${q}-${estado}`} method="get" className="mt-6 grid items-end gap-3 rounded-xl border border-stone-200 bg-white p-4 sm:grid-cols-[minmax(0,1fr)_180px_auto]">
+        <div>
+          <label htmlFor="buscar-pedidos" className="text-sm font-medium">Buscar pedido</label>
+          <input id="buscar-pedidos" name="q" type="search" defaultValue={q} placeholder="Número, cliente o email" className="mt-2 h-11 w-full rounded-lg border border-stone-300 px-3 text-base" />
+        </div>
+        <div>
+          <label htmlFor="estado-pedidos" className="text-sm font-medium">Estado</label>
+          <select id="estado-pedidos" name="estado" defaultValue={estado} className="mt-2 h-11 w-full rounded-lg border border-stone-300 bg-white px-3 text-base">
+            <option value="">Todos</option>
+            <option value="pendiente">Pendiente de pago</option>
+            <option value="pagado">Pagado · por enviar</option>
+            <option value="enviado">Enviado</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+        </div>
+        <button className="min-h-11 rounded-lg border border-stone-900 px-5 text-sm font-medium hover:bg-stone-100">Buscar</button>
+      </form>
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm text-stone-600">
+        <p role="status">{filtrados.length} de {pedidos.length} pedidos</p>
+        {(q || estado) && <Link href="/admin/pedidos" className="inline-flex min-h-11 items-center underline underline-offset-4">Limpiar filtros</Link>}
       </div>
 
-      {incidencias.length > 0 && (
-        <section className="mt-8 space-y-4" aria-label="Incidencias de pago">
+      {pendientes.length > 0 && (
+        <section id="incidencias" className="mt-6 scroll-mt-24 space-y-4" aria-label="Incidencias de pago">
           <h2 className="text-xl font-semibold">Revisión de pagos</h2>
           <p className="text-sm text-stone-600">Los reembolsos se gestionan en Mercado Pago. Registrá aquí la resolución después de comprobar cada caso.</p>
-          {incidencias.map((incidencia) => (
+          {pendientes.map((incidencia) => (
             <article key={incidencia.mp_payment_id} className="rounded-xl border border-amber-200 bg-amber-50 p-5">
               <h3 className="text-sm font-medium">{motivos[incidencia.motivo] ?? "Pago que requiere revisión"}</h3>
-              <p className="mt-2 text-sm">Pago: <span className="font-mono">{incidencia.mp_payment_id}</span> · {incidencia.monto == null ? "Importe no informado" : `${incidencia.monto} ${incidencia.moneda ?? ""}`}</p>
+              <p className="mt-2 break-all text-sm">Pago: <span className="font-mono">{incidencia.mp_payment_id}</span> · {incidencia.monto == null ? "Importe no informado" : `${incidencia.monto} ${incidencia.moneda ?? ""}`}</p>
               <p className="mt-1 text-xs text-stone-600">{formatearFecha(incidencia.creado_en)}</p>
               {incidencia.pedido_id && <Link className="mt-2 inline-block text-sm underline" href={`/admin/pedidos/${incidencia.pedido_id}`}>Ver pedido</Link>}
-              {incidencia.resuelta_en ? (
-                <p className="mt-3 text-sm">Resuelta: {incidencia.resolucion} · {formatearFecha(incidencia.resuelta_en)}</p>
-              ) : (
                 <form action={resolverIncidenciaPago} className="mt-4 flex flex-wrap gap-3">
                   <input type="hidden" name="pago_id" value={incidencia.mp_payment_id} />
-                  <label className="flex-1 text-sm">
+                  <label className="min-w-0 flex-1 text-sm">
                     Resolución
-                    <input name="resolucion" required maxLength={500} className="mt-1 block h-10 w-full min-w-48 rounded-lg border border-amber-300 bg-white px-3" />
+                    <input name="resolucion" required maxLength={500} className="mt-1 block h-11 w-full rounded-lg border border-amber-300 bg-white px-3" />
                   </label>
                   <button className="self-end rounded-full bg-stone-900 px-5 py-2 text-sm text-white">Marcar como resuelta</button>
                 </form>
-              )}
             </article>
           ))}
         </section>
       )}
 
-      {pedidos.length === 0 ? (
-        <div className="mt-10 rounded-2xl border border-stone-200 bg-white px-6 py-16 text-center">
-          <p className="text-sm text-stone-600">
-            Todavía no hay pedidos.
-          </p>
-        </div>
+      {pendientes.length === 0 && <p id="incidencias" className="mt-5 scroll-mt-24 text-sm text-stone-600">No hay pagos pendientes de revisión.</p>}
+      {resueltas.length > 0 && (
+        <details className="mt-5 rounded-xl border border-stone-200 bg-white p-5">
+          <summary className="cursor-pointer text-sm font-medium">Historial de incidencias resueltas ({resueltas.length})</summary>
+          <div className="mt-4 space-y-5">
+            {resueltas.map((incidencia) => (
+              <article key={incidencia.mp_payment_id} className="border-t border-stone-200 pt-4 text-sm">
+                <h3 className="font-medium">{motivos[incidencia.motivo] ?? "Pago revisado"}</h3>
+                <p className="mt-2 break-all">Pago: {incidencia.mp_payment_id} · {incidencia.monto == null ? "Importe no informado" : `${incidencia.monto} ${incidencia.moneda ?? ""}`}</p>
+                <p className="mt-1 text-xs text-stone-600">Registrada: {formatearFecha(incidencia.creado_en)}</p>
+                <p className="mt-2 whitespace-pre-wrap break-words text-stone-700">Resolución: {incidencia.resolucion}</p>
+                <p className="mt-1 text-xs text-stone-600">Resuelta: {formatearFecha(incidencia.resuelta_en!)}</p>
+                {incidencia.pedido_id && <Link href={`/admin/pedidos/${incidencia.pedido_id}`} className="mt-2 inline-flex min-h-11 items-center underline">Ver pedido</Link>}
+              </article>
+            ))}
+          </div>
+        </details>
+      )}
+      {filtrados.length === 0 ? (
+        <p className="mt-5 rounded-xl border border-stone-200 bg-white p-8 text-sm text-stone-600">{pedidos.length === 0 ? "Todavía no hay pedidos." : "No encontramos pedidos. Probá otra búsqueda o limpiá los filtros."}</p>
       ) : (
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-stone-200 bg-white">
-          <table className="w-full min-w-[760px] text-left text-sm">
-            <thead className="border-b border-stone-200 bg-stone-50 text-xs uppercase tracking-[0.12em] text-stone-500">
-              <tr>
-                <th className="px-5 py-3 font-medium">Pedido</th>
-                <th className="px-5 py-3 font-medium">Cliente</th>
-                <th className="px-5 py-3 font-medium">Total</th>
-                <th className="px-5 py-3 font-medium">Estado</th>
-                <th className="px-5 py-3 text-right font-medium">
-                  Acciones
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100">
-              {pedidos.map((pedido) => (
-                <tr key={pedido.id}>
-                  <td className="px-5 py-4">
-                    <p className="font-mono text-xs font-medium text-stone-900">
-                      {pedido.id.slice(0, 8)}
-                    </p>
-                    <p className="mt-1 text-xs text-stone-500">
-                      {formatearFecha(pedido.creadoEn)}
-                    </p>
-                  </td>
-                  <td className="px-5 py-4">
-                    <p className="font-medium text-stone-900">
-                      {pedido.nombre}
-                    </p>
-                    <p className="mt-1 text-xs text-stone-500">
-                      {pedido.email}
-                    </p>
-                  </td>
-                  <td className="px-5 py-4 tabular-nums text-stone-700">
-                    {formatearPrecio(pedido.total)}
-                  </td>
-                  <td className="px-5 py-4">
-                    <EstadoPedidoBadge estado={pedido.estado} />
-                  </td>
-                  <td className="px-5 py-4 text-right">
-                    <Link
-                      href={`/admin/pedidos/${pedido.id}`}
-                      className="text-sm text-stone-700 underline-offset-4 transition hover:text-stone-950 hover:underline"
-                    >
-                      Ver detalle
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ul className="mt-4 divide-y divide-stone-200 rounded-xl border border-stone-200 bg-white">
+          {filtrados.map((pedido) => (
+            <li key={pedido.id} className="grid items-center gap-4 p-5 sm:grid-cols-[minmax(0,1fr)_auto_auto]">
+              <div className="min-w-0">
+                <Link href={`/admin/pedidos/${pedido.id}`} className="font-medium underline-offset-4 hover:underline">Pedido #{pedido.id.slice(0, 8)}</Link>
+                <p className="mt-1 break-words text-sm text-stone-600">{pedido.nombre} · {pedido.email}</p>
+                <p className="mt-1 text-xs text-stone-600">{formatearFecha(pedido.creadoEn)}</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end"><span className="whitespace-nowrap text-sm font-medium tabular-nums">{formatearPrecio(pedido.total)}</span><EstadoPedidoBadge estado={pedido.estado} /></div>
+              <Link href={`/admin/pedidos/${pedido.id}`} aria-label={`Abrir pedido ${pedido.id.slice(0, 8)}`} className="inline-flex min-h-11 items-center justify-center rounded-lg border border-stone-300 px-4 text-sm font-medium hover:border-stone-900">Ver pedido</Link>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

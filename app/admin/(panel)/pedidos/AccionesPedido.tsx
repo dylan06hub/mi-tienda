@@ -5,9 +5,9 @@ import type { AccionPedido } from "@/types";
 import { cambiarEstadoPedido } from "./actions";
 
 const ESTILO_PRIMARIO =
-  "h-10 rounded-full bg-stone-900 px-5 text-sm font-medium text-white transition hover:bg-stone-700 disabled:opacity-50";
+  "min-h-11 rounded-lg bg-stone-900 px-5 text-sm font-medium text-white transition hover:bg-stone-700 disabled:opacity-50";
 const ESTILO_PELIGRO =
-  "h-10 rounded-full border border-red-200 px-5 text-sm font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-50";
+  "min-h-11 rounded-lg border border-red-200 px-5 text-sm font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-50";
 
 export function AccionesPedido({
   id,

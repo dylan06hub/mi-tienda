@@ -1,10 +1,12 @@
 // Layout raíz: fuentes, carrito y cabecera/pie comunes a todas las páginas.
 
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from "@/components/CartProvider";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { StoreChrome } from "@/components/StoreChrome";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,9 +40,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Saltar al contenido
         </a>
         <CartProvider>
-          <Header />
+          <Suspense fallback={null}>
+            <StoreChrome><Header /></StoreChrome>
+          </Suspense>
           <main id="contenido" tabIndex={-1} className="flex-1">{children}</main>
-          <Footer />
+          <Suspense fallback={null}>
+            <StoreChrome><Footer /></StoreChrome>
+          </Suspense>
         </CartProvider>
       </body>
     </html>

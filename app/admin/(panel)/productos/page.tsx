@@ -1,178 +1,109 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin-auth";
 import { getProductosAdmin } from "@/lib/productos";
 import { formatearPrecio } from "@/lib/utils";
-import { alternarSeccion } from "./actions";
-import { DeleteProductButton } from "./DeleteProductButton";
 
 export const metadata: Metadata = {
   title: "Productos | Administración",
   robots: { index: false, follow: false },
 };
 
-export default async function AdminProductosPage() {
+type Filtros = { q?: string; estado?: string; categoria?: string };
+
+export default async function AdminProductosPage({ searchParams }: { searchParams: Promise<Filtros> }) {
   await requireAdmin();
   const productos = await getProductosAdmin();
+  const params = await searchParams;
+  const q = typeof params.q === "string" ? params.q.trim() : "";
+  const estado = typeof params.estado === "string" ? params.estado : "";
+  const categoria = typeof params.categoria === "string" ? params.categoria : "";
+  const categorias = [...new Set(productos.map((producto) => producto.categoria))].sort();
+  const filtrados = productos.filter((producto) => {
+    const coincide = `${producto.nombre} ${producto.id} ${producto.categoria}`.toLocaleLowerCase("es").includes(q.toLocaleLowerCase("es"));
+    const stock = producto.variantes.reduce((total, variante) => total + variante.stock, 0);
+    return coincide && (!categoria || producto.categoria === categoria)
+      && (estado !== "publicados" || producto.activo)
+      && (estado !== "ocultos" || !producto.activo)
+      && (estado !== "sin-stock" || stock === 0);
+  });
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
-      <Link
-        href="/admin"
-        className="text-sm text-stone-500 underline-offset-4 hover:text-stone-900 hover:underline"
-      >
-        ← Panel
-      </Link>
-
-      <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
+    <div className="py-6 md:py-8">
+      <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
-            Administración
-          </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-            Productos
-          </h1>
-          <p className="mt-2 text-sm text-stone-600">
-            {productos.length} productos en el catálogo.
-          </p>
+          <h1 className="text-3xl font-semibold tracking-tight">Productos</h1>
+          <p className="mt-2 text-sm text-stone-600">Buscá una prenda para cambiar su precio, foto, talles o publicación.</p>
         </div>
-        <Link
-          href="/admin/productos/nuevo"
-          className="inline-flex h-11 items-center rounded-full bg-stone-900 px-5 text-sm font-medium text-white transition hover:bg-stone-700"
-        >
-          Nuevo producto
+        <Link href="/admin/productos/nuevo" className="inline-flex min-h-11 items-center rounded-lg bg-stone-900 px-5 text-sm font-medium text-white hover:bg-stone-700">
+          Crear producto
         </Link>
       </div>
 
-      {productos.length === 0 ? (
-        <div className="mt-10 rounded-2xl border border-stone-200 bg-white px-6 py-16 text-center">
-          <p className="text-sm text-stone-600">
-            Todavía no hay productos cargados.
-          </p>
-          <Link
-            href="/admin/productos/nuevo"
-            className="mt-4 inline-flex h-10 items-center rounded-full bg-stone-900 px-5 text-sm font-medium text-white transition hover:bg-stone-700"
-          >
-            Crear el primero
-          </Link>
+      <form key={`${q}-${estado}-${categoria}`} method="get" className="mt-6 grid items-end gap-3 rounded-xl border border-stone-200 bg-white p-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_180px_180px_auto]">
+        <div>
+          <label htmlFor="buscar-productos" className="text-sm font-medium">Buscar producto</label>
+          <input id="buscar-productos" type="search" name="q" defaultValue={q} placeholder="Nombre, categoría o código" className="mt-2 h-11 w-full rounded-lg border border-stone-300 px-3 text-base" />
+        </div>
+        <div>
+          <label htmlFor="categoria-productos" className="text-sm font-medium">Categoría</label>
+          <select id="categoria-productos" name="categoria" defaultValue={categoria} className="mt-2 h-11 w-full rounded-lg border border-stone-300 bg-white px-3 text-base">
+            <option value="">Todas</option>
+            {categorias.map((nombre) => <option key={nombre} value={nombre}>{nombre}</option>)}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="estado-productos" className="text-sm font-medium">Mostrar</label>
+          <select id="estado-productos" name="estado" defaultValue={estado} className="mt-2 h-11 w-full rounded-lg border border-stone-300 bg-white px-3 text-base">
+            <option value="">Todos</option>
+            <option value="publicados">Publicados</option>
+            <option value="ocultos">Ocultos</option>
+            <option value="sin-stock">Sin stock</option>
+          </select>
+        </div>
+        <button className="min-h-11 rounded-lg border border-stone-900 px-5 text-sm font-medium hover:bg-stone-100">Buscar</button>
+      </form>
+
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm text-stone-600">
+        <p role="status">{filtrados.length} de {productos.length} productos</p>
+        {(q || estado || categoria) && <Link href="/admin/productos" className="inline-flex min-h-11 items-center underline underline-offset-4">Limpiar filtros</Link>}
+      </div>
+
+      {filtrados.length === 0 ? (
+        <div className="mt-4 rounded-xl border border-stone-200 bg-white p-8 text-center">
+          <h2 className="text-lg font-medium">{productos.length === 0 ? "Todavía no hay productos" : "No encontramos productos"}</h2>
+          <p className="mt-2 text-sm text-stone-600">{productos.length === 0 ? "Creá tu primera prenda para empezar a armar el catálogo." : "Probá con otro nombre o limpiá los filtros."}</p>
         </div>
       ) : (
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-stone-200 bg-white">
-          <table className="w-full min-w-[940px] text-left text-sm">
-            <thead className="border-b border-stone-200 bg-stone-50 text-xs uppercase tracking-[0.12em] text-stone-500">
-              <tr>
-                <th className="px-5 py-3 font-medium">Producto</th>
-                <th className="px-5 py-3 font-medium">Precio</th>
-                <th className="px-5 py-3 font-medium">Variantes</th>
-                <th className="px-5 py-3 font-medium">Stock</th>
-                <th className="px-5 py-3 font-medium">Estado</th>
-                <th className="px-5 py-3 font-medium">Secciones</th>
-                <th className="px-5 py-3 text-right font-medium">
-                  Acciones
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100">
-              {productos.map((producto) => {
-                const stock = producto.variantes.reduce(
-                  (total, variante) => total + variante.stock,
-                  0,
-                );
-
-                return (
-                  <tr key={producto.id}>
-                    <td className="px-5 py-4">
-                      <p className="font-medium text-stone-900">
-                        {producto.nombre}
-                      </p>
-                      <p className="mt-1 text-xs text-stone-500">
-                        {producto.id} · {producto.categoria}
-                      </p>
-                    </td>
-                    <td className="px-5 py-4 tabular-nums text-stone-700">
-                      {formatearPrecio(producto.precio)}
-                    </td>
-                    <td className="px-5 py-4 tabular-nums text-stone-700">
-                      {producto.variantes.length}
-                    </td>
-                    <td className="px-5 py-4 tabular-nums text-stone-700">
-                      {stock}
-                    </td>
-                    <td className="px-5 py-4">
-                      <span
-                        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
-                          producto.activo
-                            ? "bg-emerald-50 text-emerald-700"
-                            : "bg-stone-100 text-stone-500"
-                        }`}
-                      >
-                        {producto.activo ? "Publicado" : "Oculto"}
-                      </span>
-                    </td>
-                    <td className="px-5 py-4">
-                      <div className="flex flex-wrap gap-2">
-                        <form action={alternarSeccion}>
-                          <input type="hidden" name="id" value={producto.id} />
-                          <input type="hidden" name="campo" value="destacado" />
-                          <input
-                            type="hidden"
-                            name="valor"
-                            value={String(!producto.destacado)}
-                          />
-                          <button
-                            type="submit"
-                            aria-pressed={producto.destacado}
-                            className={`h-8 whitespace-nowrap rounded-full border px-3 text-xs font-medium transition ${
-                              producto.destacado
-                                ? "border-stone-900 bg-stone-900 text-white hover:bg-stone-700"
-                                : "border-stone-300 text-stone-700 hover:border-stone-900"
-                            }`}
-                          >
-                            Imprescindibles
-                          </button>
-                        </form>
-                        <form action={alternarSeccion}>
-                          <input type="hidden" name="id" value={producto.id} />
-                          <input type="hidden" name="campo" value="oferta" />
-                          <input
-                            type="hidden"
-                            name="valor"
-                            value={String(!producto.oferta)}
-                          />
-                          <button
-                            type="submit"
-                            aria-pressed={producto.oferta}
-                            className={`h-8 whitespace-nowrap rounded-full border px-3 text-xs font-medium transition ${
-                              producto.oferta
-                                ? "border-stone-900 bg-stone-900 text-white hover:bg-stone-700"
-                                : "border-stone-300 text-stone-700 hover:border-stone-900"
-                            }`}
-                          >
-                            Ofertas
-                          </button>
-                        </form>
-                      </div>
-                    </td>
-                    <td className="px-5 py-4">
-                      <div className="flex items-start justify-end gap-5">
-                        <Link
-                          href={`/admin/productos/${producto.id}`}
-                          className="text-sm text-stone-700 underline-offset-4 transition hover:text-stone-950 hover:underline"
-                        >
-                          Editar
-                        </Link>
-                        <DeleteProductButton
-                          id={producto.id}
-                          nombre={producto.nombre}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        <ul className="mt-4 divide-y divide-stone-200 rounded-xl border border-stone-200 bg-white">
+          {filtrados.map((producto) => {
+            const stock = producto.variantes.reduce((total, variante) => total + variante.stock, 0);
+            return (
+              <li key={producto.id} className="grid gap-4 p-4 sm:grid-cols-[minmax(0,1fr)_auto] lg:grid-cols-[minmax(0,1fr)_auto_140px_110px] lg:items-center lg:p-5">
+                <div className="flex min-w-0 gap-4">
+                  <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-lg bg-stone-100">
+                    {producto.imagen ? <Image src={producto.imagen} alt="" fill sizes="64px" className="object-cover" /> : <span className="flex h-full items-center px-2 text-center text-xs text-stone-500">Sin foto</span>}
+                  </div>
+                  <div className="min-w-0">
+                    <Link href={`/admin/productos/${producto.id}`} className="break-words font-medium text-stone-900 underline-offset-4 hover:underline">{producto.nombre}</Link>
+                    <p className="mt-1 break-words text-sm text-stone-600">{producto.categoria}</p>
+                    <div className="mt-2 flex flex-wrap gap-2 text-xs">
+                      <span className={`rounded-md px-2 py-1 ${producto.activo ? "bg-emerald-50 text-emerald-800" : "bg-stone-100 text-stone-600"}`}>{producto.activo ? "Publicado" : "Oculto"}</span>
+                      {producto.destacado && <span className="rounded-md bg-orange-50 px-2 py-1 text-orange-800">{producto.activo ? "En el inicio" : "Destacado al publicar"}</span>}
+                    </div>
+                  </div>
+                </div>
+                <p className="whitespace-nowrap text-sm font-medium tabular-nums">{formatearPrecio(producto.precio)}</p>
+                <div className="text-sm">
+                  <p className={stock === 0 ? "font-medium text-red-700" : "text-stone-900"}>{stock === 0 ? "Sin stock" : `${stock} ${stock === 1 ? "unidad" : "unidades"}`}</p>
+                  <p className="mt-1 text-xs text-stone-600">{producto.variantes.length} {producto.variantes.length === 1 ? "combinación" : "combinaciones"}</p>
+                </div>
+                <Link href={`/admin/productos/${producto.id}`} aria-label={`Editar ${producto.nombre}`} className="inline-flex min-h-11 items-center justify-center rounded-lg border border-stone-300 px-4 text-sm font-medium hover:border-stone-900">Editar</Link>
+              </li>
+            );
+          })}
+        </ul>
       )}
     </div>
   );

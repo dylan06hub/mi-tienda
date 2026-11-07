@@ -54,7 +54,7 @@ export default async function AdminPedidoPage({
   const acciones = accionesDisponibles(pedido.estado);
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-12 md:py-16">
+    <div className="max-w-4xl py-6 md:py-8">
       <Link
         href="/admin/pedidos"
         className="text-sm text-stone-500 underline-offset-4 hover:text-stone-900 hover:underline"
@@ -64,12 +64,8 @@ export default async function AdminPedidoPage({
 
       <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
-            Pedido
-          </p>
-          <h1 className="mt-3 break-all font-mono text-2xl font-semibold tracking-tight">
-            {pedido.id}
-          </h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Pedido #{pedido.id.slice(0, 8)}</h1>
+          <p className="mt-2 break-all text-xs text-stone-600">Identificador completo: {pedido.id}</p>
           <p className="mt-2 text-sm text-stone-600">
             {formatearFecha(pedido.creadoEn)}
           </p>
@@ -79,7 +75,7 @@ export default async function AdminPedidoPage({
 
       {acciones.length > 0 ? (
         <section className="mt-8 rounded-2xl border border-stone-200 bg-white p-6">
-          <h2 className="text-sm font-medium text-stone-900">Acciones</h2>
+          <h2 className="text-sm font-medium text-stone-900">Qué hacer con este pedido</h2>
           <div className="mt-4">
             <AccionesPedido id={pedido.id} acciones={acciones} />
           </div>
@@ -100,7 +96,7 @@ export default async function AdminPedidoPage({
               <dt className="text-xs uppercase tracking-[0.12em] text-stone-500">
                 Nombre
               </dt>
-              <dd className="mt-1 text-stone-700">{pedido.nombre}</dd>
+              <dd className="mt-1 break-words text-stone-700">{pedido.nombre}</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-[0.12em] text-stone-500">
@@ -114,7 +110,7 @@ export default async function AdminPedidoPage({
               <dt className="text-xs uppercase tracking-[0.12em] text-stone-500">
                 Teléfono
               </dt>
-              <dd className="mt-1 text-stone-700">
+              <dd className="mt-1 break-words text-stone-700">
                 {pedido.telefono || "—"}
               </dd>
             </div>
@@ -122,7 +118,7 @@ export default async function AdminPedidoPage({
               <dt className="text-xs uppercase tracking-[0.12em] text-stone-500">
                 Dirección
               </dt>
-              <dd className="mt-1 whitespace-pre-line text-stone-700">
+              <dd className="mt-1 whitespace-pre-line break-words text-stone-700">
                 {pedido.direccion || "—"}
               </dd>
             </div>
@@ -153,7 +149,7 @@ export default async function AdminPedidoPage({
       </div>
 
       <section className="mt-8">
-        <h2 className="text-sm font-medium text-stone-900">Items</h2>
+        <h2 className="text-sm font-medium text-stone-900">Prendas del pedido</h2>
         <div className="mt-3 overflow-x-auto rounded-2xl border border-stone-200 bg-white">
           <table className="w-full min-w-[680px] text-left text-sm">
             <thead className="border-b border-stone-200 bg-stone-50 text-xs uppercase tracking-[0.12em] text-stone-500">

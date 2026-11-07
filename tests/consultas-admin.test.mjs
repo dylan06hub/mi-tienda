@@ -12,7 +12,7 @@ test('la bandeja exige autorización antes de leer consultas', async () => {
     '@/lib/consultas': { getConsultasAdmin: async () => { lecturas++; return []; } },
     '@/lib/utils': { formatearFecha: (value) => value },
   });
-  await assert.rejects(Page(), /NO_AUTORIZADO/);
+  await assert.rejects(Page({ searchParams: Promise.resolve({}) }), /NO_AUTORIZADO/);
   assert.equal(lecturas, 0);
 });
 test('consulta con la sesión del usuario y ordena por las más recientes', async () => {

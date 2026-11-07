@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useActionState, useState } from "react";
 import type { ProductoAdmin } from "@/types";
 import { guardarProducto } from "./actions";
@@ -34,7 +35,13 @@ function variantesIniciales(producto?: ProductoAdmin): VarianteForm[] {
   ];
 }
 
-export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
+export function ProductoForm({
+  producto,
+  categorias = [],
+}: {
+  producto?: ProductoAdmin;
+  categorias?: string[];
+}) {
   const [estado, action, pendiente] = useActionState(guardarProducto, null);
   const [variantes, setVariantes] = useState<VarianteForm[]>(() =>
     variantesIniciales(producto),
@@ -82,7 +89,11 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
         value={variantesOriginales}
       />
 
-      <section className="grid gap-5 sm:grid-cols-2">
+      <section className="grid gap-5 rounded-xl border border-stone-200 bg-white p-5 sm:grid-cols-2 md:p-6">
+        <div className="sm:col-span-2">
+          <h2 className="text-lg font-semibold">Datos de la prenda</h2>
+          <p className="mt-1 text-sm text-stone-600">Completá el nombre, el precio y la foto que van a ver tus clientes.</p>
+        </div>
         <div className="sm:col-span-2">
           <label
             htmlFor="nombre"
@@ -95,7 +106,7 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
             name="nombre"
             required
             defaultValue={producto?.nombre}
-            className="mt-2 h-11 w-full rounded-xl border border-stone-300 bg-white px-4 text-sm outline-none transition focus:border-stone-900"
+            className="mt-2 h-11 w-full rounded-xl border border-stone-300 bg-white px-4 text-sm transition-colors focus:border-stone-900"
           />
         </div>
 
@@ -111,7 +122,7 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
             name="descripcion"
             rows={4}
             defaultValue={producto?.descripcion}
-            className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-stone-900"
+            className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm transition-colors focus:border-stone-900"
           />
         </div>
 
@@ -130,7 +141,7 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
             step="0.01"
             required
             defaultValue={producto?.precio}
-            className="mt-2 h-11 w-full rounded-xl border border-stone-300 bg-white px-4 text-sm tabular-nums outline-none transition focus:border-stone-900"
+            className="mt-2 h-11 w-full rounded-xl border border-stone-300 bg-white px-4 text-sm tabular-nums transition-colors focus:border-stone-900"
           />
         </div>
 
@@ -143,11 +154,16 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
           </label>
           <input
             id="categoria"
+            list="categorias-existentes"
             name="categoria"
             required
             defaultValue={producto?.categoria}
-            className="mt-2 h-11 w-full rounded-xl border border-stone-300 bg-white px-4 text-sm outline-none transition focus:border-stone-900"
+            className="mt-2 h-11 w-full rounded-xl border border-stone-300 bg-white px-4 text-sm transition-colors focus:border-stone-900"
           />
+          <datalist id="categorias-existentes">
+            {categorias.map((categoria) => <option key={categoria} value={categoria} />)}
+          </datalist>
+          <p className="mt-2 text-xs text-stone-600">Elegí una categoría existente o escribí una nueva.</p>
         </div>
 
         <div className="sm:col-span-2">
@@ -158,17 +174,17 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
             Imagen
           </label>
           {producto?.imagen && (
-            <p className="mt-2 text-xs text-stone-500">
-              Imagen actual:{" "}
+            <div className="mt-3 flex items-center gap-4">
+              <Image src={producto.imagen} alt={`Foto actual de ${producto.nombre}`} width={80} height={100} className="h-24 w-20 rounded-lg object-cover" />
               <a
                 href={producto.imagen}
                 target="_blank"
                 rel="noreferrer"
-                className="underline underline-offset-4 hover:text-stone-900"
+                className="text-sm text-stone-600 underline underline-offset-4 hover:text-stone-900"
               >
-                ver
+                Abrir foto actual
               </a>
-            </p>
+            </div>
           )}
           <input
             id="imagen_archivo"
@@ -181,66 +197,31 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
             JPG, PNG o WebP. Máximo 5 MB.{" "}
             {producto?.imagen
               ? "Si elegís un archivo, reemplaza la imagen actual."
-              : "Si no subís una, se muestra un placeholder en la tienda."}
+              : "Si no subís una, la prenda aparece sin foto en la tienda."}
           </p>
         </div>
-
-        <label className="flex items-center gap-3 text-sm text-stone-700 sm:col-span-2">
-          <input
-            type="checkbox"
-            name="activo"
-            defaultChecked={producto?.activo ?? true}
-            className="size-4 rounded border-stone-300 accent-stone-900"
-          />
-          Publicar en la tienda
-        </label>
-
-        <label className="flex items-center gap-3 text-sm text-stone-700">
-          <input
-            type="checkbox"
-            name="destacado"
-            defaultChecked={producto?.destacado ?? false}
-            className="size-4 rounded border-stone-300 accent-stone-900"
-          />
-          Sección &ldquo;Los imprescindibles&rdquo;
-        </label>
-
-        <label className="flex items-center gap-3 text-sm text-stone-700">
-          <input
-            type="checkbox"
-            name="oferta"
-            defaultChecked={producto?.oferta ?? false}
-            className="size-4 rounded border-stone-300 accent-stone-900"
-          />
-          Marcar como oferta (sin sección pública por ahora)
-        </label>
-
-        {producto && (
-          <p className="text-xs text-stone-500 sm:col-span-2">
-            ID: <span className="font-mono">{producto.id}</span>
-          </p>
-        )}
       </section>
 
-      <section className="border-t border-stone-200 pt-8">
+      <section className="rounded-xl border border-stone-200 bg-white p-5 md:p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="text-sm font-medium text-stone-900">
-              Variantes
+              Talles, colores y stock
             </h2>
             <p className="mt-1 text-xs text-stone-500">
-              Talle, color y stock disponible.
+              Cada combinación es una opción de compra. Cargá las unidades disponibles; usá 0 si está agotada.
             </p>
           </div>
           <button
             type="button"
             onClick={agregarVariante}
-            className="h-10 rounded-full border border-stone-300 px-4 text-sm font-medium text-stone-800 transition hover:border-stone-900"
+            className="min-h-11 rounded-full border border-stone-300 px-4 text-sm font-medium text-stone-800 transition hover:border-stone-900"
           >
-            Agregar variante
+            Agregar talle y color
           </button>
         </div>
 
+        {producto && <p className="mt-4 text-xs leading-5 text-stone-600">En las combinaciones existentes podés cambiar el stock. Para usar otro talle o color, agregá una combinación nueva. Las que tienen pedidos no se pueden eliminar.</p>}
         <div className="mt-5 space-y-3">
           {variantes.map((variante, indice) => (
             <div
@@ -263,6 +244,8 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
                 <input
                   id={`talle-${variante.key}`}
                   name="variante_talle"
+                  readOnly={Boolean(variante.id)}
+                  placeholder="Ej.: M"
                   required
                   value={variante.talle}
                   onChange={(event) =>
@@ -272,7 +255,7 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
                       event.target.value,
                     )
                   }
-                  className="mt-1 h-10 w-full rounded-xl border border-stone-300 px-3 text-sm outline-none transition focus:border-stone-900"
+                  className="mt-1 min-h-11 w-full rounded-xl border border-stone-300 px-3 text-sm transition-colors read-only:bg-stone-50 read-only:text-stone-600 focus:border-stone-900"
                 />
               </div>
 
@@ -286,6 +269,8 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
                 <input
                   id={`color-${variante.key}`}
                   name="variante_color"
+                  readOnly={Boolean(variante.id)}
+                  placeholder="Ej.: Negro"
                   required
                   value={variante.color}
                   onChange={(event) =>
@@ -295,7 +280,7 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
                       event.target.value,
                     )
                   }
-                  className="mt-1 h-10 w-full rounded-xl border border-stone-300 px-3 text-sm outline-none transition focus:border-stone-900"
+                  className="mt-1 min-h-11 w-full rounded-xl border border-stone-300 px-3 text-sm transition-colors read-only:bg-stone-50 read-only:text-stone-600 focus:border-stone-900"
                 />
               </div>
 
@@ -321,7 +306,7 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
                       event.target.value,
                     )
                   }
-                  className="mt-1 h-10 w-full rounded-xl border border-stone-300 px-3 text-sm tabular-nums outline-none transition focus:border-stone-900"
+                  className="mt-1 min-h-11 w-full rounded-xl border border-stone-300 px-3 text-sm tabular-nums transition-colors focus:border-stone-900"
                 />
               </div>
 
@@ -329,13 +314,57 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
                 type="button"
                 onClick={() => quitarVariante(variante.key)}
                 aria-label={`Quitar variante ${indice + 1}`}
-                className="h-10 rounded-full px-3 text-sm text-stone-500 transition hover:text-stone-900"
+                disabled={variantes.length === 1 || pendiente}
+                className="min-h-11 rounded-lg px-3 text-sm text-red-700 hover:bg-red-50 disabled:cursor-not-allowed disabled:text-stone-400"
               >
                 Quitar
               </button>
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="space-y-3 rounded-xl border border-stone-200 bg-white p-5 md:p-6">
+        <h2 className="text-lg font-semibold">Dónde se muestra</h2>
+        <p className="text-sm text-stone-600">Si desmarcás «Publicar en la tienda», queda guardado y solo lo ves en este panel. Los cambios se aplican al guardar.</p>
+        <label className="flex min-h-11 items-center gap-3 text-sm text-stone-700">
+          <input
+            type="checkbox"
+            name="activo"
+            defaultChecked={producto?.activo ?? true}
+            className="size-4 rounded border-stone-300 accent-stone-900"
+          />
+          Publicar en la tienda
+        </label>
+
+        <label className="flex min-h-11 items-center gap-3 text-sm text-stone-700">
+          <input
+            type="checkbox"
+            name="destacado"
+            defaultChecked={producto?.destacado ?? false}
+            className="size-4 rounded border-stone-300 accent-stone-900"
+          />
+          Destacar en el inicio de la tienda
+        </label>
+
+        <details className="text-sm text-stone-600">
+          <summary className="cursor-pointer py-3">Opciones avanzadas</summary>
+          <label className="flex min-h-11 items-center gap-3 text-sm text-stone-700">
+            <input
+              type="checkbox"
+              name="oferta"
+              defaultChecked={producto?.oferta ?? false}
+              className="size-4 rounded border-stone-300 accent-stone-900"
+            />
+            Marcar como oferta interna (todavía no se muestra en la tienda)
+          </label>
+        </details>
+
+        {producto && (
+          <p className="text-xs text-stone-500 sm:col-span-2">
+            ID: <span className="font-mono">{producto.id}</span>
+          </p>
+        )}
       </section>
 
       {estado?.error && (
@@ -347,13 +376,13 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
         </p>
       )}
 
-      <div className="flex flex-wrap items-center gap-4 border-t border-stone-200 pt-6">
+      <div className="sticky bottom-0 z-10 flex flex-wrap items-center gap-4 border-t border-stone-200 bg-[#f7f5f0] py-4">
         <button
           type="submit"
           disabled={pendiente}
           className="h-11 rounded-full bg-stone-900 px-6 text-sm font-medium text-white transition hover:bg-stone-700 disabled:cursor-not-allowed disabled:bg-stone-300"
         >
-          {pendiente ? "Guardando…" : "Guardar producto"}
+          {pendiente ? "Guardando…" : producto ? "Guardar cambios" : "Crear producto"}
         </button>
         <Link
           href="/admin/productos"

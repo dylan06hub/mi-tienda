@@ -191,3 +191,19 @@ y reemplazar las imágenes y los productos ilustrativos.
 Verificación local: `npm test`, `npm run lint`, `npm run typecheck` y
 `npm run build`. Las pruebas de interfaz cubren portada, filtros, ficha, carrito
 y acceso al checkout; una revisión visual no implica haber realizado un pago.
+
+## Uso del panel de administración
+
+En `/admin` hay un resumen del catálogo, los pedidos y las consultas, con accesos
+a pedidos pagados por enviar, incidencias de pago y productos sin stock. La
+navegación entre secciones está disponible en todas las pantallas del panel.
+Los productos se buscan por nombre, categoría o código y se filtran por categoría,
+publicación o stock; los pedidos, por cliente, número, email y estado. Las
+consultas se pueden buscar y abrir individualmente para leerlas o responder por email.
+
+El formulario de producto separa los datos de la prenda, los talles y stock, y la
+publicación. Ofrece categorías existentes y muestra la foto actual. Los talles y
+colores de combinaciones guardadas no se renombran: para cambiarlos, crear una
+combinación nueva. El stock sigue siendo editable y se conserva la comprobación
+de cambios concurrentes. Eliminar queda dentro de la edición, con confirmación y
+las mismas restricciones de historial de pedidos.

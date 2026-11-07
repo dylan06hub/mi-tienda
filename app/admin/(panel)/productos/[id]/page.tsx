@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/admin-auth";
-import { getProductoAdmin } from "@/lib/productos";
+import { getProductoAdmin, getProductosAdmin } from "@/lib/productos";
 import { DeleteProductButton } from "../DeleteProductButton";
 import { ProductoForm } from "../ProductoForm";
 
@@ -17,13 +17,14 @@ export default async function EditarProductoPage({
   params: Promise<{ id: string }>;
 }) {
   await requireAdmin();
+  const categorias = [...new Set((await getProductosAdmin()).map((item) => item.categoria))].sort();
   const { id } = await params;
   const producto = await getProductoAdmin(id);
 
   if (!producto) notFound();
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
+    <div className="max-w-3xl py-6 md:py-8">
       <Link
         href="/admin/productos"
         className="text-sm text-stone-500 underline-offset-4 hover:text-stone-900 hover:underline"
@@ -31,14 +32,12 @@ export default async function EditarProductoPage({
         ← Productos
       </Link>
 
-      <p className="mt-6 text-xs uppercase tracking-[0.25em] text-stone-500">
-        Administración
-      </p>
       <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
         Editar producto
       </h1>
 
-      <ProductoForm producto={producto} />
+      <p className="mt-3 break-words text-sm text-stone-600">{producto.nombre} · {producto.activo ? "Publicado en la tienda" : "Oculto al público"}</p>
+      <ProductoForm producto={producto} categorias={categorias} />
 
       <div className="mt-12 border-t border-stone-200 pt-6">
         <p className="text-sm font-medium text-stone-900">
