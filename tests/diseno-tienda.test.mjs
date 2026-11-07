@@ -50,16 +50,20 @@ test('los filtros móviles empiezan plegados y cuentan solo criterios activos re
   assert.match(html, /Limpiar todo/);
 });
 
-test('el tema neón se aplica a la tienda y deja el administrador en claro', () => {
-  for (const [pathname, neon] of [['/', true], ['/productos/prenda', true], ['/checkout', true], ['/admin', false], ['/admin/login', false], ['/admin/productos', false]]) {
-    const { StoreTheme } = cargarTS('components/StoreTheme.tsx', {
-      'react/jsx-runtime': jsxRuntime,
-      'next/navigation': { usePathname: () => pathname },
-    });
-    const html = renderToStaticMarkup(React.createElement(StoreTheme, null, 'Contenido'));
-    assert.equal(html.includes('street-theme'), neon, pathname);
-    assert.match(html, /Contenido/);
-  }
+test('el tema neón cubre el documento completo, incluido el acceso al panel', () => {
+  const Wrapper = ({ children }) => children;
+  const { default: RootLayout } = cargarTS('app/layout.tsx', {
+    react: React, 'react/jsx-runtime': jsxRuntime,
+    'next/font/google': { Geist: () => ({ variable: 'geist' }), Geist_Mono: () => ({ variable: 'mono' }) },
+    '@/components/CartProvider': { CartProvider: Wrapper },
+    '@/components/StoreChrome': { StoreChrome: Wrapper },
+    '@/components/Header': { Header: () => null },
+    '@/components/Footer': { Footer: () => null },
+    './globals.css': {},
+  });
+  const html = renderToStaticMarkup(React.createElement(RootLayout, null, 'Acceso al panel'));
+  assert.match(html, /<body class="[^"]*street-theme/);
+  assert.match(html, /Acceso al panel/);
 });
 
 test('la portada prioriza un buzo destacado disponible para la colección streetwear', async () => {

@@ -57,16 +57,16 @@ export default async function AdminPedidoPage({
     <div className="max-w-4xl py-6 md:py-8">
       <Link
         href="/admin/pedidos"
-        className="text-sm text-stone-500 underline-offset-4 hover:text-stone-900 hover:underline"
+        className="text-sm text-street-muted underline-offset-4 hover:text-street-foreground hover:underline"
       >
         ← Pedidos
       </Link>
 
       <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Pedido #{pedido.id.slice(0, 8)}</h1>
-          <p className="mt-2 break-all text-xs text-stone-600">Identificador completo: {pedido.id}</p>
-          <p className="mt-2 text-sm text-stone-600">
+          <h1 className="street-title text-4xl sm:text-5xl">Pedido #{pedido.id.slice(0, 8)}</h1>
+          <p className="mt-2 break-all text-xs text-street-muted">Identificador completo: {pedido.id}</p>
+          <p className="mt-2 text-sm text-street-muted">
             {formatearFecha(pedido.creadoEn)}
           </p>
         </div>
@@ -74,14 +74,14 @@ export default async function AdminPedidoPage({
       </div>
 
       {acciones.length > 0 ? (
-        <section className="mt-8 rounded-2xl border border-stone-200 bg-white p-6">
-          <h2 className="text-sm font-medium text-stone-900">Qué hacer con este pedido</h2>
+        <section className="mt-8 rounded-street border border-street-border bg-street-surface p-6">
+          <h2 className="text-sm font-medium text-street-foreground">Qué hacer con este pedido</h2>
           <div className="mt-4">
             <AccionesPedido id={pedido.id} acciones={acciones} />
           </div>
         </section>
       ) : (
-        <p className="mt-8 rounded-2xl border border-stone-200 bg-white px-6 py-5 text-sm text-stone-600">
+        <p className="mt-8 rounded-street border border-street-border bg-street-surface px-6 py-5 text-sm text-street-muted">
           {pedido.estado === "enviado"
             ? "El pedido ya fue enviado."
             : "El pedido está cancelado."}
@@ -89,58 +89,58 @@ export default async function AdminPedidoPage({
       )}
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">
-        <section className="rounded-2xl border border-stone-200 bg-white p-6">
-          <h2 className="text-sm font-medium text-stone-900">Cliente</h2>
+        <section className="rounded-street border border-street-border bg-street-surface p-6">
+          <h2 className="text-sm font-medium text-street-foreground">Cliente</h2>
           <dl className="mt-4 space-y-3 text-sm">
             <div>
-              <dt className="text-xs uppercase tracking-[0.12em] text-stone-500">
+              <dt className="text-xs uppercase tracking-[0.12em] text-street-muted">
                 Nombre
               </dt>
-              <dd className="mt-1 break-words text-stone-700">{pedido.nombre}</dd>
+              <dd className="mt-1 break-words text-street-muted">{pedido.nombre}</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.12em] text-stone-500">
+              <dt className="text-xs uppercase tracking-[0.12em] text-street-muted">
                 Email
               </dt>
-              <dd className="mt-1 break-all text-stone-700">
+              <dd className="mt-1 break-all text-street-muted">
                 {pedido.email}
               </dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.12em] text-stone-500">
+              <dt className="text-xs uppercase tracking-[0.12em] text-street-muted">
                 Teléfono
               </dt>
-              <dd className="mt-1 break-words text-stone-700">
+              <dd className="mt-1 break-words text-street-muted">
                 {pedido.telefono || "—"}
               </dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.12em] text-stone-500">
+              <dt className="text-xs uppercase tracking-[0.12em] text-street-muted">
                 Dirección
               </dt>
-              <dd className="mt-1 whitespace-pre-line break-words text-stone-700">
+              <dd className="mt-1 whitespace-pre-line break-words text-street-muted">
                 {pedido.direccion || "—"}
               </dd>
             </div>
           </dl>
         </section>
 
-        <section className="rounded-2xl border border-stone-200 bg-white p-6">
-          <h2 className="text-sm font-medium text-stone-900">Pago</h2>
+        <section className="rounded-street border border-street-border bg-street-surface p-6">
+          <h2 className="text-sm font-medium text-street-foreground">Pago</h2>
           <dl className="mt-4 space-y-3 text-sm">
             <div>
-              <dt className="text-xs uppercase tracking-[0.12em] text-stone-500">
+              <dt className="text-xs uppercase tracking-[0.12em] text-street-muted">
                 Total
               </dt>
-              <dd className="mt-1 text-xl font-semibold tabular-nums text-stone-900">
+              <dd className="mt-1 text-xl font-semibold tabular-nums text-street-foreground">
                 {formatearPrecio(pedido.total)}
               </dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.12em] text-stone-500">
+              <dt className="text-xs uppercase tracking-[0.12em] text-street-muted">
                 ID de Mercado Pago
               </dt>
-              <dd className="mt-1 break-all font-mono text-xs text-stone-700">
+              <dd className="mt-1 break-all font-mono text-xs text-street-muted">
                 {pedido.mpPaymentId || "—"}
               </dd>
             </div>
@@ -149,10 +149,10 @@ export default async function AdminPedidoPage({
       </div>
 
       <section className="mt-8">
-        <h2 className="text-sm font-medium text-stone-900">Prendas del pedido</h2>
-        <div className="mt-3 overflow-x-auto rounded-2xl border border-stone-200 bg-white">
+        <h2 className="text-sm font-medium text-street-foreground">Prendas del pedido</h2>
+        <div className="mt-3 overflow-x-auto rounded-street border border-street-border bg-street-surface">
           <table className="w-full min-w-[680px] text-left text-sm">
-            <thead className="border-b border-stone-200 bg-stone-50 text-xs uppercase tracking-[0.12em] text-stone-500">
+            <thead className="border-b border-street-border bg-street-background text-xs uppercase tracking-[0.12em] text-street-muted">
               <tr>
                 <th className="px-5 py-3 font-medium">Producto</th>
                 <th className="px-5 py-3 font-medium">Variante</th>
@@ -163,30 +163,30 @@ export default async function AdminPedidoPage({
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-stone-100">
+            <tbody className="divide-y divide-street-border">
               {pedido.items.map((item) => (
                 <tr
                   key={`${item.productoId}-${item.varianteId}`}
                 >
                   <td className="px-5 py-4">
-                    <p className="font-medium text-stone-900">
+                    <p className="font-medium text-street-foreground">
                       {item.productoNombre}
                     </p>
-                    <p className="mt-1 font-mono text-xs text-stone-500">
+                    <p className="mt-1 font-mono text-xs text-street-muted">
                       {item.productoId}
                     </p>
                   </td>
-                  <td className="px-5 py-4 text-stone-700">
+                  <td className="px-5 py-4 text-street-muted">
                     {[item.talle, item.color].filter(Boolean).join(" · ") ||
                       item.varianteId}
                   </td>
-                  <td className="px-5 py-4 tabular-nums text-stone-700">
+                  <td className="px-5 py-4 tabular-nums text-street-muted">
                     {item.cantidad}
                   </td>
-                  <td className="px-5 py-4 tabular-nums text-stone-700">
+                  <td className="px-5 py-4 tabular-nums text-street-muted">
                     {formatearPrecio(item.precioUnitario)}
                   </td>
-                  <td className="px-5 py-4 text-right tabular-nums text-stone-900">
+                  <td className="px-5 py-4 text-right tabular-nums text-street-foreground">
                     {formatearPrecio(item.subtotal)}
                   </td>
                 </tr>

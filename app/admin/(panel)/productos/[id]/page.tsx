@@ -27,23 +27,23 @@ export default async function EditarProductoPage({
     <div className="max-w-3xl py-6 md:py-8">
       <Link
         href="/admin/productos"
-        className="text-sm text-stone-500 underline-offset-4 hover:text-stone-900 hover:underline"
+        className="text-sm text-street-muted underline-offset-4 hover:text-street-foreground hover:underline"
       >
         ← Productos
       </Link>
 
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+      <h1 className="mt-3 street-title text-5xl sm:text-6xl">
         Editar producto
       </h1>
 
-      <p className="mt-3 break-words text-sm text-stone-600">{producto.nombre} · {producto.activo ? "Publicado en la tienda" : "Oculto al público"}</p>
+      <p className="mt-3 break-words text-sm text-street-muted">{producto.nombre} · {producto.activo ? "Publicado en la tienda" : "Oculto al público"}</p>
       <ProductoForm producto={producto} categorias={categorias} />
 
-      <div className="mt-12 border-t border-stone-200 pt-6">
-        <p className="text-sm font-medium text-stone-900">
+      <div className="mt-12 border-t border-street-border pt-6">
+        <p className="text-sm font-medium text-street-foreground">
           Eliminar producto
         </p>
-        <p className="mt-1 text-xs text-stone-500">
+        <p className="mt-1 text-xs text-street-muted">
           También se eliminarán sus variantes. No se puede deshacer.
         </p>
         <div className="mt-3">

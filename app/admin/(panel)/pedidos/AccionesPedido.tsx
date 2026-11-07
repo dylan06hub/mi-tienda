@@ -5,9 +5,9 @@ import type { AccionPedido } from "@/types";
 import { cambiarEstadoPedido } from "./actions";
 
 const ESTILO_PRIMARIO =
-  "min-h-11 rounded-lg bg-stone-900 px-5 text-sm font-medium text-white transition hover:bg-stone-700 disabled:opacity-50";
+  "street-button";
 const ESTILO_PELIGRO =
-  "min-h-11 rounded-lg border border-red-200 px-5 text-sm font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-50";
+  "min-h-11 rounded-street border border-red-700 px-5 text-sm font-medium text-red-200 transition hover:bg-red-950/50 disabled:opacity-50";
 
 export function AccionesPedido({
   id,
@@ -50,16 +50,16 @@ export function AccionesPedido({
           </button>
         ))}
         {pendiente && (
-          <span className="text-sm text-stone-500">Guardando…</span>
+          <span className="text-sm text-street-muted">Guardando…</span>
         )}
       </div>
       {resultado && "error" in resultado && (
-        <p role="alert" className="mt-3 text-sm text-red-700">
+        <p role="alert" className="mt-3 text-sm text-red-200">
           {resultado.error}
         </p>
       )}
       {resultado && "ok" in resultado && (
-        <p role="status" className="mt-3 text-sm text-emerald-700">
+        <p role="status" className="mt-3 text-sm text-emerald-200">
           {resultado.ok}
         </p>
       )}

@@ -32,12 +32,12 @@ export function DeleteProductButton({
       <button
         type="submit"
         disabled={pendiente}
-        className="text-sm text-red-700 underline-offset-4 transition hover:text-red-900 hover:underline disabled:opacity-50"
+        className="text-sm text-red-200 underline-offset-4 transition hover:text-red-200 hover:underline disabled:opacity-50"
       >
         {pendiente ? "Eliminando…" : "Eliminar"}
       </button>
       {estado?.error && (
-        <p role="alert" className="mt-2 max-w-56 text-xs text-red-700">
+        <p role="alert" className="mt-2 max-w-56 text-xs text-red-200">
           {estado.error}
         </p>
       )}

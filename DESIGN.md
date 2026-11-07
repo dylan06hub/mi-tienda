@@ -76,7 +76,7 @@ descuentos ni lanzamientos sin datos que las respalden.
 - Error, éxito, agotado y selección llevan texto o icono; el color nunca es
   la única señal. Los errores conservan una semántica diferenciada del neón.
 - La paleta streetwear se activa en un contenedor `.street-theme`. El panel
-  administrativo mantiene su superficie de trabajo clara y sus estados actuales.
+  administrativo usa la misma base oscura, con estados semánticos diferenciados.
 
 ## Typography
 
@@ -105,8 +105,9 @@ Licencia SIL Open Font License en `public/fonts/OFL-barlow-condensed.txt`.
 - Las fotos muestran la prenda con claridad. No recolorear imágenes para
   simular variantes ni usar decoraciones que tapen precio, talle o producto.
 
-La identidad está aplicada a las pantallas públicas mediante `StoreTheme`. Las rutas
-`/admin` conservan el diseño claro del panel. El catálogo muestra dos columnas en
+La identidad se aplica desde el documento raíz a la tienda y a `/admin`, incluido
+el acceso al panel. Formularios y tablas mantienen tipografía de lectura; el lima
+identifica la navegación activa y las acciones principales. El catálogo muestra dos columnas en
 móvil y la portada prioriza un buzo destacado disponible, con alternativa al resto
 de la colección si no hay uno.
 

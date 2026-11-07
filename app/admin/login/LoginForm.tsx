@@ -14,7 +14,7 @@ export function LoginForm() {
       <div>
         <label
           htmlFor="email"
-          className="text-sm font-medium text-stone-900"
+          className="text-sm font-medium text-street-foreground"
         >
           Email
         </label>
@@ -24,14 +24,14 @@ export function LoginForm() {
           type="email"
           autoComplete="email"
           required
-          className="mt-2 h-11 w-full rounded-xl border border-stone-300 bg-white px-4 text-sm text-stone-900 outline-none transition focus:border-stone-900"
+          className="mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-4 text-base text-street-foreground transition focus:border-street-secondary"
         />
       </div>
 
       <div>
         <label
           htmlFor="password"
-          className="text-sm font-medium text-stone-900"
+          className="text-sm font-medium text-street-foreground"
         >
           Contraseña
         </label>
@@ -41,14 +41,14 @@ export function LoginForm() {
           type="password"
           autoComplete="current-password"
           required
-          className="mt-2 h-11 w-full rounded-xl border border-stone-300 bg-white px-4 text-sm text-stone-900 outline-none transition focus:border-stone-900"
+          className="mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-4 text-base text-street-foreground transition focus:border-street-secondary"
         />
       </div>
 
       {estado?.error && (
         <p
           role="alert"
-          className="rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900"
+          className="rounded-street bg-amber-950/50 px-4 py-3 text-sm text-amber-200"
         >
           {estado.error}
         </p>
@@ -57,7 +57,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={pendiente}
-        className="h-11 w-full rounded-full bg-stone-900 text-sm font-medium text-white transition hover:bg-stone-700 disabled:cursor-not-allowed disabled:bg-stone-300"
+        className="street-button w-full"
       >
         {pendiente ? "Ingresando…" : "Ingresar"}
       </button>

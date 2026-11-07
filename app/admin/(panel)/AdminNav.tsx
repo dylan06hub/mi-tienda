@@ -14,7 +14,7 @@ export function AdminNav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Administración" className="mt-5 grid grid-cols-2 gap-2 border-b border-stone-200 pb-5 sm:flex">
+    <nav aria-label="Administración" className="mt-5 grid grid-cols-2 gap-2 border-b border-street-border pb-5 sm:flex">
       {SECCIONES.map(({ href, nombre }) => {
         const actual = pathname === href || (href !== "/admin" && pathname.startsWith(`${href}/`));
         return (
@@ -22,7 +22,7 @@ export function AdminNav() {
             key={href}
             href={href}
             aria-current={actual ? "page" : undefined}
-            className={`inline-flex min-h-11 items-center justify-center rounded-lg px-5 text-sm font-medium transition-colors ${actual ? "bg-stone-900 text-white" : "text-stone-600 hover:bg-stone-200 hover:text-stone-900"}`}
+            className={`inline-flex min-h-11 items-center justify-center rounded-street px-5 text-sm font-medium transition-colors ${actual ? "bg-street-accent text-street-on-accent" : "text-street-muted hover:bg-street-surface hover:text-street-foreground"}`}
           >
             {nombre}
           </Link>

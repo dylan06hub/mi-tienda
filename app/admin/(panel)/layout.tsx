@@ -18,13 +18,13 @@ export default async function AdminLayout({
     <section aria-label="Panel de administración" className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-lg font-semibold tracking-tight">Administración de norte.</p>
-          <p className="mt-1 break-all text-xs text-stone-600">{admin.email || "Sesión de administrador"}</p>
+          <p className="font-display text-3xl font-black tracking-tight">Administración de norte.</p>
+          <p className="mt-1 break-all text-xs text-street-muted">{admin.email || "Sesión de administrador"}</p>
         </div>
         <div className="flex flex-wrap items-center gap-4 text-sm">
           <Link href="/" className="inline-flex min-h-11 items-center underline underline-offset-4">Ver tienda</Link>
           <form action={cerrarSesionAdmin}>
-            <button className="min-h-11 rounded-lg border border-stone-300 px-4 hover:bg-stone-100">Cerrar sesión</button>
+            <button className="min-h-11 rounded-street border border-street-muted px-4 hover:bg-street-background">Cerrar sesión</button>
           </form>
         </div>
       </div>
