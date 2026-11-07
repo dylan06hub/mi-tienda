@@ -39,7 +39,7 @@ const CAMPOS = [
 ] as const;
 
 export function CheckoutForm() {
-  const { items, lineas, subtotal, envio, total, cargando, error } =
+  const { items, lineas, subtotal, envio, total, cargando, error, registrarPedido } =
     useCart();
   const [estado, setEstado] = useState<ResultadoCheckout | null>(null);
   const [pendiente, startTransition] = useTransition();
@@ -56,6 +56,9 @@ export function CheckoutForm() {
       setEstado(resultado);
 
       if ("pedido" in resultado) {
+        await registrarPedido(resultado.pedido.id, lineas.map(({ producto, variante, cantidad }) => ({
+          productoId: producto.id, varianteId: variante.id, cantidad,
+        })));
         window.location.assign(resultado.pedido.initPoint);
       }
     });
@@ -102,6 +105,7 @@ export function CheckoutForm() {
   }
 
   const listo = !cargando && lineas.length > 0;
+  const sinStock = lineas.some((linea) => linea.cantidad > linea.variante.stock);
   const itemsPedido = lineas.map(({ producto, variante, cantidad }) => ({
     productoId: producto.id,
     varianteId: variante.id,
@@ -153,16 +157,17 @@ export function CheckoutForm() {
 
         <button
           type="submit"
-          disabled={pendiente || !listo}
+          disabled={pendiente || !listo || sinStock}
           className="h-11 w-full rounded-full bg-stone-900 text-sm font-medium text-white transition hover:bg-stone-700 disabled:cursor-not-allowed disabled:bg-stone-300"
         >
           {pendiente ? "Creando pago…" : "Pagar con Mercado Pago"}
         </button>
 
         <p className="text-xs leading-5 text-stone-500">
-          Al confirmar te redirigimos a Mercado Pago. El stock se descuenta
-          cuando el pago queda aprobado.
+          Reservamos tus prendas durante 30 minutos para completar el pago.
+          Si vence la reserva, las unidades vuelven a estar disponibles.
         </p>
+        {sinStock && <p role="alert" className="text-sm text-amber-900">Revisá el carrito: alguna cantidad supera el stock disponible.</p>}
       </form>
 
       <aside className="h-fit rounded-2xl border border-stone-200 bg-white p-6">

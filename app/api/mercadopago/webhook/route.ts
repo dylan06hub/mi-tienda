@@ -66,13 +66,43 @@ function revalidarCatalogo() {
   revalidatePath("/productos/[id]", "page");
   revalidatePath("/admin/productos");
   revalidatePath("/admin/productos/[id]", "page");
+  revalidatePath("/admin/pedidos");
+  revalidatePath("/admin/pedidos/[id]", "page");
+}
+
+async function registrarIncidencia(
+  supabase: ReturnType<typeof createSupabaseAdminClient>,
+  pagoId: string,
+  pago: Pago,
+  pedidoId: string | null,
+  motivo: string,
+) {
+  const { error } = await supabase.from("incidencias_pago").upsert({
+    mp_payment_id: pagoId,
+    pedido_id: pedidoId,
+    referencia: String(pago.external_reference ?? "").slice(0, 200),
+    motivo,
+    monto: typeof pago.transaction_amount === "number" && Number.isFinite(pago.transaction_amount)
+      ? pago.transaction_amount : null,
+    moneda: typeof pago.currency_id === "string" ? pago.currency_id.slice(0, 10) : null,
+  }, { onConflict: "mp_payment_id", ignoreDuplicates: true });
+
+  if (error) {
+    console.error(`No se pudo registrar la incidencia del pago ${pagoId}:`, error);
+    return responder(500);
+  }
+
+  revalidatePath("/admin/pedidos");
+  return responder();
 }
 
 export async function POST(request: Request) {
   let notificacion: Notificacion;
 
   try {
-    notificacion = (await request.json()) as Notificacion;
+    const body: unknown = await request.json();
+    if (!body || typeof body !== "object" || Array.isArray(body)) return responder(400);
+    notificacion = body as Notificacion;
   } catch {
     return responder(400);
   }
@@ -84,11 +114,12 @@ export async function POST(request: Request) {
     url.searchParams.get("type") ??
     url.searchParams.get("topic");
   const idBruto =
-    notificacion.data?.id ??
     url.searchParams.get("data.id") ??
+    notificacion.data?.id ??
     url.searchParams.get("id");
 
   if (tipo !== "payment") return responder();
+  if (typeof idBruto !== "string" && typeof idBruto !== "number") return responder(400);
 
   const pagoId = String(idBruto ?? "");
 
@@ -130,15 +161,15 @@ export async function POST(request: Request) {
   if (pago.status !== "approved") return responder();
 
   const pedidoId = pago.external_reference;
+  const supabase = createSupabaseAdminClient();
 
   if (typeof pedidoId !== "string" || !UUID.test(pedidoId)) {
     console.warn(
       `Pago ${pagoId} aprobado sin external_reference de pedido válido.`,
     );
-    return responder();
+    return registrarIncidencia(supabase, pagoId, pago, null, "referencia_invalida");
   }
 
-  const supabase = createSupabaseAdminClient();
   const { data: pedido, error: pedidoError } = await supabase
     .from("pedidos")
     .select("total")
@@ -152,7 +183,7 @@ export async function POST(request: Request) {
 
   if (!pedido) {
     console.warn(`Pago ${pagoId} apunta a un pedido inexistente: ${pedidoId}.`);
-    return responder();
+    return registrarIncidencia(supabase, pagoId, pago, null, "pedido_inexistente");
   }
 
   const total = Number(pedido.total);
@@ -167,7 +198,7 @@ export async function POST(request: Request) {
     console.error(
       `Pago ${pagoId} no coincide con el pedido ${pedidoId}: ${monto} ${pago.currency_id} vs ${total} ARS.`,
     );
-    return responder();
+    return registrarIncidencia(supabase, pagoId, pago, pedidoId, "importe_o_moneda_incorrectos");
   }
 
   const { data, error } = await supabase.rpc("confirmar_pago_pedido", {
@@ -191,5 +222,5 @@ export async function POST(request: Request) {
     `Pago ${pagoId} aprobado, pero el pedido ${pedidoId} quedó en estado "${estado}". Requiere revisión y posible reembolso.`,
   );
 
-  return responder();
+  return registrarIncidencia(supabase, pagoId, pago, pedidoId, estado ?? "confirmacion_desconocida");
 }

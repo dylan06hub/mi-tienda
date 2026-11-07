@@ -148,6 +148,9 @@ export function CartView() {
                           <p className="mt-1 text-xs text-stone-500">
                             Stock: {variante.stock}
                           </p>
+                          {cantidad > variante.stock && (
+                            <p className="mt-1 text-xs text-amber-800">La cantidad supera el stock disponible.</p>
+                          )}
                         </div>
                         <p className="shrink-0 text-sm font-medium tabular-nums text-stone-900">
                           {formatearPrecio(subtotalLinea)}

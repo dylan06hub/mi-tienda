@@ -91,13 +91,13 @@ export async function POST(request: Request) {
           opcion.id.startsWith(`${item.varianteId}-`),
         );
 
-      if (!variante || variante.stock <= 0) continue;
+      if (!variante) continue;
 
       const clave = JSON.stringify([producto.id, variante.id]);
       const previo = agrupados.get(clave);
       const cantidad = Math.min(
         (previo?.cantidad ?? 0) + item.cantidad,
-        variante.stock,
+        MAX_CANTIDAD,
       );
 
       agrupados.set(clave, {

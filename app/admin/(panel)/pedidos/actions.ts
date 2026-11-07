@@ -9,6 +9,21 @@ const UUID =
 
 type Resultado = { error: string } | { ok: string } | null;
 
+export async function resolverIncidenciaPago(formData: FormData) {
+  await requireAdmin();
+  const id = formData.get("pago_id");
+  const resolucion = formData.get("resolucion");
+  if (typeof id !== "string" || !id || id.length > 100 ||
+    typeof resolucion !== "string" || !resolucion.trim() || resolucion.length > 500) {
+    throw new Error("Completá la resolución de la incidencia (máximo 500 caracteres).");
+  }
+  const { error } = await createSupabaseAdminClient().from("incidencias_pago")
+    .update({ resuelta_en: new Date().toISOString(), resolucion: resolucion.trim() })
+    .eq("mp_payment_id", id).is("resuelta_en", null);
+  if (error) throw new Error("No se pudo registrar la resolución.");
+  revalidatePath("/admin/pedidos");
+}
+
 export async function cambiarEstadoPedido(
   _resultado: Resultado,
   formData: FormData,

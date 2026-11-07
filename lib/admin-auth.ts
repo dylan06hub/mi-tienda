@@ -2,10 +2,12 @@ import "server-only";
 
 import { cache } from "react";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 // is_admin() comprueba la tabla public.admins con el usuario del JWT.
 export const getAdminUser = cache(async () => {
+  await connection();
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },

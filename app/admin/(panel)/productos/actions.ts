@@ -68,9 +68,15 @@ function leerImagen(
 }
 
 async function borrarImagen(ruta: string) {
-  await createSupabaseAdminClient()
-    .storage.from(BUCKET_IMAGENES)
-    .remove([ruta]);
+  try {
+    const { error } = await createSupabaseAdminClient()
+      .storage.from(BUCKET_IMAGENES)
+      .remove([ruta]);
+
+    if (error) console.error("No se pudo limpiar la imagen subida:", error);
+  } catch (error) {
+    console.error("No se pudo limpiar la imagen subida:", error);
+  }
 }
 
 function leerVariantes(
@@ -226,6 +232,18 @@ export async function guardarProducto(
     return { error: imagenResultado.error };
   }
 
+  let variantesOriginales: unknown;
+
+  try {
+    variantesOriginales = JSON.parse(texto(formData, "variantes_originales"));
+  } catch {
+    return { error: "Recargá el formulario antes de guardar el producto." };
+  }
+
+  if (!Array.isArray(variantesOriginales)) {
+    return { error: "Las variantes originales no son válidas. Recargá el formulario." };
+  }
+
   const supabase = await createSupabaseServerClient();
   let id = idExistente;
   let imagenActual = "";
@@ -282,7 +300,6 @@ export async function guardarProducto(
       variante.id,
     ]),
   );
-  const idsUsados = new Set<string>();
 
   const filasVariantes = variantesResultado.variantes.map((variante) => {
     const clave = `${variante.talle.toLowerCase()}\u0000${variante.color.toLowerCase()}`;
@@ -297,8 +314,6 @@ export async function guardarProducto(
       ? actual.id
       : (porClave.get(clave) ?? crypto.randomUUID());
 
-    idsUsados.add(idVariante);
-
     return {
       id: idVariante,
       producto_id: id,
@@ -307,28 +322,6 @@ export async function guardarProducto(
       stock: variante.stock,
     };
   });
-
-  const idsAEliminar = existentes
-    .filter((variante) => !idsUsados.has(variante.id))
-    .map((variante) => variante.id);
-
-  if (idsAEliminar.length > 0) {
-    const { count, error } = await supabase
-      .from("items_pedido")
-      .select("pedido_id", { count: "exact", head: true })
-      .eq("producto_id", id)
-      .in("variante_id", idsAEliminar);
-
-    if (error) {
-      return { error: "No se pudieron comprobar los pedidos asociados." };
-    }
-
-    if ((count ?? 0) > 0) {
-      return {
-        error: "No se pueden eliminar variantes con pedidos asociados.",
-      };
-    }
-  }
 
   let imagen = imagenActual;
   let imagenSubida: string | null = null;
@@ -366,48 +359,41 @@ export async function guardarProducto(
     oferta: formData.get("oferta") === "on",
   };
 
-  const { error: guardarError } = idExistente
-    ? await supabase.from("productos").update(datos).eq("id", id)
-    : await supabase.from("productos").insert({ id, ...datos });
+  const { error: guardarError } = await supabase.rpc("guardar_producto", {
+    p_id: id,
+    p_nuevo: !idExistente,
+    p_datos: datos,
+    p_variantes: filasVariantes,
+    p_originales: variantesOriginales,
+  });
 
   if (guardarError) {
-    if (imagenSubida) await borrarImagen(imagenSubida);
-
-    return { error: "No se pudo guardar el producto." };
-  }
-
-  const { error: variantesError } = await supabase
-    .from("variantes")
-    .upsert(filasVariantes, { onConflict: "producto_id,id" });
-
-  if (variantesError) {
-    if (!idExistente) {
-      const { error: limpiezaError } = await supabase
-        .from("productos")
-        .delete()
-        .eq("id", id);
-
-      if (!limpiezaError && imagenSubida) {
-        await borrarImagen(imagenSubida);
-      }
+    // Un fallo de conexión puede llegar después del commit: conservar la imagen.
+    const rechazoSQL = /^[0-9A-Z]{5}$/.test(guardarError.code)
+      && !guardarError.code.startsWith("08")
+      && guardarError.code !== "40003";
+    if (imagenSubida && (rechazoSQL || guardarError.code === "PGRST202")) {
+      await borrarImagen(imagenSubida);
     }
 
-    return { error: "No se pudieron guardar las variantes." };
-  }
-
-  if (idsAEliminar.length > 0) {
-    const { error: borrarError } = await supabase
-      .from("variantes")
-      .delete()
-      .eq("producto_id", id)
-      .in("id", idsAEliminar);
-
-    if (borrarError) {
+    if (guardarError.message.includes("VARIANTES_DESACTUALIZADAS")) {
       return {
-        error:
-          "El producto se guardó, pero no se pudieron eliminar algunas variantes.",
+        error: "El stock o las variantes cambiaron mientras editabas. Recargá el formulario y revisá los valores antes de guardar.",
       };
     }
+
+    if (guardarError.code === "23503" || guardarError.code === "23001") {
+      return {
+        error: "No se pueden eliminar o cambiar variantes con pedidos asociados. No se guardaron cambios.",
+      };
+    }
+
+    console.error("No se pudo guardar el producto:", guardarError);
+    return {
+      error: rechazoSQL
+        ? "No se pudo guardar el producto. No se guardaron cambios."
+        : "No se pudo confirmar el guardado. Recargá el formulario para comprobar el producto antes de intentar de nuevo.",
+    };
   }
 
   revalidarCatalogo(id);

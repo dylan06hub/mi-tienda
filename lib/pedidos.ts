@@ -7,6 +7,7 @@ import type {
   ItemPedidoAdmin,
   PedidoAdmin,
   PedidoDetalleAdmin,
+  IncidenciaPago,
 } from "@/types";
 
 const CAMPOS_PEDIDO =
@@ -140,3 +141,12 @@ export const getPedidoAdmin = cache(
     };
   },
 );
+
+export async function getIncidenciasPago(): Promise<IncidenciaPago[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.from("incidencias_pago")
+    .select("mp_payment_id, pedido_id, referencia, motivo, monto, moneda, creado_en, resuelta_en, resolucion")
+    .order("creado_en", { ascending: false });
+  if (error) throw new Error("No se pudieron cargar las incidencias de pago.");
+  return (data ?? []) as IncidenciaPago[];
+}

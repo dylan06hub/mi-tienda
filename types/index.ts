@@ -111,3 +111,15 @@ export interface AccionPedido {
   label: string;
   confirmar?: string;
 }
+
+export interface IncidenciaPago {
+  mp_payment_id: string;
+  pedido_id: string | null;
+  referencia: string | null;
+  motivo: string;
+  monto: number | null;
+  moneda: string | null;
+  creado_en: string;
+  resuelta_en: string | null;
+  resolucion: string | null;
+}

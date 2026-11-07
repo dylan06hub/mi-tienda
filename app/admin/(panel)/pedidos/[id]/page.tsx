@@ -20,7 +20,7 @@ function accionesDisponibles(estado: string): AccionPedido[] {
         estado: "cancelado",
         label: "Cancelar pedido",
         confirmar:
-          "¿Cancelar este pedido? El stock no se modifica porque todavía no fue pagado.",
+          "¿Cancelar este pedido y liberar las unidades reservadas, si tiene una reserva activa?",
       },
     ];
   }
@@ -32,7 +32,7 @@ function accionesDisponibles(estado: string): AccionPedido[] {
         estado: "cancelado",
         label: "Cancelar y devolver stock",
         confirmar:
-          "¿Cancelar este pedido y devolver el stock de sus variantes?",
+          "¿Cancelar este pedido y devolver el stock? El reembolso se gestiona en Mercado Pago y quedará pendiente de revisión.",
       },
     ];
   }

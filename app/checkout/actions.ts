@@ -129,14 +129,16 @@ function leerLineas(valor: unknown): LineaPedido[] | null {
   return lineas;
 }
 
-async function borrarPedido(
+async function cancelarPedido(
   supabase: ReturnType<typeof createSupabaseAdminClient>,
   id: string,
 ) {
-  const { error } = await supabase.from("pedidos").delete().eq("id", id);
+  const { error } = await supabase.rpc("cambiar_estado_pedido", {
+    p_pedido_id: id, p_estado: "cancelado",
+  });
 
   if (error) {
-    console.error(`No se pudo borrar el pedido ${id} sin preferencia:`, error);
+    console.error(`No se pudo cancelar el pedido ${id} sin preferencia:`, error);
   }
 }
 
@@ -228,12 +230,16 @@ export async function crearPedido(
 
   const resultado = data as {
     pedido_id?: unknown;
+    token_comprobante?: unknown;
+    reserva_hasta?: unknown;
     subtotal?: unknown;
     envio?: unknown;
     total?: unknown;
     items?: unknown;
   } | null;
   const id = resultado?.pedido_id;
+  const token = resultado?.token_comprobante;
+  const reservaHasta = resultado?.reserva_hasta;
   const subtotal = Number(resultado?.subtotal);
   const envio = Number(resultado?.envio);
   const total = Number(resultado?.total);
@@ -241,6 +247,10 @@ export async function crearPedido(
 
   if (
     typeof id !== "string" ||
+    typeof token !== "string" ||
+    !/^[0-9a-f-]{36}$/i.test(token) ||
+    typeof reservaHasta !== "string" ||
+    !Number.isFinite(Date.parse(reservaHasta)) ||
     !Number.isFinite(subtotal) ||
     !Number.isFinite(envio) ||
     !Number.isFinite(total) ||
@@ -248,7 +258,7 @@ export async function crearPedido(
   ) {
     console.error("Respuesta inválida de crear_pedido:", data);
 
-    if (typeof id === "string") await borrarPedido(supabase, id);
+    if (typeof id === "string") await cancelarPedido(supabase, id);
 
     return { error: "No pudimos crear el pedido. Intentá de nuevo." };
   }
@@ -261,7 +271,7 @@ export async function crearPedido(
 
   if (catalogoError) {
     console.error("Error al leer el catálogo para Mercado Pago:", catalogoError);
-    await borrarPedido(supabase, id);
+    await cancelarPedido(supabase, id);
 
     return { error: "No pudimos iniciar el pago. Intentá de nuevo." };
   }
@@ -315,14 +325,18 @@ export async function crearPedido(
   }
 
   const base = await urlBase();
+  const retorno = `${base}/checkout/resultado?pedido=${id}&comprobante=${token}`;
   const preferencia = {
+    expires: true,
+    expiration_date_from: new Date().toISOString(),
+    expiration_date_to: reservaHasta,
     items: itemsPreferencia,
     payer: { email },
     external_reference: id,
     back_urls: {
-      success: `${base}/checkout/resultado?estado=exito&pedido=${id}`,
-      failure: `${base}/checkout/resultado?estado=falla&pedido=${id}`,
-      pending: `${base}/checkout/resultado?estado=pendiente&pedido=${id}`,
+      success: retorno,
+      failure: retorno,
+      pending: retorno,
     },
     ...(esUrlPublica(base)
       ? {
@@ -345,7 +359,7 @@ export async function crearPedido(
       console.error(
         `Mercado Pago respondió ${respuesta.status} al crear la preferencia: ${detalle.slice(0, 500)}`,
       );
-      await borrarPedido(supabase, id);
+      await cancelarPedido(supabase, id);
 
       return { error: "No pudimos iniciar el pago con Mercado Pago." };
     }
@@ -361,7 +375,7 @@ export async function crearPedido(
 
     if (typeof initPoint !== "string") {
       console.error("Mercado Pago no devolvió init_point:", creada);
-      await borrarPedido(supabase, id);
+      await cancelarPedido(supabase, id);
 
       return { error: "No pudimos iniciar el pago con Mercado Pago." };
     }
@@ -377,7 +391,7 @@ export async function crearPedido(
     };
   } catch (error) {
     console.error("Error al crear la preferencia de Mercado Pago:", error);
-    await borrarPedido(supabase, id);
+    await cancelarPedido(supabase, id);
 
     return { error: "No pudimos iniciar el pago con Mercado Pago." };
   }

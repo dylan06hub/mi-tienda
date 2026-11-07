@@ -3,10 +3,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { connection } from "next/server";
+import { getResultadoPedido } from "@/lib/resultado-pedido";
+import { ActualizarEstado } from "./ActualizarEstado";
 import { LimpiarCarrito } from "./LimpiarCarrito";
 
 export const metadata: Metadata = {
   title: "Resultado del pago",
+  referrer: "no-referrer",
+  robots: { index: false, follow: false },
 };
 
 const MENSAJES = {
@@ -14,13 +19,13 @@ const MENSAJES = {
     etiqueta: "Pago recibido",
     titulo: "Gracias por tu compra",
     texto:
-      "Estamos confirmando el pago con Mercado Pago. Cuando quede aprobado, el pedido se marca como pagado y se descuenta el stock.",
+      "El pago fue confirmado y tu pedido está en preparación.",
   },
   falla: {
     etiqueta: "Pago no completado",
-    titulo: "No se pudo procesar el pago",
+    titulo: "El pedido está cancelado",
     texto:
-      "Tu carrito sigue disponible para que puedas intentarlo de nuevo con otro medio de pago.",
+      "La reserva fue liberada. Si realizaste un pago, contactanos para revisar su estado antes de volver a pagar.",
   },
   pendiente: {
     etiqueta: "Pago pendiente",
@@ -30,21 +35,31 @@ const MENSAJES = {
   },
 } as const;
 
-type ClaveMensaje = keyof typeof MENSAJES;
 
 async function Resultado({
   searchParams,
 }: {
-  searchParams: Promise<{ estado?: string; pedido?: string }>;
+  searchParams: Promise<{ pedido?: string; comprobante?: string }>;
 }) {
-  const { estado, pedido } = await searchParams;
-  const clave: ClaveMensaje =
-    estado === "falla" || estado === "pendiente" ? estado : "exito";
+  const { pedido, comprobante } = await searchParams;
+  await connection();
+  const resultado = await getResultadoPedido(pedido, comprobante);
+  if (!resultado) {
+    return (
+      <>
+        <h1 className="text-3xl font-semibold">No pudimos identificar tu pedido</h1>
+        <p className="mt-4 text-sm text-stone-600">Usá el enlace privado del pago para consultar su estado. Tu carrito no se modificó.</p>
+        <Link href="/carrito" className="mt-6 inline-block underline">Volver al carrito</Link>
+      </>
+    );
+  }
+  const confirmado = resultado.estado === "pagado" || resultado.estado === "enviado";
+  const clave = confirmado ? "exito" : resultado.estado === "cancelado" ? "falla" : "pendiente";
   const mensaje = MENSAJES[clave];
 
   return (
     <>
-      {clave === "exito" && <LimpiarCarrito />}
+      {confirmado && <LimpiarCarrito pedidoId={resultado.id} items={resultado.items} />}
 
       <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
         {mensaje.etiqueta}
@@ -55,6 +70,13 @@ async function Resultado({
       <p className="mt-4 text-sm leading-6 text-stone-600">
         {mensaje.texto}
       </p>
+
+      {resultado.revision && (
+        <p role="status" className="mt-6 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
+          Recibimos un pago que requiere revisión. Contactanos con el número de pedido y no vuelvas a pagar mientras lo comprobamos.
+        </p>
+      )}
+      {clave === "pendiente" && <ActualizarEstado />}
 
       {pedido && (
         <p className="mt-6 rounded-xl bg-white px-4 py-3 text-sm text-stone-700 ring-1 ring-stone-200">
@@ -85,7 +107,7 @@ async function Resultado({
 export default function ResultadoPage({
   searchParams,
 }: {
-  searchParams: Promise<{ estado?: string; pedido?: string }>;
+  searchParams: Promise<{ pedido?: string; comprobante?: string }>;
 }) {
   return (
     <div className="mx-auto max-w-2xl px-6 py-16 md:py-24">

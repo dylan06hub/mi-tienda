@@ -39,6 +39,9 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
   const [variantes, setVariantes] = useState<VarianteForm[]>(() =>
     variantesIniciales(producto),
   );
+  const [variantesOriginales] = useState(() =>
+    JSON.stringify(producto?.variantes ?? []),
+  );
 
   function actualizarVariante(
     key: string,
@@ -73,6 +76,11 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
   return (
     <form action={action} className="mt-8 space-y-8">
       {producto && <input type="hidden" name="id" value={producto.id} />}
+      <input
+        type="hidden"
+        name="variantes_originales"
+        value={variantesOriginales}
+      />
 
       <section className="grid gap-5 sm:grid-cols-2">
         <div className="sm:col-span-2">
