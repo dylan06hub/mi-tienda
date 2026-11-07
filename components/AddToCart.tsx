@@ -84,7 +84,7 @@ export function AddToCart({ producto }: { producto: Producto }) {
               aria-pressed={seleccionado}
               disabled={!disponible}
               onClick={() => elegirColor(opcion)}
-              className={`rounded-full border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-stone-200 disabled:text-stone-300 disabled:line-through ${
+              className={`min-h-11 rounded-full border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-stone-200 disabled:text-stone-300 disabled:line-through ${
                 seleccionado
                   ? "border-stone-900 bg-stone-900 text-white"
                   : "border-stone-300 text-stone-800 hover:border-stone-900"
@@ -111,7 +111,7 @@ export function AddToCart({ producto }: { producto: Producto }) {
                 setTalle(opcion.talle);
                 setAgregado(false);
               }}
-              className={`min-w-11 rounded-full border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-stone-200 disabled:text-stone-300 disabled:line-through ${
+              className={`min-h-11 min-w-11 rounded-full border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-stone-200 disabled:text-stone-300 disabled:line-through ${
                 seleccionado
                   ? "border-stone-900 bg-stone-900 text-white"
                   : "border-stone-300 text-stone-800 hover:border-stone-900"

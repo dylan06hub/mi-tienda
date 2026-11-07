@@ -10,7 +10,7 @@ import { FiltrosCatalogo } from "./FiltrosCatalogo";
 export const metadata: Metadata = {
   title: "Productos",
   description:
-    "Toda la colección: camisetas, camisas, chaquetas, pantalones y accesorios.",
+    "Toda la colección: remeras, camisas, chaquetas, pantalones y accesorios.",
 };
 
 type SearchParams = {
@@ -113,10 +113,10 @@ async function Catalogo({
     soloStock;
 
   return (
-    <div className="mt-10 grid gap-10 lg:grid-cols-[240px_1fr]">
+    <div className="mt-6 grid gap-6 lg:mt-10 lg:grid-cols-[240px_1fr] lg:gap-10">
       <FiltrosCatalogo conteos={conteos} precios={precios} />
       <div>
-        <p className="text-sm text-stone-600">
+        <p role="status" className="text-sm text-stone-600">
           {filtrados.length}{" "}
           {filtrados.length === 1 ? "prenda encontrada" : "prendas encontradas"}
           {hayFiltros ? " con los filtros seleccionados." : "."}
@@ -179,16 +179,12 @@ export default function ProductosPage({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
-      <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
-        Catálogo
-      </p>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+    <div className="mx-auto max-w-6xl px-6 py-8 md:py-16">
+      <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
         Toda la colección
       </h1>
       <p className="mt-4 max-w-lg text-sm leading-6 text-stone-600">
-        Prendas atemporales pensadas para combinarse entre sí y durar temporada
-        tras temporada.
+        Elegí una prenda y encontrá tu talle. Filtrá por categoría, color o precio.
       </p>
 
       <Suspense fallback={<CatalogoSkeleton />}>

@@ -55,7 +55,8 @@ async function FichaProducto({
               src={producto.imagen}
               alt={producto.nombre}
               fill
-              priority
+              loading="eager"
+              fetchPriority="high"
               sizes="(min-width: 768px) 50vw, 100vw"
               className="object-cover"
             />
@@ -90,13 +91,15 @@ async function FichaProducto({
               <dt className="font-medium text-stone-900">Envío</dt>
               <dd className="mt-1 text-stone-600">
                 Gratis a partir de {formatearPrecio(ENVIO_GRATIS_DESDE)}.
-                Entrega en 2–4 días hábiles.
+                El costo se calcula en el carrito.
               </dd>
             </div>
             <div>
               <dt className="font-medium text-stone-900">Devoluciones</dt>
               <dd className="mt-1 text-stone-600">
-                30 días para devolverlo, sin preguntas.
+                <Link href="/contacto#preguntas-frecuentes" className="underline underline-offset-4 hover:text-stone-900">
+                  Consultá las condiciones de cambios y devoluciones.
+                </Link>
               </dd>
             </div>
           </dl>

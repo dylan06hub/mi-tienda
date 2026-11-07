@@ -212,7 +212,7 @@ export function ProductoForm({ producto }: { producto?: ProductoAdmin }) {
             defaultChecked={producto?.oferta ?? false}
             className="size-4 rounded border-stone-300 accent-stone-900"
           />
-          Sección &ldquo;Ofertas&rdquo;
+          Marcar como oferta (sin sección pública por ahora)
         </label>
 
         {producto && (

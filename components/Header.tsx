@@ -11,7 +11,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-stone-200/80 bg-[#f7f5f0]/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+      <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-2 px-4 sm:px-6">
         {/* Marca */}
         <Link
           href="/"
@@ -21,19 +21,19 @@ export function Header() {
         </Link>
 
         {/* Navegación */}
-        <nav className="flex items-center gap-5 text-sm text-stone-700">
-          <Link href="/productos" className="transition-colors hover:text-stone-950">
+        <nav aria-label="Principal" className="flex items-center gap-2 text-sm text-stone-700 sm:gap-5">
+          <Link href="/productos" className="inline-flex min-h-11 items-center transition-colors hover:text-stone-950">
             Productos
           </Link>
-          <Link href="/contacto" className="transition-colors hover:text-stone-950">
+          <Link href="/contacto" className="inline-flex min-h-11 items-center transition-colors hover:text-stone-950">
             Contacto
           </Link>
           <Link
             href="/carrito"
             aria-label={
-              unidades > 0 ? `Carrito, ${unidades} artículos` : "Carrito"
+              unidades > 0 ? `Carrito, ${unidades} ${unidades === 1 ? "artículo" : "artículos"}` : "Carrito"
             }
-            className="flex items-center gap-2 rounded-full bg-stone-900 px-4 py-2 text-white transition-colors hover:bg-stone-700"
+            className="flex min-h-11 items-center gap-2 rounded-full bg-stone-900 px-3 py-2 text-white transition-colors hover:bg-stone-700 sm:px-4"
           >
             Carrito
             {unidades > 0 && (
@@ -47,5 +47,3 @@ export function Header() {
     </header>
   );
 }
-
-// Componente de la cabecera: marca, navegación y contador de unidades del carrito.

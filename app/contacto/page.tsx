@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FormularioConsulta } from "./FormularioConsulta";
 
 export const metadata: Metadata = {
-  title: "Contacto | norte.",
+  title: "Contacto",
   description: "Ponete en contacto con norte. para consultas, dudas o pedidos.",
 };
 
@@ -11,12 +11,12 @@ const PREGUNTAS = [
   {
     pregunta: "¿Hacen envíos a todo el país?",
     respuesta:
-      "Sí, enviamos a todo el territorio argentino. El envío es gratis a partir del monto mínimo indicado en el carrito.",
+      "El carrito calcula el costo de envío y el monto para acceder al envío gratis. La cobertura y los plazos de entrega están pendientes de confirmación para esta tienda de prueba.",
   },
   {
     pregunta: "¿Puedo cambiar o cancelar mi pedido?",
     respuesta:
-      "Si tu pedido aún no fue enviado, escribinos con el número de pedido y te ayudamos a gestionarlo. Los pedidos pagados y enviados siguen la política de devolución.",
+      "Escribinos desde el formulario con el número de pedido. Las condiciones de cambios, cancelaciones y devoluciones deben confirmarse antes de una compra real.",
   },
   {
     pregunta: "¿Cómo sé si hay stock de una prenda?",
@@ -31,7 +31,7 @@ const PREGUNTAS = [
   {
     pregunta: "¿Cuánto tarda en llegar mi pedido?",
     respuesta:
-      "Los tiempos de entrega dependen de tu ubicación y del correo asignado. Generalmente entre 2 y 5 días hábiles después de que el pago sea aprobado.",
+      "Esta tienda usa un catálogo ficticio. Todavía no hay plazos de entrega confirmados; consultanos desde el formulario antes de coordinar un envío.",
   },
 ];
 
@@ -46,16 +46,12 @@ export default function ContactoPage() {
       </Link>
 
       <header className="mt-6">
-        <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
-          Contacto
-        </p>
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
           Hablemos
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-7 text-stone-600">
           Si tenés alguna consulta sobre un producto, el estado de tu pedido o
-          cualquier duda, completá el formulario o escribinos por los canales
-          disponibles.
+          cualquier duda, completá el formulario.
         </p>
       </header>
 
@@ -72,45 +68,22 @@ export default function ContactoPage() {
           </div>
         </section>
 
-        <div className="space-y-6">
-          <section className="rounded-2xl border border-stone-200 bg-white p-6">
-            <h2 className="text-sm font-medium text-stone-900">Email</h2>
-            <p className="mt-2 text-sm text-stone-600">
-              Respondemos dentro de 24 a 48 horas hábiles.
-            </p>
-            <a
-              href="mailto:contacto@norte.com.ar"
-              className="mt-4 inline-flex text-sm font-medium text-stone-900 underline-offset-4 hover:underline"
-            >
-              contacto@norte.com.ar
-            </a>
-          </section>
-
-          <section className="rounded-2xl border border-stone-200 bg-white p-6">
-            <h2 className="text-sm font-medium text-stone-900">WhatsApp</h2>
-            <p className="mt-2 text-sm text-stone-600">
-              Para consultas rápidas sobre stock o pedidos.
-            </p>
-            <a
-              href="https://wa.me/5491100000000"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex text-sm font-medium text-stone-900 underline-offset-4 hover:underline"
-            >
-              +54 9 11 0000 0000
-            </a>
-          </section>
-
-          <section className="rounded-2xl border border-stone-200 bg-white p-6">
-            <h2 className="text-sm font-medium text-stone-900">Horario</h2>
-            <p className="mt-2 text-sm text-stone-600">
-              Lunes a viernes de 9:00 a 18:00 hs.
-            </p>
-          </section>
-        </div>
+        <aside className="self-start rounded-2xl bg-stone-100 p-6 md:p-8">
+          <h2 className="text-lg font-semibold tracking-tight">Antes de escribirnos</h2>
+          <p className="mt-3 text-sm leading-6 text-stone-600">
+            Si consultás por una prenda, incluí su nombre, el talle y el color.
+            Si es por una compra, agregá el número de pedido.
+          </p>
+          <p className="mt-4 text-sm leading-6 text-stone-600">
+            Esta es una tienda de demostración con productos ficticios. Las
+            consultas del formulario se guardan en el panel de administración.
+            Los canales de atención y las condiciones comerciales definitivas
+            todavía no están confirmados.
+          </p>
+        </aside>
       </div>
 
-      <section className="mt-10 rounded-2xl border border-stone-200 bg-white p-6 md:p-8">
+      <section id="preguntas-frecuentes" className="mt-10 scroll-mt-24 rounded-2xl border border-stone-200 bg-white p-6 md:p-8">
         <h2 className="text-lg font-semibold tracking-tight text-stone-900">
           Preguntas frecuentes
         </h2>

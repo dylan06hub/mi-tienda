@@ -154,3 +154,40 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Catálogo ficticio de prueba
+
+Ejecutar `supabase/seed-catalogo-prueba.sql` en el SQL Editor del proyecto de
+prueba, después de `schema.sql` y `sections.sql`. Publica 30 productos en 10
+categorías, con 120 variantes y 8 destacados. Usa las imágenes ilustrativas de
+`public/productos`; algunas se repiten entre modelos. Los precios y el stock son
+ficticios. No requiere cambios en la aplicación ni reiniciar el servidor.
+
+Los productos se identifican con el prefijo `demo-norte-`. Repetir la carga no
+duplica filas ni sobrescribe ediciones o stock existente. Oculta los tres
+registros anteriores (`remera-blanca-dc`, `remera-dc-azul`, `wdqwdf`) conservando
+sus variantes e historial; se pueden volver a publicar desde el administrador.
+Antes de vender, despublicar estos productos desde el panel y cargar datos reales.
+
+## Diseño de la tienda
+
+La portada fija elige un producto destacado con foto y stock; si no hay uno,
+usa otra prenda disponible. Sin stock conserva el acceso al catálogo sin
+promocionar productos agotados. La sección pública de ofertas queda retirada
+hasta contar con precios anteriores y descuentos verificables; la marca interna
+del administrador se conserva.
+
+En móvil los filtros empiezan plegados, muestran cuántos criterios están activos
+y mantienen las selecciones en la URL. En escritorio permanecen visibles.
+Limpiar los filtros también restablece los campos de precio. Los controles tienen
+foco visible, los talles anuncian su selección y hay un enlace para saltar al
+contenido. El carrito usa un solo título principal y controles adaptados a móvil.
+
+El formulario de contacto es el canal disponible. Se retiraron los enlaces de
+correo y WhatsApp ficticios y las promesas de entrega o devolución sin confirmar.
+Antes de una venta real hay que completar contactos, cobertura, plazos y políticas,
+y reemplazar las imágenes y los productos ilustrativos.
+
+Verificación local: `npm test`, `npm run lint`, `npm run typecheck` y
+`npm run build`. Las pruebas de interfaz cubren portada, filtros, ficha, carrito
+y acceso al checkout; una revisión visual no implica haber realizado un pago.

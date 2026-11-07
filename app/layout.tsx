@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | norte.",
   },
   description:
-    "Prendas atemporales, tejidos honestos y cortes que sientan bien. Tienda de ropa de demostración.",
+    "Ropa para todos los días. Explorá remeras, camisas, pantalones y abrigos. Tienda de demostración.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -34,9 +34,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col bg-[#f7f5f0] text-stone-900">
+        <a href="#contenido" className="sr-only z-[60] rounded-lg bg-white px-4 py-3 text-stone-900 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
+          Saltar al contenido
+        </a>
         <CartProvider>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main id="contenido" tabIndex={-1} className="flex-1">{children}</main>
           <Footer />
         </CartProvider>
       </body>

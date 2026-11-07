@@ -18,3 +18,23 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
+
+::selection {
+  background: #fed7aa;
+  color: #1c1917;
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid #c2410c;
+  outline-offset: 4px;
+}
+
+a, button, summary {
+  touch-action: manipulation;
+}
+
+@media (pointer: coarse) {
+  input, select, textarea {
+    font-size: 16px;
+  }
+}

@@ -51,14 +51,7 @@ export function CartView() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
-      <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
-        Carrito
-      </p>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-        Tu selección
-      </h1>
-
+    <div>
       {error && items.length > 0 && (
         <p className="mt-6 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
           {error}
@@ -134,7 +127,7 @@ export function CartView() {
                     </div>
 
                     <div className="flex min-w-0 flex-1 flex-col justify-between gap-3">
-                      <div className="flex items-start justify-between gap-4">
+                      <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:gap-4">
                         <div className="min-w-0">
                           <Link
                             href={`/productos/${producto.id}`}
@@ -157,7 +150,7 @@ export function CartView() {
                         </p>
                       </div>
 
-                      <div className="flex items-end justify-between gap-4">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
                         <div className="inline-flex items-center rounded-full border border-stone-300">
                           <button
                             type="button"
@@ -170,7 +163,7 @@ export function CartView() {
                             }
                             disabled={bloqueada || cantidad <= 1}
                             aria-label={`Quitar una unidad de ${producto.nombre}`}
-                            className="flex h-9 w-9 items-center justify-center text-stone-500 transition hover:text-stone-900 disabled:opacity-30 disabled:hover:text-stone-500"
+                            className="flex h-11 w-11 items-center justify-center text-stone-600 transition-colors hover:text-stone-900 disabled:opacity-30 disabled:hover:text-stone-500"
                           >
                             −
                           </button>
@@ -190,7 +183,7 @@ export function CartView() {
                               bloqueada || cantidad >= variante.stock
                             }
                             aria-label={`Agregar una unidad de ${producto.nombre}`}
-                            className="flex h-9 w-9 items-center justify-center text-stone-500 transition hover:text-stone-900 disabled:opacity-30 disabled:hover:text-stone-500"
+                            className="flex h-11 w-11 items-center justify-center text-stone-600 transition-colors hover:text-stone-900 disabled:opacity-30 disabled:hover:text-stone-500"
                           >
                             +
                           </button>
@@ -201,7 +194,7 @@ export function CartView() {
                             eliminar(producto.id, variante.id)
                           }
                           disabled={bloqueada}
-                          className="text-xs text-stone-500 underline-offset-2 transition hover:text-stone-900 hover:underline disabled:opacity-50"
+                          className="min-h-11 text-sm text-stone-600 underline underline-offset-2 transition-colors hover:text-stone-900 disabled:opacity-50"
                         >
                           Eliminar
                         </button>

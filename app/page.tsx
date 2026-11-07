@@ -1,25 +1,19 @@
-// Página de inicio: carrusel, productos destacados y ventajas de la tienda.
+// Página de inicio: colección disponible, destacados y ayuda.
 
 import Link from "next/link";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { HomeCarousel } from "@/components/HomeCarousel";
+import { HomeHero } from "@/components/HomeHero";
 import { ProductCard } from "@/components/ProductCard";
 import { getProductos } from "@/lib/productos";
 import { ENVIO_GRATIS_DESDE, formatearPrecio } from "@/lib/utils";
 
-async function SeccionPortada({
-  titulo,
-  filtro,
-}: {
-  titulo: string;
-  filtro: "destacado" | "oferta";
-}) {
+async function Destacados() {
   // El cliente Supabase lee la sesión de las cookies y usa Date.now(), que
   // bloquea el prerender: se difiere a tiempo de request.
   await connection();
   const productos = await getProductos();
-  const seleccion = productos.filter((producto) => producto[filtro]);
+  const seleccion = productos.filter((producto) => producto.destacado);
 
   // Sin productos en la sección no se muestra el bloque vacío.
   if (seleccion.length === 0) return null;
@@ -28,11 +22,8 @@ async function SeccionPortada({
     <section className="mx-auto max-w-6xl px-6 py-8 md:py-12">
       <div className="flex items-end justify-between gap-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.25em] text-stone-500">
-            Selección
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight">
-            {titulo}
+          <h2 className="text-2xl font-semibold tracking-tight">
+            Los imprescindibles
           </h2>
         </div>
         <Link
@@ -73,16 +64,13 @@ function SeccionSkeleton() {
 export default function Home() {
   return (
     <div>
-      <HomeCarousel />
+      <Suspense fallback={<div className="h-[556px] animate-pulse bg-stone-950" aria-label="Cargando la colección" role="status" />}>
+        <HomeHero />
+      </Suspense>
 
       {/* Los imprescindibles */}
       <Suspense fallback={<SeccionSkeleton />}>
-        <SeccionPortada titulo="Los imprescindibles" filtro="destacado" />
-      </Suspense>
-
-      {/* Ofertas */}
-      <Suspense fallback={<SeccionSkeleton />}>
-        <SeccionPortada titulo="Ofertas" filtro="oferta" />
+        <Destacados />
       </Suspense>
 
       {/* Ventajas */}
@@ -93,19 +81,21 @@ export default function Home() {
               Envío gratis desde {formatearPrecio(ENVIO_GRATIS_DESDE)}
             </p>
             <p className="mt-2 text-sm leading-6 text-stone-400">
-              Entrega en 2–4 días hábiles en todo el país.
+              El costo se calcula en el carrito antes de continuar.
             </p>
           </div>
           <div>
-            <p className="text-sm font-medium">30 días de devolución</p>
+            <p className="text-sm font-medium">Elegí tu talle</p>
             <p className="mt-2 text-sm leading-6 text-stone-400">
-              Si no te convence, lo devuelves sin preguntas.
+              Consultá los talles y el stock disponible en cada prenda.
             </p>
           </div>
           <div>
-            <p className="text-sm font-medium">Tejidos que duran</p>
+            <p className="text-sm font-medium">¿Necesitás una mano?</p>
             <p className="mt-2 text-sm leading-6 text-stone-400">
-              Materiales naturales y proveedores cercanos.
+              <Link href="/contacto" className="underline underline-offset-4 hover:text-white">
+                Escribinos desde el formulario de contacto.
+              </Link>
             </p>
           </div>
         </div>
