@@ -39,17 +39,17 @@ async function FichaProducto({
   return (
     <div className="mx-auto max-w-6xl px-6 py-10 md:py-16">
       {/* Migas de pan */}
-      <nav className="text-sm text-stone-500">
-        <Link href="/productos" className="hover:text-stone-900">
+      <nav className="text-sm text-street-muted">
+        <Link href="/productos" className="hover:text-street-foreground">
           Productos
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-stone-700">{producto.categoria}</span>
+        <span className="text-street-muted">{producto.categoria}</span>
       </nav>
 
       <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-16">
         {/* Imagen del producto */}
-        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-stone-200">
+        <div className="relative aspect-[4/5] overflow-hidden bg-street-surface">
           {producto.imagen ? (
             <Image
               src={producto.imagen}
@@ -61,7 +61,7 @@ async function FichaProducto({
               className="object-cover"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-sm text-stone-400">
+            <div className="flex h-full items-center justify-center text-sm text-street-muted">
               Sin imagen
             </div>
           )}
@@ -69,16 +69,16 @@ async function FichaProducto({
 
         {/* Información y compra */}
         <div className="md:py-6">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">
+          <p className="text-xs uppercase tracking-[0.18em] text-street-muted">
             {producto.categoria}
           </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h1 className="mt-2 street-title text-5xl sm:text-6xl">
             {producto.nombre}
           </h1>
-          <p className="mt-3 text-xl tabular-nums text-stone-900">
+          <p className="mt-3 text-xl tabular-nums text-street-foreground">
             {formatearPrecio(producto.precio)}
           </p>
-          <p className="mt-6 max-w-md text-sm leading-6 text-stone-600">
+          <p className="mt-6 max-w-md text-sm leading-6 text-street-muted">
             {producto.descripcion}
           </p>
 
@@ -86,18 +86,18 @@ async function FichaProducto({
             <AddToCart producto={producto} />
           </div>
 
-          <dl className="mt-10 space-y-4 border-t border-stone-200 pt-6 text-sm">
+          <dl className="mt-10 space-y-4 border-t border-street-border pt-6 text-sm">
             <div>
-              <dt className="font-medium text-stone-900">Envío</dt>
-              <dd className="mt-1 text-stone-600">
+              <dt className="font-medium text-street-foreground">Envío</dt>
+              <dd className="mt-1 text-street-muted">
                 Gratis a partir de {formatearPrecio(ENVIO_GRATIS_DESDE)}.
                 El costo se calcula en el carrito.
               </dd>
             </div>
             <div>
-              <dt className="font-medium text-stone-900">Devoluciones</dt>
-              <dd className="mt-1 text-stone-600">
-                <Link href="/contacto#preguntas-frecuentes" className="underline underline-offset-4 hover:text-stone-900">
+              <dt className="font-medium text-street-foreground">Devoluciones</dt>
+              <dd className="mt-1 text-street-muted">
+                <Link href="/contacto#preguntas-frecuentes" className="underline underline-offset-4 hover:text-street-foreground">
                   Consultá las condiciones de cambios y devoluciones.
                 </Link>
               </dd>
@@ -112,16 +112,16 @@ async function FichaProducto({
 function FichaProductoSkeleton() {
   return (
     <div className="mx-auto max-w-6xl animate-pulse px-6 py-10 md:py-16">
-      <div className="h-4 w-40 rounded bg-stone-200" />
+      <div className="h-4 w-40 rounded bg-street-surface" />
       <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-16">
-        <div className="aspect-[4/5] rounded-2xl bg-stone-200" />
+        <div className="aspect-[4/5] rounded-street bg-street-surface" />
         <div className="md:py-6">
-          <div className="h-3 w-20 rounded bg-stone-200" />
-          <div className="mt-4 h-9 w-64 max-w-full rounded bg-stone-200" />
-          <div className="mt-4 h-6 w-32 rounded bg-stone-200" />
-          <div className="mt-6 h-4 w-full rounded bg-stone-200" />
-          <div className="mt-2 h-4 w-5/6 rounded bg-stone-200" />
-          <div className="mt-8 h-40 rounded-2xl bg-stone-200" />
+          <div className="h-3 w-20 rounded bg-street-surface" />
+          <div className="mt-4 h-9 w-64 max-w-full rounded bg-street-surface" />
+          <div className="mt-4 h-6 w-32 rounded bg-street-surface" />
+          <div className="mt-6 h-4 w-full rounded bg-street-surface" />
+          <div className="mt-2 h-4 w-5/6 rounded bg-street-surface" />
+          <div className="mt-8 h-40 rounded-street bg-street-surface" />
         </div>
       </div>
     </div>

@@ -4,9 +4,9 @@ import { useActionState } from "react";
 import { enviarConsulta } from "./actions";
 
 const CLASE_INPUT =
-  "mt-2 h-11 w-full rounded-xl border border-stone-300 bg-white px-4 text-sm text-stone-900 outline-none transition focus:border-stone-900";
+  "mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-4 text-base text-street-foreground transition focus:border-street-secondary";
 const CLASE_TEXTAREA =
-  "mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-900";
+  "mt-2 w-full rounded-street border border-street-muted bg-street-surface px-4 py-3 text-base text-street-foreground transition focus:border-street-secondary";
 
 export function FormularioConsulta() {
   const [estado, action, pendiente] = useActionState(enviarConsulta, null);
@@ -26,7 +26,7 @@ export function FormularioConsulta() {
 
       <div className="grid gap-5 md:grid-cols-2">
         <div>
-          <label htmlFor="nombre" className="text-sm font-medium text-stone-900">
+          <label htmlFor="nombre" className="text-sm font-medium text-street-foreground">
             Nombre y apellido *
           </label>
           <input
@@ -40,7 +40,7 @@ export function FormularioConsulta() {
           />
         </div>
         <div>
-          <label htmlFor="email" className="text-sm font-medium text-stone-900">
+          <label htmlFor="email" className="text-sm font-medium text-street-foreground">
             Email *
           </label>
           <input
@@ -59,7 +59,7 @@ export function FormularioConsulta() {
         <div>
           <label
             htmlFor="telefono"
-            className="text-sm font-medium text-stone-900"
+            className="text-sm font-medium text-street-foreground"
           >
             Teléfono
           </label>
@@ -74,7 +74,7 @@ export function FormularioConsulta() {
           />
         </div>
         <div>
-          <label htmlFor="asunto" className="text-sm font-medium text-stone-900">
+          <label htmlFor="asunto" className="text-sm font-medium text-street-foreground">
             Asunto *
           </label>
           <input
@@ -90,7 +90,7 @@ export function FormularioConsulta() {
       </div>
 
       <div>
-        <label htmlFor="mensaje" className="text-sm font-medium text-stone-900">
+        <label htmlFor="mensaje" className="text-sm font-medium text-street-foreground">
           Mensaje *
         </label>
         <textarea
@@ -102,16 +102,16 @@ export function FormularioConsulta() {
           className={CLASE_TEXTAREA}
           placeholder="Escribí tu consulta con el mayor detalle posible"
         />
-        <p className="mt-1 text-xs text-stone-500">Máximo 1000 caracteres.</p>
+        <p className="mt-1 text-xs text-street-muted">Máximo 1000 caracteres.</p>
       </div>
 
       {estado && "error" in estado && (
-        <p role="alert" className="rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <p role="alert" className="rounded-street bg-amber-50 px-4 py-3 text-sm text-amber-900">
           {estado.error}
         </p>
       )}
       {estado && "ok" in estado && (
-        <p role="status" className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+        <p role="status" className="rounded-street bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
           {estado.ok}
         </p>
       )}
@@ -119,7 +119,7 @@ export function FormularioConsulta() {
       <button
         type="submit"
         disabled={pendiente}
-        className="h-11 rounded-full bg-stone-900 px-6 text-sm font-medium text-white transition hover:bg-stone-700 disabled:cursor-not-allowed disabled:bg-stone-300"
+        className="street-button"
       >
         {pendiente ? "Enviando…" : "Enviar consulta"}
       </button>

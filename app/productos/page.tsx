@@ -116,22 +116,22 @@ async function Catalogo({
     <div className="mt-6 grid gap-6 lg:mt-10 lg:grid-cols-[240px_1fr] lg:gap-10">
       <FiltrosCatalogo conteos={conteos} precios={precios} />
       <div>
-        <p role="status" className="text-sm text-stone-600">
+        <p role="status" className="text-sm text-street-muted">
           {filtrados.length}{" "}
           {filtrados.length === 1 ? "prenda encontrada" : "prendas encontradas"}
           {hayFiltros ? " con los filtros seleccionados." : "."}
         </p>
         {filtrados.length === 0 ? (
-          <div className="mt-10 rounded-2xl border border-stone-200 bg-white px-6 py-16 text-center">
-            <p className="text-sm text-stone-600">
+          <div className="mt-10 rounded-street border border-street-border bg-street-surface px-6 py-16 text-center">
+            <p className="text-sm text-street-muted">
               No hay productos que coincidan con esos filtros.
             </p>
-            <p className="mt-2 text-xs text-stone-500">
+            <p className="mt-2 text-xs text-street-muted">
               Probá quitando algún filtro o cambiando los criterios.
             </p>
           </div>
         ) : (
-        <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 xl:grid-cols-3">
           {filtrados.map((producto) => (
             <ProductCard key={producto.id} producto={producto} />
           ))}
@@ -148,23 +148,23 @@ function CatalogoSkeleton() {
       <div className="hidden space-y-6 lg:block">
         {Array.from({ length: 4 }).map((_, indice) => (
           <div key={indice} className="animate-pulse">
-            <div className="h-3 w-24 rounded bg-stone-200" />
+            <div className="h-3 w-24 rounded bg-street-surface" />
             <div className="mt-3 space-y-2">
-              <div className="h-4 w-full rounded bg-stone-200" />
-              <div className="h-4 w-3/4 rounded bg-stone-200" />
-              <div className="h-4 w-1/2 rounded bg-stone-200" />
+              <div className="h-4 w-full rounded bg-street-surface" />
+              <div className="h-4 w-3/4 rounded bg-street-surface" />
+              <div className="h-4 w-1/2 rounded bg-street-surface" />
             </div>
           </div>
         ))}
       </div>
       <div className="animate-pulse">
-        <div className="h-4 w-40 rounded bg-stone-200" />
-        <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="h-4 w-40 rounded bg-street-surface" />
+        <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 xl:grid-cols-3">
           {Array.from({ length: 6 }).map((_, indice) => (
             <div key={indice}>
-              <div className="aspect-[3/4] rounded-xl bg-stone-200" />
-              <div className="mt-3 h-3 w-24 rounded bg-stone-200" />
-              <div className="mt-2 h-4 w-40 rounded bg-stone-200" />
+              <div className="aspect-[3/4] rounded-street bg-street-surface" />
+              <div className="mt-3 h-3 w-24 rounded bg-street-surface" />
+              <div className="mt-2 h-4 w-3/4 rounded bg-street-surface" />
             </div>
           ))}
         </div>
@@ -180,10 +180,10 @@ export default function ProductosPage({
 }) {
   return (
     <div className="mx-auto max-w-6xl px-6 py-8 md:py-16">
-      <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+      <h1 className="street-title text-5xl sm:text-6xl">
         Toda la colección
       </h1>
-      <p className="mt-4 max-w-lg text-sm leading-6 text-stone-600">
+      <p className="mt-4 max-w-lg text-sm leading-6 text-street-muted">
         Elegí una prenda y encontrá tu talle. Filtrá por categoría, color o precio.
       </p>
 

@@ -49,3 +49,20 @@ test('los filtros móviles empiezan plegados y cuentan solo criterios activos re
   assert.match(html, /aria-pressed="true"/);
   assert.match(html, /Limpiar todo/);
 });
+
+test('el tema neón se aplica a la tienda y deja el administrador en claro', () => {
+  for (const [pathname, neon] of [['/', true], ['/productos/prenda', true], ['/checkout', true], ['/admin', false], ['/admin/login', false], ['/admin/productos', false]]) {
+    const { StoreTheme } = cargarTS('components/StoreTheme.tsx', {
+      'react/jsx-runtime': jsxRuntime,
+      'next/navigation': { usePathname: () => pathname },
+    });
+    const html = renderToStaticMarkup(React.createElement(StoreTheme, null, 'Contenido'));
+    assert.equal(html.includes('street-theme'), neon, pathname);
+    assert.match(html, /Contenido/);
+  }
+});
+
+test('la portada prioriza un buzo destacado disponible para la colección streetwear', async () => {
+  const html = await portada([prenda('abrigo', { categoria: 'Abrigos' }), prenda('buzo', { categoria: 'Buzos' })]);
+  assert.match(html, /href="\/productos\/buzo"/);
+});

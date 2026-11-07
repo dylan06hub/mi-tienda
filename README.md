@@ -212,7 +212,7 @@ las mismas restricciones de historial de pedidos.
 
 La dirección visual está documentada en `DESIGN.md`. `app/streetwear.css` define
 los colores, Barlow Condensed Black y los estilos base para títulos y botones.
-Se activa mediante `.street-theme`; la aplicación a las pantallas queda para
-las siguientes fases. La fuente se aloja en `public/fonts` con su licencia.
+`StoreTheme` activa `.street-theme` en las pantallas públicas: portada, catálogo,
+ficha, carrito, checkout y contacto. Las rutas `/admin` mantienen el tema claro. La fuente se aloja en `public/fonts` con su licencia.
 `tests/streetwear-contraste.test.mjs` comprueba los pares de texto y fondo antes
 de usarlos. El panel administrativo conserva su identidad de trabajo.

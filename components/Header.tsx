@@ -10,22 +10,22 @@ export function Header() {
   const unidades = items.reduce((total, item) => total + item.cantidad, 0);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-stone-200/80 bg-[#f7f5f0]/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-street-border/80 bg-street-background/95 backdrop-blur">
       <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-2 px-4 sm:px-6">
         {/* Marca */}
         <Link
           href="/"
-          className="text-xl font-semibold tracking-tight text-stone-900"
+          className="font-display text-4xl font-black tracking-tight text-street-foreground"
         >
-          norte<span className="text-orange-700">.</span>
+          norte<span className="text-street-accent">.</span>
         </Link>
 
         {/* Navegación */}
-        <nav aria-label="Principal" className="flex items-center gap-2 text-sm text-stone-700 sm:gap-5">
-          <Link href="/productos" className="inline-flex min-h-11 items-center transition-colors hover:text-stone-950">
+        <nav aria-label="Principal" className="flex items-center gap-2 text-sm text-street-muted sm:gap-5">
+          <Link href="/productos" className="inline-flex min-h-11 items-center transition-colors hover:text-street-foreground">
             Productos
           </Link>
-          <Link href="/contacto" className="inline-flex min-h-11 items-center transition-colors hover:text-stone-950">
+          <Link href="/contacto" className="inline-flex min-h-11 items-center transition-colors hover:text-street-foreground">
             Contacto
           </Link>
           <Link
@@ -33,11 +33,12 @@ export function Header() {
             aria-label={
               unidades > 0 ? `Carrito, ${unidades} ${unidades === 1 ? "artículo" : "artículos"}` : "Carrito"
             }
-            className="flex min-h-11 items-center gap-2 rounded-full bg-stone-900 px-3 py-2 text-white transition-colors hover:bg-stone-700 sm:px-4"
+            className="flex min-h-11 items-center gap-2 rounded-street bg-street-accent px-3 py-2 font-semibold text-street-on-accent hover:bg-street-accent-hover sm:px-4"
           >
-            Carrito
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 sm:hidden"><path d="M6 7h12l1 14H5L6 7Z" /><path d="M9 8V5a3 3 0 0 1 6 0v3" /></svg>
+            <span className="hidden sm:inline">Carrito</span>
             {unidades > 0 && (
-              <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-xs tabular-nums">
+              <span className="rounded-street bg-black/10 px-1.5 py-0.5 text-xs tabular-nums">
                 {unidades}
               </span>
             )}

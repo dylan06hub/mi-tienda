@@ -55,16 +55,16 @@ function Checkbox({
   );
 
   return (
-    <label className="flex min-h-9 items-center gap-2 text-sm text-stone-700">
+    <label className="flex min-h-9 items-center gap-2 text-sm text-street-muted">
       <input
         type="checkbox"
         checked={activa}
         onChange={(e) => actualizar(e.target.checked)}
         disabled={pendiente}
-        className="h-4 w-4 rounded border-stone-300 text-stone-900 focus:ring-stone-900"
+        className="h-4 w-4 accent-street-accent rounded border-street-muted text-street-foreground focus:ring-street-secondary"
       />
       <span className="flex-1">{etiqueta}</span>
-      <span className="text-xs text-stone-400">{conteo}</span>
+      <span className="text-xs text-street-muted">{conteo}</span>
     </label>
   );
 }
@@ -137,13 +137,13 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
   return (
     <aside aria-label="Filtros del catálogo">
       <div className="flex items-center justify-between">
-        <p className="hidden text-sm font-medium text-stone-900 lg:block">Filtros {activos.length > 0 && `(${activos.length})`}</p>
+        <p className="hidden text-sm font-medium text-street-foreground lg:block">Filtros {activos.length > 0 && `(${activos.length})`}</p>
         <button
           type="button"
           aria-expanded={abiertos}
           aria-controls="filtros-catalogo"
           onClick={() => setAbiertos(!abiertos)}
-          className="inline-flex min-h-11 items-center rounded-full border border-stone-300 px-5 text-sm font-medium text-stone-900 hover:border-stone-900 lg:hidden"
+          className="inline-flex min-h-11 items-center rounded-street border border-street-muted px-5 text-sm font-medium text-street-foreground hover:border-street-accent lg:hidden"
         >
           {abiertos ? "Cerrar filtros" : "Filtrar"}{activos.length > 0 ? ` (${activos.length})` : ""}
         </button>
@@ -152,7 +152,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
             type="button"
             onClick={limpiar}
             disabled={pendiente}
-            className="min-h-11 text-sm text-stone-600 underline underline-offset-4 hover:text-stone-900 disabled:opacity-50"
+            className="min-h-11 text-sm text-street-muted underline underline-offset-4 hover:text-street-foreground disabled:opacity-50"
           >
             Limpiar todo
           </button>
@@ -161,17 +161,17 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
 
       <div id="filtros-catalogo" className={`mt-6 space-y-6 ${abiertos ? "" : "hidden lg:block"}`}>
         <section>
-          <h2 className="text-xs uppercase tracking-[0.18em] text-stone-500">
+          <h2 className="text-xs uppercase tracking-[0.18em] text-street-muted">
             Disponibilidad
           </h2>
           <div className="mt-3">
-            <label className="flex min-h-9 items-center gap-2 text-sm text-stone-700">
+            <label className="flex min-h-9 items-center gap-2 text-sm text-street-muted">
               <input
                 type="checkbox"
                 checked={soloStock}
                 onChange={(e) => actualizarDisponible(e.target.checked)}
                 disabled={pendiente}
-                className="h-4 w-4 rounded border-stone-300 text-stone-900 focus:ring-stone-900"
+                className="h-4 w-4 accent-street-accent rounded border-street-muted text-street-foreground focus:ring-street-secondary"
               />
               <span>Solo con stock</span>
             </label>
@@ -180,7 +180,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
 
         {categorias.length > 0 && (
           <section>
-            <h2 className="text-xs uppercase tracking-[0.18em] text-stone-500">
+            <h2 className="text-xs uppercase tracking-[0.18em] text-street-muted">
               Categoría
             </h2>
             <div className="mt-3 space-y-2">
@@ -200,7 +200,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
 
         {talles.length > 0 && (
           <section>
-            <h2 className="text-xs uppercase tracking-[0.18em] text-stone-500">
+            <h2 className="text-xs uppercase tracking-[0.18em] text-street-muted">
               Talle
             </h2>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -230,10 +230,10 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
                         );
                       });
                     }}
-                    className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border px-3 text-sm transition-colors ${
+                    className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-street border px-3 text-sm transition-colors ${
                       activa
-                        ? "border-stone-900 bg-stone-900 text-white"
-                        : "border-stone-300 text-stone-700 hover:border-stone-900"
+                        ? "border-street-accent bg-street-accent text-street-on-accent"
+                        : "border-street-muted text-street-muted hover:border-street-accent"
                     } disabled:opacity-50`}
                     title={`${conteo} producto${conteo === 1 ? "" : "s"}`}
                   >
@@ -247,7 +247,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
 
         {colores.length > 0 && (
           <section>
-            <h2 className="text-xs uppercase tracking-[0.18em] text-stone-500">
+            <h2 className="text-xs uppercase tracking-[0.18em] text-street-muted">
               Color
             </h2>
             <div className="mt-3 space-y-2">
@@ -266,12 +266,12 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
         )}
 
         <section>
-          <h2 className="text-xs uppercase tracking-[0.18em] text-stone-500">
+          <h2 className="text-xs uppercase tracking-[0.18em] text-street-muted">
             Precio
           </h2>
           <div className="mt-3 grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-stone-500" htmlFor="filtro-min">
+              <label className="text-xs text-street-muted" htmlFor="filtro-min">
                 Mínimo
               </label>
               <input
@@ -288,11 +288,11 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
                     actualizarPrecio("min", e.currentTarget.value);
                   }
                 }}
-                className="mt-1 h-11 w-full rounded-lg border border-stone-300 px-2 text-base tabular-nums text-stone-900 focus:border-stone-900"
+                className="mt-1 h-11 w-full rounded-street border border-street-muted bg-street-surface px-2 text-base tabular-nums text-street-foreground focus:border-street-secondary"
               />
             </div>
             <div>
-              <label className="text-xs text-stone-500" htmlFor="filtro-max">
+              <label className="text-xs text-street-muted" htmlFor="filtro-max">
                 Máximo
               </label>
               <input
@@ -309,7 +309,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
                     actualizarPrecio("max", e.currentTarget.value);
                   }
                 }}
-                className="mt-1 h-11 w-full rounded-lg border border-stone-300 px-2 text-base tabular-nums text-stone-900 focus:border-stone-900"
+                className="mt-1 h-11 w-full rounded-street border border-street-muted bg-street-surface px-2 text-base tabular-nums text-street-foreground focus:border-street-secondary"
               />
             </div>
           </div>

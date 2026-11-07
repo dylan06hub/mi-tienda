@@ -40,27 +40,27 @@ export default function ContactoPage() {
     <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
       <Link
         href="/"
-        className="text-sm text-stone-500 underline-offset-4 hover:text-stone-900 hover:underline"
+        className="text-sm text-street-muted underline-offset-4 hover:text-street-foreground hover:underline"
       >
         ← Volver al inicio
       </Link>
 
       <header className="mt-6">
-        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h1 className="street-title text-5xl sm:text-6xl">
           Hablemos
         </h1>
-        <p className="mt-4 max-w-2xl text-base leading-7 text-stone-600">
+        <p className="mt-4 max-w-2xl text-base leading-7 text-street-muted">
           Si tenés alguna consulta sobre un producto, el estado de tu pedido o
           cualquier duda, completá el formulario.
         </p>
       </header>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-        <section className="rounded-2xl border border-stone-200 bg-white p-6 md:p-8">
-          <h2 className="text-sm font-medium text-stone-900">
+        <section className="rounded-street border border-street-border bg-street-surface p-6 md:p-8">
+          <h2 className="text-sm font-medium text-street-foreground">
             Enviar consulta
           </h2>
-          <p className="mt-1 text-sm text-stone-600">
+          <p className="mt-1 text-sm text-street-muted">
             Los campos marcados con * son obligatorios.
           </p>
           <div className="mt-6">
@@ -68,13 +68,13 @@ export default function ContactoPage() {
           </div>
         </section>
 
-        <aside className="self-start rounded-2xl bg-stone-100 p-6 md:p-8">
+        <aside className="self-start rounded-street bg-street-surface p-6 md:p-8">
           <h2 className="text-lg font-semibold tracking-tight">Antes de escribirnos</h2>
-          <p className="mt-3 text-sm leading-6 text-stone-600">
+          <p className="mt-3 text-sm leading-6 text-street-muted">
             Si consultás por una prenda, incluí su nombre, el talle y el color.
             Si es por una compra, agregá el número de pedido.
           </p>
-          <p className="mt-4 text-sm leading-6 text-stone-600">
+          <p className="mt-4 text-sm leading-6 text-street-muted">
             Esta es una tienda de demostración con productos ficticios. Las
             consultas del formulario se guardan en el panel de administración.
             Los canales de atención y las condiciones comerciales definitivas
@@ -83,26 +83,26 @@ export default function ContactoPage() {
         </aside>
       </div>
 
-      <section id="preguntas-frecuentes" className="mt-10 scroll-mt-24 rounded-2xl border border-stone-200 bg-white p-6 md:p-8">
-        <h2 className="text-lg font-semibold tracking-tight text-stone-900">
+      <section id="preguntas-frecuentes" className="mt-10 scroll-mt-24 rounded-street border border-street-border bg-street-surface p-6 md:p-8">
+        <h2 className="text-lg font-semibold tracking-tight text-street-foreground">
           Preguntas frecuentes
         </h2>
-        <p className="mt-1 text-sm text-stone-600">
+        <p className="mt-1 text-sm text-street-muted">
           Las respuestas más comunes antes de escribirnos.
         </p>
-        <div className="mt-6 divide-y divide-stone-100">
+        <div className="mt-6 divide-y divide-street-border">
           {PREGUNTAS.map((pregunta) => (
             <details
               key={pregunta.pregunta}
               className="group py-5"
               open={pregunta.pregunta === PREGUNTAS[0].pregunta}
             >
-              <summary className="flex cursor-pointer items-center justify-between gap-4 text-sm font-medium text-stone-900">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-sm font-medium text-street-foreground">
                 <span>{pregunta.pregunta}</span>
                 <svg
                   viewBox="0 0 20 20"
                   fill="currentColor"
-                  className="h-4 w-4 text-stone-400 transition-transform group-open:rotate-180"
+                  className="h-4 w-4 text-street-muted transition-transform group-open:rotate-180"
                   aria-hidden="true"
                 >
                   <path
@@ -112,7 +112,7 @@ export default function ContactoPage() {
                   />
                 </svg>
               </summary>
-              <p className="mt-2 pr-8 text-sm leading-6 text-stone-600">
+              <p className="mt-2 pr-8 text-sm leading-6 text-street-muted">
                 {pregunta.respuesta}
               </p>
             </details>

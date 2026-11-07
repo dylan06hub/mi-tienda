@@ -105,6 +105,11 @@ Licencia SIL Open Font License en `public/fonts/OFL-barlow-condensed.txt`.
 - Las fotos muestran la prenda con claridad. No recolorear imágenes para
   simular variantes ni usar decoraciones que tapen precio, talle o producto.
 
+La identidad está aplicada a las pantallas públicas mediante `StoreTheme`. Las rutas
+`/admin` conservan el diseño claro del panel. El catálogo muestra dos columnas en
+móvil y la portada prioriza un buzo destacado disponible, con alternativa al resto
+de la colección si no hay uno.
+
 ## Components
 
 - `.street-button`: acción principal lima, texto oscuro y altura mínima de 48 px.

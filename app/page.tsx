@@ -20,21 +20,21 @@ async function Destacados() {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-8 md:py-12">
-      <div className="flex items-end justify-between gap-6">
+      <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-semibold tracking-tight">
+          <h2 className="street-title text-4xl sm:text-5xl">
             Los imprescindibles
           </h2>
         </div>
         <Link
           href="/productos"
-          className="text-sm underline underline-offset-4 hover:text-stone-600"
+          className="shrink-0 text-sm underline underline-offset-4 hover:text-street-accent"
         >
           Ver todo
         </Link>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 lg:grid-cols-4">
         {seleccion.map((producto) => (
           <ProductCard key={producto.id} producto={producto} />
         ))}
@@ -46,14 +46,14 @@ async function Destacados() {
 function SeccionSkeleton() {
   return (
     <div className="mx-auto max-w-6xl animate-pulse px-6 py-8 md:py-12">
-      <div className="h-3 w-24 rounded bg-stone-200" />
-      <div className="mt-3 h-7 w-56 rounded bg-stone-200" />
-      <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="h-3 w-24 rounded bg-street-surface" />
+      <div className="mt-3 h-7 w-56 rounded bg-street-surface" />
+      <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 lg:grid-cols-4">
         {[0, 1, 2, 3].map((indice) => (
           <div key={indice}>
-            <div className="aspect-[3/4] rounded-xl bg-stone-200" />
-            <div className="mt-3 h-3 w-24 rounded bg-stone-200" />
-            <div className="mt-2 h-4 w-40 rounded bg-stone-200" />
+            <div className="aspect-[3/4] rounded-street bg-street-surface" />
+            <div className="mt-3 h-3 w-24 rounded bg-street-surface" />
+            <div className="mt-2 h-4 w-3/4 rounded bg-street-surface" />
           </div>
         ))}
       </div>
@@ -64,7 +64,7 @@ function SeccionSkeleton() {
 export default function Home() {
   return (
     <div>
-      <Suspense fallback={<div className="h-[556px] animate-pulse bg-stone-950" aria-label="Cargando la colección" role="status" />}>
+      <Suspense fallback={<div className="h-[556px] animate-pulse bg-street-background" aria-label="Cargando la colección" role="status" />}>
         <HomeHero />
       </Suspense>
 
@@ -75,25 +75,25 @@ export default function Home() {
 
       {/* Ventajas */}
       <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
-        <div className="grid gap-8 rounded-2xl bg-stone-900 px-8 py-10 text-white sm:grid-cols-3">
+        <div className="grid gap-8 border-y border-street-border py-10 sm:grid-cols-3">
           <div>
             <p className="text-sm font-medium">
               Envío gratis desde {formatearPrecio(ENVIO_GRATIS_DESDE)}
             </p>
-            <p className="mt-2 text-sm leading-6 text-stone-400">
+            <p className="mt-2 text-sm leading-6 text-street-muted">
               El costo se calcula en el carrito antes de continuar.
             </p>
           </div>
           <div>
             <p className="text-sm font-medium">Elegí tu talle</p>
-            <p className="mt-2 text-sm leading-6 text-stone-400">
+            <p className="mt-2 text-sm leading-6 text-street-muted">
               Consultá los talles y el stock disponible en cada prenda.
             </p>
           </div>
           <div>
             <p className="text-sm font-medium">¿Necesitás una mano?</p>
-            <p className="mt-2 text-sm leading-6 text-stone-400">
-              <Link href="/contacto" className="underline underline-offset-4 hover:text-white">
+            <p className="mt-2 text-sm leading-6 text-street-muted">
+              <Link href="/contacto" className="underline underline-offset-4 hover:text-street-accent">
                 Escribinos desde el formulario de contacto.
               </Link>
             </p>

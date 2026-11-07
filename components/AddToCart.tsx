@@ -70,7 +70,7 @@ export function AddToCart({ producto }: { producto: Producto }) {
   return (
     <div>
       {/* Selector de color */}
-      <p className="text-sm font-medium text-stone-900">Color</p>
+      <p className="text-sm font-medium text-street-foreground">Color</p>
       <div className="mt-3 flex flex-wrap gap-2">
         {colores.map((opcion) => {
           const disponible = producto.variantes.some(
@@ -84,10 +84,10 @@ export function AddToCart({ producto }: { producto: Producto }) {
               aria-pressed={seleccionado}
               disabled={!disponible}
               onClick={() => elegirColor(opcion)}
-              className={`min-h-11 rounded-full border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-stone-200 disabled:text-stone-300 disabled:line-through ${
+              className={`min-h-11 rounded-street border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-street-border disabled:bg-street-surface disabled:text-street-muted disabled:line-through ${
                 seleccionado
-                  ? "border-stone-900 bg-stone-900 text-white"
-                  : "border-stone-300 text-stone-800 hover:border-stone-900"
+                  ? "border-street-accent bg-street-accent text-street-on-accent"
+                  : "border-street-muted text-street-foreground hover:border-street-accent"
               }`}
             >
               {opcion}
@@ -97,7 +97,7 @@ export function AddToCart({ producto }: { producto: Producto }) {
       </div>
 
       {/* Selector de talle */}
-      <p className="mt-5 text-sm font-medium text-stone-900">Talle</p>
+      <p className="mt-5 text-sm font-medium text-street-foreground">Talle</p>
       <div className="mt-3 flex flex-wrap gap-2">
         {talles.map((opcion) => {
           const seleccionado = opcion.talle === talle;
@@ -111,10 +111,10 @@ export function AddToCart({ producto }: { producto: Producto }) {
                 setTalle(opcion.talle);
                 setAgregado(false);
               }}
-              className={`min-h-11 min-w-11 rounded-full border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-stone-200 disabled:text-stone-300 disabled:line-through ${
+              className={`min-h-11 min-w-11 rounded-street border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-street-border disabled:bg-street-surface disabled:text-street-muted disabled:line-through ${
                 seleccionado
-                  ? "border-stone-900 bg-stone-900 text-white"
-                  : "border-stone-300 text-stone-800 hover:border-stone-900"
+                  ? "border-street-accent bg-street-accent text-street-on-accent"
+                  : "border-street-muted text-street-foreground hover:border-street-accent"
               }`}
             >
               {opcion.talle}
@@ -123,7 +123,7 @@ export function AddToCart({ producto }: { producto: Producto }) {
         })}
       </div>
 
-      <p className="mt-3 text-sm text-stone-500">
+      <p className="mt-3 text-sm text-street-muted">
         {sinStock ? "Sin stock" : `${variante.stock} disponibles`}
       </p>
 
@@ -132,7 +132,7 @@ export function AddToCart({ producto }: { producto: Producto }) {
         type="button"
         onClick={handleAgregar}
         disabled={sinStock || maximo}
-        className="mt-6 w-full rounded-full bg-stone-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-700 disabled:cursor-not-allowed disabled:bg-stone-300"
+        className="street-button mt-6 w-full"
       >
         {sinStock
           ? "Agotado"
@@ -147,7 +147,7 @@ export function AddToCart({ producto }: { producto: Producto }) {
         {agregado && (
           <Link
             href="/carrito"
-            className="font-medium text-stone-900 underline underline-offset-4"
+            className="font-medium text-street-foreground underline underline-offset-4"
           >
             Ver carrito
           </Link>

@@ -7,6 +7,7 @@ import { CartProvider } from "@/components/CartProvider";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { StoreChrome } from "@/components/StoreChrome";
+import { StoreTheme } from "@/components/StoreTheme";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,18 +37,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col bg-[#f7f5f0] text-stone-900">
-        <a href="#contenido" className="sr-only z-[60] rounded-lg bg-white px-4 py-3 text-stone-900 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
-          Saltar al contenido
-        </a>
-        <CartProvider>
-          <Suspense fallback={null}>
-            <StoreChrome><Header /></StoreChrome>
-          </Suspense>
-          <main id="contenido" tabIndex={-1} className="flex-1">{children}</main>
-          <Suspense fallback={null}>
-            <StoreChrome><Footer /></StoreChrome>
-          </Suspense>
-        </CartProvider>
+        <Suspense fallback={<div className="street-theme min-h-screen p-6" role="status">Cargando tienda…</div>}>
+          <StoreTheme>
+            <a href="#contenido" className="sr-only z-[60] rounded-lg bg-white px-4 py-3 text-stone-900 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
+              Saltar al contenido
+            </a>
+            <CartProvider>
+              <StoreChrome><Header /></StoreChrome>
+              <main id="contenido" tabIndex={-1} className="flex-1">{children}</main>
+              <StoreChrome><Footer /></StoreChrome>
+            </CartProvider>
+          </StoreTheme>
+        </Suspense>
       </body>
     </html>
   );
