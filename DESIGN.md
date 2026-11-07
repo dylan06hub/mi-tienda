@@ -44,11 +44,10 @@ components:
 Marca urbana de ropa con fotografía real, títulos condensados y composición
 editorial. Negro carbón y blanco hueso sostienen la identidad. El lima neón
 marca la acción principal; el cian acompaña el foco y detalles puntuales.
-La identidad evita brillos difusos, degradados, efectos de videojuego y ruido
-decorativo. La ropa debe seguir siendo la protagonista.
+La dirección futurista usa líneas guía, esquinas cian y bloques tipográficos
+contundentes. Evita luces pulsantes y brillos que tapen las prendas.
 
-Fase 1: sistema visual definido y disponible en `app/streetwear.css`. La
-aplicación a portada, catálogo y compra corresponde a las siguientes fases.
+El sistema visual de `app/streetwear.css` está aplicado a tienda y administración.
 La marca conserva el nombre **norte.**; no se agregan afirmaciones de escasez,
 descuentos ni lanzamientos sin datos que las respalden.
 
@@ -118,7 +117,12 @@ de la colección si no hay uno.
 - Hover: cambio de color de 140 ms. Presión: desplazamiento de 1 px.
 - Foco por teclado: contorno cian de 2 px, separado 4 px del control.
 - Deshabilitado: superficie oscura, texto legible y cursor que indica el estado.
-- Sin carruseles automáticos, parpadeos, luces pulsantes ni animaciones continuas.
+- Destacados en carrusel horizontal con scroll snap, gesto nativo, flechas de 48 px
+  y contador. Flechas de teclado, Inicio y Fin actúan sin animación. No hay avance
+  automático. Se deshabilita el desplazamiento suave con movimiento reducido.
+- Tarjetas de producto con foto 4:5, categoría, talles disponibles y precio lima.
+  Las tarjetas estrechas priorizan el precio completo y ocultan la flecha decorativa.
+- Hover de fotos solo con puntero preciso; sin zoom con movimiento reducido.
 - Respetar `prefers-reduced-motion`; no desplazar controles al presionarlos cuando
   la preferencia está activa.
 

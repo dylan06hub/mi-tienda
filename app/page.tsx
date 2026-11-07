@@ -4,6 +4,7 @@ import Link from "next/link";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { HomeHero } from "@/components/HomeHero";
+import { ProductCarousel } from "@/components/ProductCarousel";
 import { ProductCard } from "@/components/ProductCard";
 import { getProductos } from "@/lib/productos";
 import { ENVIO_GRATIS_DESDE, formatearPrecio } from "@/lib/utils";
@@ -22,7 +23,8 @@ async function Destacados() {
     <section className="mx-auto max-w-6xl px-6 py-8 md:py-12">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="street-title text-4xl sm:text-5xl">
+          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-street-secondary">Selección norte.</p>
+          <h2 className="street-title text-4xl sm:text-6xl">
             Los imprescindibles
           </h2>
         </div>
@@ -34,11 +36,11 @@ async function Destacados() {
         </Link>
       </div>
 
-      <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 lg:grid-cols-4">
+      <ProductCarousel>
         {seleccion.map((producto) => (
           <ProductCard key={producto.id} producto={producto} />
         ))}
-      </div>
+      </ProductCarousel>
     </section>
   );
 }
@@ -47,11 +49,11 @@ function SeccionSkeleton() {
   return (
     <div className="mx-auto max-w-6xl animate-pulse px-6 py-8 md:py-12">
       <div className="h-3 w-24 rounded bg-street-surface" />
-      <div className="mt-3 h-7 w-56 rounded bg-street-surface" />
-      <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 lg:grid-cols-4">
+      <div className="mt-3 h-12 w-64 rounded bg-street-surface" />
+      <div className="mt-8 grid auto-cols-[78%] grid-flow-col gap-4 overflow-hidden sm:auto-cols-[calc((100%_-_16px)/2)] lg:auto-cols-[calc((100%_-_48px)/4)]">
         {[0, 1, 2, 3].map((indice) => (
           <div key={indice}>
-            <div className="aspect-[3/4] rounded-street bg-street-surface" />
+            <div className="aspect-[4/5] rounded-street bg-street-surface" />
             <div className="mt-3 h-3 w-24 rounded bg-street-surface" />
             <div className="mt-2 h-4 w-3/4 rounded bg-street-surface" />
           </div>
@@ -64,7 +66,7 @@ function SeccionSkeleton() {
 export default function Home() {
   return (
     <div>
-      <Suspense fallback={<div className="h-[556px] animate-pulse bg-street-background" aria-label="Cargando la colección" role="status" />}>
+      <Suspense fallback={<div className="h-[840px] animate-pulse md:h-[648px] bg-street-background" aria-label="Cargando la colección" role="status" />}>
         <HomeHero />
       </Suspense>
 

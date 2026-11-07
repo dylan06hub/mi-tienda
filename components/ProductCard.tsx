@@ -1,48 +1,31 @@
-// Tarjeta de producto reutilizable en la portada y el catálogo.
-
+// Una misma tarjeta para el catálogo y el carrusel de destacados.
 import Image from "next/image";
 import Link from "next/link";
 import { formatearPrecio } from "@/lib/utils";
 import type { Producto } from "@/types";
 
 export function ProductCard({ producto }: { producto: Producto }) {
-  const agotado = !producto.variantes.some((variante) => variante.stock > 0);
+  const talles = [...new Set(producto.variantes.filter((variante) => variante.stock > 0).map((variante) => variante.talle))];
+  const agotado = talles.length === 0;
 
   return (
-    <Link href={`/productos/${producto.id}`} className="group block">
-      <div className="relative aspect-[3/4] overflow-hidden bg-street-surface">
+    <Link href={`/productos/${producto.id}`} className="street-product group">
+      <div className="street-product-image relative aspect-[4/5] overflow-hidden bg-street-background">
         {producto.imagen ? (
-          <Image
-            src={producto.imagen}
-            alt={producto.nombre}
-            fill
-            sizes="(min-width: 1024px) 25vw, 50vw"
-            className="object-cover transition-transform duration-300 ease-out motion-reduce:transition-none lg:group-hover:scale-103"
-          />
+          <Image src={producto.imagen} alt={producto.nombre} fill sizes="(min-width: 1280px) 330px, (min-width: 768px) 40vw, 75vw" className="street-product-photo h-full w-full object-cover" />
         ) : (
-          <div className="flex h-full items-center justify-center text-xs text-street-muted">
-            Sin imagen
-          </div>
+          <div className="flex h-full items-center justify-center text-sm text-street-muted">Sin imagen</div>
         )}
-        {agotado && (
-          <span className="absolute left-3 top-3 rounded-street bg-street-surface/90 px-3 py-1 text-xs font-medium text-street-muted">
-            Agotado
-          </span>
-        )}
+        <span className="street-product-category">{producto.categoria}</span>
+        {agotado && <span className="absolute bottom-3 left-3 bg-street-background px-3 py-1.5 text-xs font-semibold text-street-foreground">Agotado</span>}
       </div>
-
-      <div className="mt-3 flex min-w-0 flex-col gap-2">
-        <div>
-          <p className="text-xs uppercase tracking-[0.16em] text-street-muted">
-            {producto.categoria}
-          </p>
-          <h3 className="mt-1 text-sm font-medium text-street-foreground">
-            {producto.nombre}
-          </h3>
+      <div className="flex flex-1 flex-col p-3 sm:p-4">
+        <h3 className="street-product-name font-display text-2xl font-black uppercase leading-none text-street-foreground sm:text-3xl">{producto.nombre}</h3>
+        <p className="mt-2 text-xs leading-5 text-street-muted">{agotado ? "Sin stock disponible" : `Talles: ${talles.join(" / ")}`}</p>
+        <div className="mt-auto flex items-center justify-between gap-2 border-t border-street-border pt-3">
+          <p className="street-product-price text-sm font-semibold tabular-nums text-street-accent sm:text-base">{formatearPrecio(producto.precio)}</p>
+          <span aria-hidden="true" className="street-product-arrow">↗</span>
         </div>
-        <p className="shrink-0 whitespace-nowrap text-sm tabular-nums text-street-foreground">
-          {formatearPrecio(producto.precio)}
-        </p>
       </div>
     </Link>
   );

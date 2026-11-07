@@ -217,3 +217,11 @@ checkout, contacto y todas las rutas de administración, incluido el acceso. La 
 `tests/streetwear-contraste.test.mjs` comprueba los pares de texto y fondo antes
 de usarlos. El panel comparte títulos condensados, foco cian y acciones lima; los estados de
 pedidos y las advertencias mantienen colores y etiquetas diferenciados.
+
+## Carrusel y tarjetas de la colección
+
+Los destacados se exploran con deslizamiento nativo o los botones anterior y
+siguiente. El carrusel informa el rango visible y admite flechas de teclado,
+Inicio y Fin cuando recibe foco. No avanza automáticamente y respeta movimiento
+reducido. Las tarjetas del carrusel y catálogo comparten fotografía 4:5, categoría,
+talles con stock y precio visible; la elección de variantes sigue en la ficha.
