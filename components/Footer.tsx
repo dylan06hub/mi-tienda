@@ -24,6 +24,7 @@ export function Footer() {
             <h2>Explorá</h2>
             <ul>
               <li><Link href="/productos">Toda la colección</Link></li>
+              <li><Link href="/nosotros">Nosotros</Link></li>
               <li><Link href="/#destacados">Los imprescindibles</Link></li>
               <li><Link href="/carrito">Mi carrito</Link></li>
               <li><Link href="/contacto#preguntas-frecuentes">Envíos y devoluciones</Link></li>

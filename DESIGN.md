@@ -46,3 +46,9 @@ la transición de 200 ms se elimina con movimiento reducido.
 El header incluye búsqueda por nombre y categoría mediante `/productos?q=...`,
 con una fila propia en móvil. Los enlaces tienen un subrayado rojo de izquierda
 a derecha en hover, instantáneo por teclado o con movimiento reducido.
+
+Nosotros usa las mismas alineaciones, tipografía y paleta. Tres imágenes
+conceptuales forman una galería lineal continua, sin controles ni pausas por
+hover. Con movimiento reducido se muestra una grilla estática. La historia
+y las sucursales se identifican como ficticias; los mapas son ilustrativos.
+La cinta de ofertas bajo el header se limita al inicio.

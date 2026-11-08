@@ -264,3 +264,11 @@ Las acciones de productos y pedidos se ejecutan sin diálogos de confirmación.
 Aplicar `supabase/productos-eliminados.sql` antes de desplegar la eliminación
 lógica de productos. `eliminado_admin=true` exige `activo=false` en la base;
 un formulario antiguo no puede volver a publicar una prenda eliminada.
+
+## Nosotros
+
+`/nosotros` presenta una historia de marca de muestra, tres fotos de locales
+generadas con IA, galería continua sin controles, tarjetas, línea de tiempo
+y dos sucursales conceptuales con mapas OpenStreetMap. Las imágenes están
+optimizadas en `public/nosotros`. No representan locales reales. La galería
+respeta movimiento reducido. La cinta de ofertas se muestra solo en `/`.

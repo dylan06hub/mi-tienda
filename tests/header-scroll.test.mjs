@@ -18,6 +18,7 @@ test('el header se oculta al bajar, vuelve al subir e ignora pequeños movimient
       useEffect: fn => { effect = fn; },
     },
     'next/link': { default: () => null },
+    'next/navigation': { usePathname: () => '/' },
     './AnnouncementRibbon': { AnnouncementRibbon: () => null },
     './CartProvider': { useCart: () => ({ items: [] }) },
   }, { window: win });
