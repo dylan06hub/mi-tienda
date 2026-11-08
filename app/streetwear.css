@@ -202,9 +202,6 @@
 .announcement-group { display: flex; flex-shrink: 0; align-items: center; }
 .announcement-group > span { display: inline-flex; align-items: center; gap: 36px; padding-right: 36px; font-size: 11px; font-weight: 800; letter-spacing: .12em; white-space: nowrap; }
 .announcement-star { font-size: 17px; }
-.announcement-pause { width: 44px; flex-shrink: 0; border-left: 1px solid var(--street-on-accent); font-size: 14px; cursor: pointer; }
-.announcement-pause:focus-visible { outline: 2px solid var(--street-background); outline-offset: -4px; }
-.announcement[data-paused="true"] .announcement-track, .announcement:hover .announcement-track, .announcement:focus-within .announcement-track { animation-play-state: paused; }
 @keyframes announcement-loop { to { transform: translateX(-50%); } }
 
 .campaign { --campaign-accent: var(--street-secondary); --campaign-ground: var(--street-background); position: relative; overflow: hidden; border-bottom: 1px solid var(--campaign-accent); background: var(--campaign-ground); }
@@ -286,7 +283,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .announcement-track, .campaign-panel[data-animate="true"] { animation: none; }
-  .announcement-pause { display: none; }
 }
 
 /* Concrete Gray se reserva para negro; Fog Gray conserva la lectura sobre gris y borravino. */

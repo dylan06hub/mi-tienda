@@ -236,7 +236,8 @@ la navegación manual detienen la rotación; hover, pestaña oculta y movimiento
 reducido también la suspenden. Las ofertas y sus enlaces se toman del catálogo
 publicado; no se calculan descuentos. Las campañas sin fotos usan un cartel gráfico.
 
-La cinta bajo el header tiene pausa y respeta movimiento reducido. El footer
+La cinta bajo el header gira de forma continua, sin pausa por hover ni botón,
+y respeta movimiento reducido. El footer
 enlaza a las páginas generales de Instagram, TikTok y Facebook y a una ubicación
 de muestra en Buenos Aires. Son datos de demostración, no perfiles o un local de
 la marca. Los medios reales se confirman en el checkout de Mercado Pago.

@@ -29,7 +29,8 @@ Controles con radio de 4 px y acciones de al menos 48 px de alto.
 Login mantiene un formulario compacto; catálogo de dos columnas en móvil.
 
 Cuatro campañas rotan cada 6,5 segundos, con gesto, teclado y pausa discreta,
-sin flechas ni selectores. La cinta tiene 32 px y pausa independiente.
+sin flechas ni selectores. La cinta tiene 32 px y gira sin botón de pausa ni interrupción por hover o foco;
+respeta movimiento reducido.
 Los carruseles de productos conservan desplazamiento nativo, teclado y contador.
 Hover de fotografía solo con puntero preciso. Respetar movimiento reducido.
 
