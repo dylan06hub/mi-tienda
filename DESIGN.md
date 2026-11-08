@@ -23,8 +23,10 @@ El foco blanco tiene contraste con negro, gris y borravino. Los estados siempre
 conservan su etiqueta; el color no es la única señal. No inventar porcentajes,
 precios anteriores ni escasez. No recolorear fotografías.
 
-Títulos Barlow Condensed Black 900, alojada en el proyecto bajo SIL OFL;
-lectura y formularios Geist, números tabulares en precios y stock.
+Titulares y marca en Teko Bold 700; acentos tecnológicos, campañas, cinta y
+etiquetas editoriales en Oxanium SemiBold 600. Ambas están alojadas en el
+proyecto bajo SIL OFL. Lectura y formularios en Geist; Geist Mono se reserva
+para referencias y contadores. Precios con números tabulares.
 Controles con radio de 4 px y acciones de al menos 48 px de alto.
 `.site-shell`: ancho máximo 1600 px, margen lateral de 16 a 48 px.
 Login mantiene un formulario compacto; catálogo de dos columnas en móvil.
@@ -57,3 +59,9 @@ La línea de tiempo de Nosotros destaca un año por vez y muestra una imagen
 y relato por etapa. Avanza cada 6,5 segundos mientras está en pantalla, sin
 cambiar la página ni desplazar el foco. La selección manual pausa mientras
 el foco permanece dentro; sin avance automático con movimiento reducido.
+
+Fuentes de referencia visual: [Teko](https://github.com/google/fonts/tree/main/ofl/teko)
+y [Oxanium](https://github.com/google/fonts/tree/main/ofl/oxanium). Se eligieron
+por su tono industrial y tecnológico; no se afirma que sean las fuentes exactas
+de la imagen suministrada. Licencias en `public/fonts/OFL-teko.txt` y
+`public/fonts/OFL-oxanium.txt`.

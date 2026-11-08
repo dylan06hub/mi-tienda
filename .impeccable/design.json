@@ -15,8 +15,12 @@
     },
     "typographyMeta": {
       "display": {
-        "displayName": "Barlow Condensed Black",
+        "displayName": "Teko Bold",
         "purpose": "Títulos breves y expresión de marca."
+      },
+      "tech": {
+        "displayName": "Oxanium SemiBold",
+        "purpose": "Campañas, cinta y acentos tecnológicos; Geist conserva la lectura."
       }
     },
     "motion": [

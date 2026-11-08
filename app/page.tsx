@@ -24,7 +24,7 @@ async function ColeccionInicio({ campo }: { campo: "destacado" | "oferta" }) {
     <section id={ofertas ? "ofertas" : "destacados"} className={`home-collection site-shell scroll-mt-32 py-10 md:py-14 ${ofertas ? "home-collection--offers" : "home-collection--featured"}`}>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-street-secondary">{ofertas ? "Selección en oferta" : "Selección norte."}</p>
+          <p className="mb-3 font-tech text-xs font-semibold uppercase tracking-widest text-street-secondary">{ofertas ? "Selección en oferta" : "Selección norte."}</p>
           <h2 className="street-title text-4xl sm:text-6xl">
             {ofertas ? "Ofertas" : "Los imprescindibles"}
           </h2>

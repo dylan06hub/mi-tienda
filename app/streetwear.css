@@ -1,8 +1,15 @@
 /* Identidad streetwear. Se aplica a las pantallas mediante .street-theme. */
 @font-face {
-  font-family: "Barlow Condensed";
-  src: url("/fonts/barlow-condensed-black.ttf") format("truetype");
-  font-weight: 900;
+  font-family: "Teko";
+  src: url("/fonts/teko-variable.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Oxanium";
+  src: url("/fonts/oxanium-variable.ttf") format("truetype");
+  font-weight: 200 800;
   font-style: normal;
   font-display: swap;
 }
@@ -22,7 +29,8 @@
   --street-fog: #c0c0c0;
   --street-danger: #800000;
   --street-link: #ff0000;
-  --street-font-display: "Barlow Condensed", sans-serif;
+  --street-font-display: "Teko", sans-serif;
+  --street-font-tech: "Oxanium", sans-serif;
 }
 
 @theme inline {
@@ -38,6 +46,7 @@
   --color-street-secondary: var(--street-secondary);
   --color-street-on-accent: var(--street-on-accent);
   --font-display: var(--street-font-display);
+  --font-tech: var(--street-font-tech);
   --radius-street: 0.25rem;
 }
 
@@ -54,9 +63,11 @@
   color: var(--street-foreground);
 }
 
+.font-display { font-weight: 700; }
+
 .street-title {
   font-family: var(--street-font-display);
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   line-height: 0.95;
   letter-spacing: -0.02em;
@@ -201,7 +212,7 @@
 .announcement-window { flex: 1; min-width: 0; overflow: hidden; }
 .announcement-track { display: flex; width: max-content; height: 100%; animation: announcement-loop 32s linear infinite; }
 .announcement-group { display: flex; flex-shrink: 0; align-items: center; }
-.announcement-group > span { display: inline-flex; align-items: center; gap: 36px; padding-right: 36px; font-size: 11px; font-weight: 800; letter-spacing: .12em; white-space: nowrap; }
+.announcement-group > span { font-family: var(--street-font-tech); display: inline-flex; align-items: center; gap: 36px; padding-right: 36px; font-size: 11px; font-weight: 600; letter-spacing: .12em; white-space: nowrap; }
 .announcement-star { font-size: 17px; }
 @keyframes announcement-loop { to { transform: translateX(-50%); } }
 
@@ -223,7 +234,7 @@
 .campaign-category { position: absolute; top: 16px; left: 16px; max-width: calc(100% - 32px); padding: 8px 12px; background: var(--street-background); color: var(--street-foreground); font-size: 11px; font-weight: 700; text-transform: uppercase; }
 .campaign-caption { position: absolute; inset: auto 0 0; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px; border-top: 1px solid var(--campaign-accent); background: var(--street-background); }
 .campaign-caption > span:last-child { color: var(--campaign-accent); font-size: 32px; }
-.campaign-wordmark { display: flex; align-items: center; justify-content: center; color: var(--campaign-accent); font-family: var(--street-font-display); font-size: 100px; font-weight: 900; }
+.campaign-wordmark { display: flex; align-items: center; justify-content: center; color: var(--campaign-accent); font-family: var(--street-font-display); font-size: 100px; font-weight: 700; }
 .campaign--ofertas .campaign-visual { border-width: 8px 1px 1px; }
 .campaign--ofertas .campaign-wordmark { background: var(--street-background); color: var(--street-foreground); font-size: clamp(64px, 9vw, 128px); }
 .campaign--fiestas .campaign-visual { border: 2px dashed var(--campaign-accent); }
@@ -321,7 +332,7 @@
 /* Nosotros: fotografía editorial y movimiento continuo sin controles. */
 .about-section { padding-top: 72px; padding-bottom: 72px; }
 .about-section-heading { margin-bottom: 32px; }
-.about-eyebrow { margin-bottom: 16px; color: var(--street-fog); font-family: var(--font-mono), monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .14em; }
+.about-eyebrow { margin-bottom: 16px; color: var(--street-fog); font-family: var(--street-font-tech); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
 .about-hero { display: grid; gap: 32px; padding-top: 40px; padding-bottom: 56px; }
 .about-hero-copy { align-self: center; min-width: 0; }
 .about-title { font-size: clamp(52px, 8vw, 120px); }
@@ -399,4 +410,17 @@
 @media (prefers-reduced-motion: reduce) {
   .history-panel[data-animate="true"] { animation: none; }
   .history-progress, .history-step { transition: none; }
+}
+
+.campaign-eyebrow, .campaign-category, .footer-columns h2 {
+  font-family: var(--street-font-tech);
+  font-weight: 600;
+}
+
+.campaign--destacados .campaign-title {
+  font-family: var(--street-font-tech);
+  font-weight: 600;
+  font-size: clamp(32px, 4.4vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -.04em;
 }

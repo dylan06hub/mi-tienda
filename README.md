@@ -213,9 +213,10 @@ figura en pedidos cancelados.
 ## Identidad streetwear negra y roja
 
 La dirección visual está documentada en `DESIGN.md`. `app/streetwear.css` define
-los colores, Barlow Condensed Black y los estilos base para títulos y botones.
+los colores, Teko para títulos, Oxanium para detalles tecnológicos y los estilos
+base para títulos y botones.
 El documento raíz activa `.street-theme` en portada, catálogo, ficha, carrito,
-checkout, contacto y todas las rutas de administración, incluido el acceso. La fuente se aloja en `public/fonts` con su licencia.
+checkout, contacto y todas las rutas de administración, incluido el acceso. Las fuentes se alojan en `public/fonts` con sus licencias.
 `tests/streetwear-contraste.test.mjs` comprueba los pares de texto y fondo antes
 de usarlos. El panel comparte títulos condensados, foco blanco y acciones carmesí. Las alertas
 usan borravino; los estados mantienen sus etiquetas. Fog Gray conserva el contraste
