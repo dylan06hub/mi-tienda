@@ -176,6 +176,7 @@ async function generarId(
 function revalidarCatalogo(id?: string) {
   revalidatePath("/");
   revalidatePath("/productos");
+  revalidatePath("/admin");
   revalidatePath("/admin/productos");
 
   if (id) {
@@ -434,27 +435,13 @@ export async function eliminarProducto(
   if (!id) return { error: "Producto inválido." };
 
   const supabase = await createSupabaseServerClient();
-  const { count, error: pedidosError } = await supabase
-    .from("items_pedido")
-    .select("pedido_id", { count: "exact", head: true })
-    .eq("producto_id", id);
+  // Se retira del catálogo conservando variantes e historial de compras.
+  const { data, error } = await supabase.from("productos")
+    .update({ eliminado_admin: true, activo: false })
+    .eq("id", id).select("id").maybeSingle();
 
-  if (pedidosError) {
-    return { error: "No se pudo comprobar si el producto tiene pedidos." };
-  }
-
-  if ((count ?? 0) > 0) {
-    return { error: "No se puede eliminar: tiene pedidos asociados." };
-  }
-
-  const { error } = await supabase
-    .from("productos")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
-    return { error: "No se pudo eliminar el producto." };
-  }
+  if (error) return { error: "No se pudo eliminar el producto." };
+  if (!data) return { error: "El producto no existe." };
 
   revalidarCatalogo(id);
   redirect("/admin/productos");

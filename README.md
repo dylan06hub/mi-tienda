@@ -206,8 +206,9 @@ El formulario de producto separa los datos de la prenda, los talles y stock, y l
 publicación. Ofrece categorías existentes y muestra la foto actual. Los talles y
 colores de combinaciones guardadas no se renombran: para cambiarlos, crear una
 combinación nueva. El stock sigue siendo editable y se conserva la comprobación
-de cambios concurrentes. Eliminar está disponible desde el listado y la edición, sin confirmación y con
-las mismas restricciones de historial de pedidos.
+de cambios concurrentes. Eliminar está disponible desde el listado y la edición, sin confirmación.
+Conserva variantes e historial: retira la prenda de tienda y panel, incluso si
+figura en pedidos cancelados.
 
 ## Identidad streetwear negra y roja
 
@@ -259,3 +260,7 @@ mediante `pedidos.eliminado_admin`; conserva reservas, pagos e incidencias.
 No cancela ni reembolsa la compra. El detalle sigue accesible para revisar
 incidencias. Aplicar `supabase/pedidos.sql` antes de desplegar esta versión.
 Las acciones de productos y pedidos se ejecutan sin diálogos de confirmación.
+
+Aplicar `supabase/productos-eliminados.sql` antes de desplegar la eliminación
+lógica de productos. `eliminado_admin=true` exige `activo=false` en la base;
+un formulario antiguo no puede volver a publicar una prenda eliminada.

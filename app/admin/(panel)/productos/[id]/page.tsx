@@ -44,7 +44,7 @@ export default async function EditarProductoPage({
           Eliminar producto
         </p>
         <p className="mt-1 text-xs text-street-muted">
-          También se eliminarán sus variantes. No se puede deshacer.
+          Se retira de la tienda y del panel. Sus variantes e historial de pedidos se conservan.
         </p>
         <div className="mt-3">
           <DeleteProductButton

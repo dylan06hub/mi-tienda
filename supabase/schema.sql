@@ -13,7 +13,9 @@ create table public.productos (
   imagen text,
   activo boolean not null default true,
   destacado boolean not null default false,
-  oferta boolean not null default false
+  oferta boolean not null default false,
+  eliminado_admin boolean not null default false,
+  constraint productos_eliminado_inactivo check (not eliminado_admin or not activo)
 );
 
 -- variantes.id es text y la PK es (producto_id, id): el id de la app es

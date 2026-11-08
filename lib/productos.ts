@@ -69,6 +69,7 @@ export const getProductos = cache(async (): Promise<Producto[]> => {
   const { data, error } = await supabase
     .from("productos")
     .select(CAMPOS_PRODUCTO)
+    .eq("eliminado_admin", false)
     .eq("activo", true)
     .order("nombre");
 
@@ -85,6 +86,7 @@ export const getProducto = cache(
     const { data, error } = await supabase
       .from("productos")
       .select(CAMPOS_PRODUCTO)
+      .eq("eliminado_admin", false)
       .eq("id", normalizarIdProducto(id))
       .eq("activo", true)
       .maybeSingle();
@@ -103,6 +105,7 @@ export const getProductosAdmin = cache(
     const { data, error } = await supabase
       .from("productos")
       .select(CAMPOS_PRODUCTO_ADMIN)
+      .eq("eliminado_admin", false)
       .order("nombre");
 
     if (error) {
@@ -121,6 +124,7 @@ export const getProductoAdmin = cache(
     const { data, error } = await supabase
       .from("productos")
       .select(CAMPOS_PRODUCTO_ADMIN)
+      .eq("eliminado_admin", false)
       .eq("id", id)
       .maybeSingle();
 
