@@ -14,8 +14,8 @@ const find = (element, predicate) => {
   }
 };
 
-test('el carrusel responde a flechas, límites y movimiento reducido y limpia sus escuchas', () => {
-  let state, effect, cleanup, reduced = false;
+test('el carrusel conserva teclado y contador sin botones y limpia sus escuchas', () => {
+  let state, effect, cleanup;
   const listeners = {};
   const calls = [];
   const track = {
@@ -40,27 +40,26 @@ test('el carrusel responde a flechas, límites y movimiento reducido y limpia su
     react: { useId: () => 'destacados', useRef: () => ({ current: track }), useEffect: (fn) => { effect = fn; }, useState: (initial) => { state = initial; return [initial, (next) => { state = next; }]; } },
   }, {
     ResizeObserver: class { observe() {} disconnect() { cleanup = true; } },
-    window: { matchMedia: () => ({ matches: reduced }) },
   });
   const ui = ProductCarousel({ children: ['A', 'B', 'C', 'D'] });
   const dispose = effect();
-  assert.equal(state.start, true);
+  assert.equal(state.first, 1);
   assert.equal(state.last, 2);
-  const next = find(ui, (el) => el.props?.['aria-label'] === 'Ver prendas siguientes');
-  next.props.onClick();
+  assert.equal(find(ui, (el) => el.type === "button"), undefined);
+  const list = find(ui, (el) => el.type === "ul");
+  const target = {};
+  const event = { key: "ArrowRight", target, currentTarget: target, preventDefault() {} };
+  list.props.onKeyDown(event);
   assert.equal(state.first, 2);
-  assert.equal(calls.at(-1).behavior, 'smooth');
-  reduced = true;
-  next.props.onClick();
-  assert.equal(state.end, true);
+  assert.equal(calls.at(-1).behavior, 'instant');
+  list.props.onKeyDown(event);
+  assert.equal(state.first, 3);
   assert.equal(state.last, 4);
   assert.equal(calls.at(-1).behavior, 'instant');
-  const list = find(ui, (el) => el.type === 'ul');
-  const target = {};
   let prevented = false;
   list.props.onKeyDown({ key: 'Home', target, currentTarget: target, preventDefault() { prevented = true; } });
   assert.equal(prevented, true);
-  assert.equal(state.start, true);
+  assert.equal(state.first, 1);
   assert.equal(calls.at(-1).behavior, 'instant');
   dispose();
   assert.equal(cleanup, true);

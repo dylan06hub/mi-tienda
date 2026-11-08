@@ -175,25 +175,6 @@
 .street-carousel-track:focus-visible { outline: 2px solid var(--street-secondary); outline-offset: 4px; }
 .street-carousel-slide { min-width: 0; scroll-snap-align: start; }
 .street-carousel-slide .street-product:focus-visible { outline-offset: -3px; }
-.street-carousel-arrow {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--street-accent);
-  background: var(--street-accent);
-  color: var(--street-on-accent);
-  font-size: 24px;
-  cursor: pointer;
-}
-.street-carousel-arrow:disabled {
-  border-color: var(--street-border);
-  background: transparent;
-  color: var(--street-muted);
-  cursor: not-allowed;
-}
-
 @media (min-width: 640px) {
   .street-carousel-track { grid-auto-columns: calc((100% - 16px) / 2); }
 }
@@ -204,7 +185,6 @@
   .street-product:hover { border-color: var(--street-accent); }
   .street-product:hover .street-product-photo { transform: scale(1.035); }
   .street-product:hover .street-product-arrow { color: var(--street-accent); }
-  .street-carousel-arrow:hover:not(:disabled) { background: var(--street-accent-hover); }
 }
 @media (prefers-reduced-motion: reduce) {
   .street-product, .street-product-photo { transition: none; }
@@ -259,14 +239,10 @@
 .campaign--fiestas .campaign-visual::after { content: "✳"; position: absolute; top: 12px; right: 16px; color: var(--campaign-accent); font-size: 64px; line-height: 1; pointer-events: none; }
 .campaign--fiestas .campaign-title > span { -webkit-text-stroke: 1px var(--campaign-accent); color: transparent; }
 .campaign--destacados .campaign-copy { border-left: 3px solid var(--campaign-accent); padding-left: 20px; }
-.campaign-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 0 var(--page-gutter) 24px; }
-.campaign-selectors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
-.campaign-selectors button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; border: 1px solid #f4f4ed60; padding: 8px 12px; font-size: 12px; text-align: left; cursor: pointer; }
-.campaign-selectors button > span { color: var(--campaign-accent); font-size: 10px; }
-.campaign-selectors button[aria-pressed="true"] { border-color: var(--campaign-accent); background: var(--campaign-accent); color: var(--street-on-accent); font-weight: 700; }
-.campaign-selectors button[aria-pressed="true"] > span { color: var(--street-on-accent); }
-.campaign-control { width: 44px; height: 44px; border: 1px solid #f4f4ed80; color: var(--street-foreground); font-size: 20px; cursor: pointer; }
-.campaign-control:hover { border-color: var(--campaign-accent); color: var(--campaign-accent); }
+.campaign:focus-visible { outline: 2px solid var(--street-secondary); outline-offset: -4px; }
+.campaign-status { display: flex; justify-content: space-between; align-items: center; min-height: 44px; padding-bottom: 12px; }
+.campaign-pause { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--street-muted); cursor: pointer; }
+.campaign-pause:hover { color: var(--campaign-accent); }
 
 .home-future { background: #10131e; }
 .home-collection--featured { border-top: 2px solid var(--street-secondary); background: #111a29; }
@@ -302,7 +278,6 @@
 
 @media (min-width: 640px) {
   .campaign-visual { height: 340px; }
-  .campaign-selectors { display: flex; flex-wrap: wrap; width: auto; }
   .footer-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (min-width: 768px) {

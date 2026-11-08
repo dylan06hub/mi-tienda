@@ -124,15 +124,16 @@ de la colección si no hay uno.
 - Foco por teclado: contorno cian de 2 px, separado 4 px del control.
 - Deshabilitado: superficie oscura, texto legible y cursor que indica el estado.
 - Carrusel principal de cuatro campañas: marca, ofertas, celebraciones y
-  destacados. Rotación cada 6,5 segundos, botones por campaña y anterior/siguiente.
+  destacados. Rotación cada 6,5 segundos y navegación por gesto o teclado, sin
+  selectores ni flechas visibles. Pausa discreta junto al contador.
   Pausa por foco, interacción manual, hover, pestaña oculta y movimiento reducido;
   botón para reanudar. Las campañas ficticias están identificadas como muestra.
 - Cinta de 32 px bajo la navegación, movimiento lineal de 32 segundos y botón
   de pausa. Se detiene con hover/foco y queda estática con movimiento reducido.
 - Footer azul noche con enlaces generales de redes, ubicación de muestra en Maps,
   Mercado Pago y opciones ilustrativas; no se inventa una cuenta oficial o un local.
-- Destacados en carrusel horizontal con scroll snap, gesto nativo, flechas de 48 px
-  y contador. Flechas de teclado, Inicio y Fin actúan sin animación. No hay avance
+- Destacados en carrusel horizontal con scroll snap, gesto nativo y contador, sin botones
+  de navegación. Flechas de teclado, Inicio y Fin actúan sin animación. No hay avance
   automático. Se deshabilita el desplazamiento suave con movimiento reducido.
 - Ofertas: carrusel independiente en `/#ofertas`, solo con prendas publicadas
   marcadas desde el panel. Se oculta cuando no hay ofertas. Etiqueta lima y precio

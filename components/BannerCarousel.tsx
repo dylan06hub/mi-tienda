@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import type { HomeCampaign } from "@/lib/home-campaigns";
 
 export function BannerCarousel({ banners }: { banners: HomeCampaign[] }) {
@@ -40,6 +40,17 @@ export function BannerCarousel({ banners }: { banners: HomeCampaign[] }) {
     setPaused(true);
   }
 
+  function navigate(event: KeyboardEvent<HTMLElement>) {
+    if (event.target !== event.currentTarget) return;
+    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+      event.preventDefault();
+      select(index + (event.key === "ArrowRight" ? 1 : -1));
+    } else if (event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      select(event.key === "Home" ? 0 : banners.length - 1);
+    }
+  }
+
   function swipe(event: PointerEvent<HTMLElement>) {
     if (event.pointerType !== "touch" || !touch.current) return;
     const dx = event.clientX - touch.current.x;
@@ -56,7 +67,7 @@ export function BannerCarousel({ banners }: { banners: HomeCampaign[] }) {
   const playing = !paused && !reduced;
 
   return (
-    <section className={`campaign campaign--${banner.id}`} aria-roledescription="carrusel" aria-label="Campañas de norte." onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocusCapture={() => setPaused(true)} onClickCapture={(event) => { if (swiped.current && event.detail !== 0) { event.preventDefault(); event.stopPropagation(); swiped.current = false; } }}>
+    <section className={`campaign campaign--${banner.id}`} aria-roledescription="carrusel" aria-label="Campañas de norte." aria-describedby={`${id}-ayuda`} tabIndex={0} onKeyDown={navigate} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocusCapture={() => setPaused(true)} onClickCapture={(event) => { if (swiped.current && event.detail !== 0) { event.preventDefault(); event.stopPropagation(); swiped.current = false; } }}>
       <div id={id} aria-live={playing ? "off" : "polite"} aria-atomic="true">
         <div key={banner.id} className="campaign-panel site-shell" data-animate={playing} role="group" aria-roledescription="diapositiva" aria-label={`${index + 1} de ${banners.length}: ${banner.label}`} onPointerDown={(event) => { swiped.current = false; if (event.pointerType === "touch") touch.current = { x: event.clientX, y: event.clientY }; }} onPointerUp={swipe} onPointerCancel={() => { touch.current = null; }}>
           <div className="campaign-copy">
@@ -74,15 +85,10 @@ export function BannerCarousel({ banners }: { banners: HomeCampaign[] }) {
           ) : <div className="campaign-visual campaign-wordmark" aria-hidden="true">{banner.id === "ofertas" ? "OFERTAS" : "norte."}</div>}
         </div>
       </div>
-      <div className="campaign-controls site-shell">
-        <div className="campaign-selectors" aria-label="Elegir campaña">
-          {banners.map((item, number) => <button key={item.id} type="button" aria-pressed={index === number} aria-controls={id} onClick={() => select(number)}><span className="font-mono">0{number + 1}</span>{item.label}</button>)}
-        </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <button type="button" className="campaign-control" aria-label="Banner anterior" aria-controls={id} onClick={() => select(index - 1)}>←</button>
-          <button type="button" className="campaign-control" aria-label="Banner siguiente" aria-controls={id} onClick={() => select(index + 1)}>→</button>
-          {!reduced && <button type="button" className="campaign-control" aria-label={paused ? "Reanudar banners" : "Pausar banners"} onClick={() => setPaused((value) => !value)}>{paused ? "▶" : "Ⅱ"}</button>}
-        </div>
+      <div className="campaign-status site-shell">
+        <p className="font-mono text-xs text-street-muted" aria-hidden="true">{String(index + 1).padStart(2, "0")} / {String(banners.length).padStart(2, "0")}</p>
+        <p id={`${id}-ayuda`} className="sr-only">Deslizá o usá las flechas del teclado para cambiar de campaña. Inicio y Fin llevan a la primera y última.</p>
+        {!reduced && <button type="button" className="campaign-pause" aria-controls={id} aria-label={paused ? "Reanudar banners" : "Pausar banners"} onClick={() => setPaused((value) => !value)}>{paused ? "▶" : "Ⅱ"}</button>}
       </div>
     </section>
   );

@@ -221,8 +221,8 @@ pedidos y las advertencias mantienen colores y etiquetas diferenciados.
 
 ## Carrusel y tarjetas de la colección
 
-Los destacados se exploran con deslizamiento nativo o los botones anterior y
-siguiente. El carrusel informa el rango visible y admite flechas de teclado,
+Los destacados y las ofertas se exploran con deslizamiento nativo o teclado,
+sin botones de navegación. El carrusel informa el rango visible y admite flechas de teclado,
 Inicio y Fin cuando recibe foco. No avanza automáticamente y respeta movimiento
 reducido. Las tarjetas del carrusel y catálogo comparten fotografía 4:5, categoría,
 talles con stock y precio visible; la elección de variantes sigue en la ficha.
@@ -230,7 +230,7 @@ talles con stock y precio visible; la elección de variantes sigue en la ficha.
 ## Campañas, cinta y footer
 
 La portada usa cuatro campañas visuales (marca, ofertas, celebraciones y
-destacados), con rotación de 6,5 segundos, selección manual y pausa. El foco y
+destacados), con rotación de 6,5 segundos, gesto táctil, teclado y pausa. El foco y
 la navegación manual detienen la rotación; hover, pestaña oculta y movimiento
 reducido también la suspenden. Las ofertas y sus enlaces se toman del catálogo
 publicado; no se calculan descuentos. Las campañas sin fotos usan un cartel gráfico.

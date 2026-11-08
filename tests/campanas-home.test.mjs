@@ -61,7 +61,9 @@ test('los banners rotan, se pausan al interactuar y respetan movimiento reducido
   cleanup();
   assert.equal(stopped, true);
   let ui = render();
-  find(ui, (el) => el.props?.['aria-label'] === 'Banner siguiente').props.onClick();
+  assert.equal(find(ui, (el) => el.props?.['aria-label'] === 'Banner siguiente'), undefined);
+  const target = {};
+  ui.props.onKeyDown({ key: 'ArrowRight', target, currentTarget: target, preventDefault() {} });
   assert.equal(values[0], 2);
   render();
   assert.equal(effects[1](), undefined, 'la navegación manual pausa la rotación');
