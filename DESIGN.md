@@ -120,6 +120,9 @@ de la colección si no hay uno.
 - Destacados en carrusel horizontal con scroll snap, gesto nativo, flechas de 48 px
   y contador. Flechas de teclado, Inicio y Fin actúan sin animación. No hay avance
   automático. Se deshabilita el desplazamiento suave con movimiento reducido.
+- Ofertas: carrusel independiente en `/#ofertas`, solo con prendas publicadas
+  marcadas desde el panel. Se oculta cuando no hay ofertas. Etiqueta lima y precio
+  actual; sin descuentos calculados ni precios anteriores.
 - Tarjetas de producto con foto 4:5, categoría, talles disponibles y precio lima.
   Las tarjetas estrechas priorizan el precio completo y ocultan la flecha decorativa.
 - Hover de fotos solo con puntero preciso; sin zoom con movimiento reducido.

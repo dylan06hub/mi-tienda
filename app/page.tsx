@@ -9,34 +9,35 @@ import { ProductCard } from "@/components/ProductCard";
 import { getProductos } from "@/lib/productos";
 import { ENVIO_GRATIS_DESDE, formatearPrecio } from "@/lib/utils";
 
-async function Destacados() {
+async function ColeccionInicio({ campo }: { campo: "destacado" | "oferta" }) {
   // El cliente Supabase lee la sesión de las cookies y usa Date.now(), que
   // bloquea el prerender: se difiere a tiempo de request.
   await connection();
   const productos = await getProductos();
-  const seleccion = productos.filter((producto) => producto.destacado);
+  const seleccion = productos.filter((producto) => producto[campo]);
+  const ofertas = campo === "oferta";
 
   // Sin productos en la sección no se muestra el bloque vacío.
   if (seleccion.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-8 md:py-12">
+    <section id={ofertas ? "ofertas" : "destacados"} className="mx-auto max-w-6xl scroll-mt-24 px-6 py-8 md:py-12">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-street-secondary">Selección norte.</p>
+          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-street-secondary">{ofertas ? "Selección en oferta" : "Selección norte."}</p>
           <h2 className="street-title text-4xl sm:text-6xl">
-            Los imprescindibles
+            {ofertas ? "Ofertas" : "Los imprescindibles"}
           </h2>
         </div>
         <Link
           href="/productos"
           className="shrink-0 text-sm underline underline-offset-4 hover:text-street-accent"
         >
-          Ver todo
+          {ofertas ? "Ver catálogo" : "Ver todo"}
         </Link>
       </div>
 
-      <ProductCarousel>
+      <ProductCarousel label={ofertas ? "Prendas en oferta" : "Prendas destacadas"}>
         {seleccion.map((producto) => (
           <ProductCard key={producto.id} producto={producto} />
         ))}
@@ -72,7 +73,11 @@ export default function Home() {
 
       {/* Los imprescindibles */}
       <Suspense fallback={<SeccionSkeleton />}>
-        <Destacados />
+        <ColeccionInicio campo="destacado" />
+      </Suspense>
+
+      <Suspense fallback={<SeccionSkeleton />}>
+        <ColeccionInicio campo="oferta" />
       </Suspense>
 
       {/* Ventajas */}

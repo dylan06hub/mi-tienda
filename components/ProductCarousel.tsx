@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
-export function ProductCarousel({ children }: { children: ReactNode[] }) {
+export function ProductCarousel({ children, label = "Prendas destacadas" }: { children: ReactNode[]; label?: string }) {
   const id = useId();
   const track = useRef<HTMLUListElement>(null);
   const [range, setRange] = useState({ first: 1, last: 1, start: true, end: children.length <= 1 });
@@ -56,7 +56,7 @@ export function ProductCarousel({ children }: { children: ReactNode[] }) {
   }
 
   return (
-    <div className="street-carousel mt-7" role="region" aria-roledescription="carrusel" aria-label="Prendas destacadas">
+    <div className="street-carousel mt-7" role="region" aria-roledescription="carrusel" aria-label={label}>
       <ul id={id} ref={track} tabIndex={0} onKeyDown={navigate} aria-label="Usá las flechas del teclado o deslizá para explorar" className="street-carousel-track">
         {children.map((child, index) => <li key={index} className="street-carousel-slide">{child}</li>)}
       </ul>

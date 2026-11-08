@@ -173,9 +173,10 @@ Antes de vender, despublicar estos productos desde el panel y cargar datos reale
 
 La portada fija elige un producto destacado con foto y stock; si no hay uno,
 usa otra prenda disponible. Sin stock conserva el acceso al catálogo sin
-promocionar productos agotados. La sección pública de ofertas queda retirada
-hasta contar con precios anteriores y descuentos verificables; la marca interna
-del administrador se conserva.
+promocionar productos agotados. La sección «Ofertas» del inicio muestra prendas
+publicadas marcadas como oferta y se oculta si no hay ninguna. La opción se activa
+en «Dónde se muestra» del formulario de producto. Las tarjetas muestran la etiqueta
+y el precio cargado; no se calculan descuentos ni se inventan precios anteriores.
 
 En móvil los filtros empiezan plegados, muestran cuántos criterios están activos
 y mantienen las selecciones en la URL. En escritorio permanecen visibles.

@@ -82,4 +82,10 @@ test('la tarjeta muestra talles disponibles sin duplicados y conserva el estado 
   const agotado = renderToStaticMarkup(React.createElement(ProductCard, { producto: { ...producto, variantes: [] } }));
   assert.match(agotado, /Agotado/);
   assert.match(agotado, /Sin imagen/);
+  const oferta = renderToStaticMarkup(React.createElement(ProductCard, { producto: { ...producto, oferta: true, variantes: [] } }));
+  assert.match(oferta, />Oferta</);
+  assert.match(oferta, /Agotado/);
+  assert.match(oferta, /\$ 62900/);
+  assert.doesNotMatch(oferta, /<del|%/);
+  assert.doesNotMatch(html, />Oferta</);
 });

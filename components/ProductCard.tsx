@@ -17,7 +17,12 @@ export function ProductCard({ producto }: { producto: Producto }) {
           <div className="flex h-full items-center justify-center text-sm text-street-muted">Sin imagen</div>
         )}
         <span className="street-product-category">{producto.categoria}</span>
-        {agotado && <span className="absolute bottom-3 left-3 bg-street-background px-3 py-1.5 text-xs font-semibold text-street-foreground">Agotado</span>}
+        {(producto.oferta || agotado) && (
+          <div className="absolute inset-x-3 bottom-3 flex flex-wrap gap-2">
+            {producto.oferta && <span className="bg-street-accent px-2 py-1.5 text-xs font-semibold text-street-on-accent">Oferta</span>}
+            {agotado && <span className="bg-street-background px-2 py-1.5 text-xs font-semibold text-street-foreground">Agotado</span>}
+          </div>
+        )}
       </div>
       <div className="flex flex-1 flex-col p-3 sm:p-4">
         <h3 className="street-product-name font-display text-2xl font-black uppercase leading-none text-street-foreground sm:text-3xl">{producto.nombre}</h3>

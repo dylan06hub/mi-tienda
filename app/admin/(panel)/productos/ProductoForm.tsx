@@ -347,18 +347,16 @@ export function ProductoForm({
           Destacar en el inicio de la tienda
         </label>
 
-        <details className="text-sm text-street-muted">
-          <summary className="cursor-pointer py-3">Opciones avanzadas</summary>
-          <label className="flex min-h-11 items-center gap-3 text-sm text-street-muted">
-            <input
-              type="checkbox"
-              name="oferta"
-              defaultChecked={producto?.oferta ?? false}
-              className="size-4 rounded border-street-muted accent-street-accent"
-            />
-            Marcar como oferta interna (todavía no se muestra en la tienda)
-          </label>
-        </details>
+        <label className="flex min-h-11 items-center gap-3 text-sm text-street-muted">
+          <input
+            type="checkbox"
+            name="oferta"
+            defaultChecked={producto?.oferta ?? false}
+            className="size-4 rounded border-street-muted accent-street-accent"
+          />
+          Mostrar en Ofertas del inicio
+        </label>
+        <p className="text-xs leading-5 text-street-muted">Se muestra con el precio cargado. La prenda debe estar publicada para verse en la tienda.</p>
 
         {producto && (
           <p className="text-xs text-street-muted sm:col-span-2">
