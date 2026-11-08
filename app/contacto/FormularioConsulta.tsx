@@ -4,9 +4,9 @@ import { useActionState } from "react";
 import { enviarConsulta } from "./actions";
 
 const CLASE_INPUT =
-  "mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-4 text-base text-street-foreground transition focus:border-street-secondary";
+  "mt-2 h-11 w-full rounded-street border border-street-fog bg-street-surface px-4 text-base text-street-foreground transition focus:border-street-secondary";
 const CLASE_TEXTAREA =
-  "mt-2 w-full rounded-street border border-street-muted bg-street-surface px-4 py-3 text-base text-street-foreground transition focus:border-street-secondary";
+  "mt-2 w-full rounded-street border border-street-fog bg-street-surface px-4 py-3 text-base text-street-foreground transition focus:border-street-secondary";
 
 export function FormularioConsulta() {
   const [estado, action, pendiente] = useActionState(enviarConsulta, null);
@@ -106,12 +106,12 @@ export function FormularioConsulta() {
       </div>
 
       {estado && "error" in estado && (
-        <p role="alert" className="rounded-street bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <p role="alert" className="rounded-street bg-street-danger px-4 py-3 text-sm text-street-foreground">
           {estado.error}
         </p>
       )}
       {estado && "ok" in estado && (
-        <p role="status" className="rounded-street bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+        <p role="status" className="rounded-street bg-street-surface px-4 py-3 text-sm text-street-foreground">
           {estado.ok}
         </p>
       )}

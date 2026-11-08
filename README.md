@@ -209,15 +209,16 @@ combinación nueva. El stock sigue siendo editable y se conserva la comprobació
 de cambios concurrentes. Eliminar queda dentro de la edición, con confirmación y
 las mismas restricciones de historial de pedidos.
 
-## Identidad streetwear neón · fase 1
+## Identidad streetwear negra y roja
 
 La dirección visual está documentada en `DESIGN.md`. `app/streetwear.css` define
 los colores, Barlow Condensed Black y los estilos base para títulos y botones.
 El documento raíz activa `.street-theme` en portada, catálogo, ficha, carrito,
 checkout, contacto y todas las rutas de administración, incluido el acceso. La fuente se aloja en `public/fonts` con su licencia.
 `tests/streetwear-contraste.test.mjs` comprueba los pares de texto y fondo antes
-de usarlos. El panel comparte títulos condensados, foco cian y acciones lima; los estados de
-pedidos y las advertencias mantienen colores y etiquetas diferenciados.
+de usarlos. El panel comparte títulos condensados, foco blanco y acciones carmesí. Las alertas
+usan borravino; los estados mantienen sus etiquetas. Fog Gray conserva el contraste
+del texto secundario sobre tarjetas Asphalt Gray; Concrete Gray se usa sobre negro.
 
 ## Carrusel y tarjetas de la colección
 

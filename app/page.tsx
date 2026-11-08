@@ -31,7 +31,7 @@ async function ColeccionInicio({ campo }: { campo: "destacado" | "oferta" }) {
         </div>
         <Link
           href="/productos"
-          className="shrink-0 text-sm underline underline-offset-4 hover:text-street-accent"
+          className="shrink-0 text-sm underline underline-offset-4 hover:text-street-secondary"
         >
           {ofertas ? "Ver catálogo" : "Ver todo"}
         </Link>
@@ -100,7 +100,7 @@ export default function Home() {
           <div>
             <p className="text-sm font-medium">¿Necesitás una mano?</p>
             <p className="mt-2 text-sm leading-6 text-street-muted">
-              <Link href="/contacto" className="underline underline-offset-4 hover:text-street-accent">
+              <Link href="/contacto" className="underline underline-offset-4 hover:text-street-secondary">
                 Escribinos desde el formulario de contacto.
               </Link>
             </p>

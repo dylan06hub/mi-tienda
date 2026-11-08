@@ -44,18 +44,18 @@ export default async function AdminProductosPage({ searchParams }: { searchParam
       <form key={`${q}-${estado}-${categoria}`} method="get" className="mt-6 grid items-end gap-3 rounded-street border border-street-border bg-street-surface p-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_180px_180px_auto]">
         <div>
           <label htmlFor="buscar-productos" className="text-sm font-medium">Buscar producto</label>
-          <input id="buscar-productos" type="search" name="q" defaultValue={q} placeholder="Nombre, categoría o código" className="mt-2 h-11 w-full rounded-street border border-street-muted px-3 text-base bg-street-background" />
+          <input id="buscar-productos" type="search" name="q" defaultValue={q} placeholder="Nombre, categoría o código" className="mt-2 h-11 w-full rounded-street border border-street-fog px-3 text-base bg-street-background" />
         </div>
         <div>
           <label htmlFor="categoria-productos" className="text-sm font-medium">Categoría</label>
-          <select id="categoria-productos" name="categoria" defaultValue={categoria} className="mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-3 text-base">
+          <select id="categoria-productos" name="categoria" defaultValue={categoria} className="mt-2 h-11 w-full rounded-street border border-street-fog bg-street-surface px-3 text-base">
             <option value="">Todas</option>
             {categorias.map((nombre) => <option key={nombre} value={nombre}>{nombre}</option>)}
           </select>
         </div>
         <div>
           <label htmlFor="estado-productos" className="text-sm font-medium">Mostrar</label>
-          <select id="estado-productos" name="estado" defaultValue={estado} className="mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-3 text-base">
+          <select id="estado-productos" name="estado" defaultValue={estado} className="mt-2 h-11 w-full rounded-street border border-street-fog bg-street-surface px-3 text-base">
             <option value="">Todos</option>
             <option value="publicados">Publicados</option>
             <option value="ocultos">Ocultos</option>
@@ -89,18 +89,18 @@ export default async function AdminProductosPage({ searchParams }: { searchParam
                     <Link href={`/admin/productos/${producto.id}`} className="break-words font-medium text-street-foreground underline-offset-4 hover:underline">{producto.nombre}</Link>
                     <p className="mt-1 break-words text-sm text-street-muted">{producto.categoria}</p>
                     <div className="mt-2 flex flex-wrap gap-2 text-xs">
-                      <span className={`rounded-street px-2 py-1 ${producto.activo ? "bg-emerald-950/50 text-emerald-200" : "bg-street-background text-street-muted"}`}>{producto.activo ? "Publicado" : "Oculto"}</span>
+                      <span className={`rounded-street px-2 py-1 ${producto.activo ? "bg-street-background text-street-foreground" : "bg-street-background text-street-muted"}`}>{producto.activo ? "Publicado" : "Oculto"}</span>
                       {producto.oferta && <span className="rounded-street bg-street-accent px-2 py-1 text-street-on-accent">Oferta</span>}
-                      {producto.destacado && <span className="rounded-street bg-orange-950/50 px-2 py-1 text-orange-200">{producto.activo ? "En el inicio" : "Destacado al publicar"}</span>}
+                      {producto.destacado && <span className="rounded-street bg-street-surface px-2 py-1 text-street-foreground">{producto.activo ? "En el inicio" : "Destacado al publicar"}</span>}
                     </div>
                   </div>
                 </div>
                 <p className="whitespace-nowrap text-sm font-medium tabular-nums">{formatearPrecio(producto.precio)}</p>
                 <div className="text-sm">
-                  <p className={stock === 0 ? "font-medium text-red-200" : "text-street-foreground"}>{stock === 0 ? "Sin stock" : `${stock} ${stock === 1 ? "unidad" : "unidades"}`}</p>
+                  <p className={stock === 0 ? "font-medium text-street-foreground" : "text-street-foreground"}>{stock === 0 ? "Sin stock" : `${stock} ${stock === 1 ? "unidad" : "unidades"}`}</p>
                   <p className="mt-1 text-xs text-street-muted">{producto.variantes.length} {producto.variantes.length === 1 ? "combinación" : "combinaciones"}</p>
                 </div>
-                <Link href={`/admin/productos/${producto.id}`} aria-label={`Editar ${producto.nombre}`} className="inline-flex min-h-11 items-center justify-center rounded-street border border-street-muted px-4 text-sm font-medium hover:border-street-accent">Editar</Link>
+                <Link href={`/admin/productos/${producto.id}`} aria-label={`Editar ${producto.nombre}`} className="inline-flex min-h-11 items-center justify-center rounded-street border border-street-fog px-4 text-sm font-medium hover:border-street-accent">Editar</Link>
               </li>
             );
           })}

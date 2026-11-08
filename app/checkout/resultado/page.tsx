@@ -72,7 +72,7 @@ async function Resultado({
       </p>
 
       {resultado.revision && (
-        <p role="status" className="mt-6 rounded-street bg-amber-50 p-4 text-sm text-amber-900">
+        <p role="status" className="mt-6 rounded-street bg-street-danger p-4 text-sm text-street-foreground">
           Recibimos un pago que requiere revisión. Contactanos con el número de pedido y no vuelvas a pagar mientras lo comprobamos.
         </p>
       )}
@@ -94,7 +94,7 @@ async function Resultado({
         {clave !== "falla" && (
           <Link
             href="/carrito"
-            className="inline-flex h-11 items-center rounded-street border border-street-muted px-6 text-sm font-medium text-street-foreground transition hover:border-street-accent"
+            className="inline-flex h-11 items-center rounded-street border border-street-fog px-6 text-sm font-medium text-street-foreground transition hover:border-street-accent"
           >
             Ver carrito
           </Link>

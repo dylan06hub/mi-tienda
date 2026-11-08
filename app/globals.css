@@ -3,8 +3,8 @@
 @import "./streetwear.css";
 
 :root {
-  --background: #f7f5f0;
-  --foreground: #1c1917;
+  --background: var(--street-background);
+  --foreground: var(--street-foreground);
 }
 
 @theme inline {
@@ -21,12 +21,12 @@ body {
 }
 
 ::selection {
-  background: #fed7aa;
-  color: #1c1917;
+  background: var(--street-accent);
+  color: var(--street-foreground);
 }
 
 :where(a, button, input, select, textarea, summary):focus-visible {
-  outline: 2px solid #c2410c;
+  outline: 2px solid var(--street-secondary);
   outline-offset: 4px;
 }
 

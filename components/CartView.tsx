@@ -53,7 +53,7 @@ export function CartView() {
   return (
     <div>
       {error && items.length > 0 && (
-        <p className="mt-6 rounded-street bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <p className="mt-6 rounded-street bg-street-danger px-4 py-3 text-sm text-street-foreground">
           {error}
         </p>
       )}
@@ -142,7 +142,7 @@ export function CartView() {
                             Stock: {variante.stock}
                           </p>
                           {cantidad > variante.stock && (
-                            <p className="mt-1 text-xs text-amber-300">La cantidad supera el stock disponible.</p>
+                            <p className="mt-1 text-xs text-street-foreground">La cantidad supera el stock disponible.</p>
                           )}
                         </div>
                         <p className="shrink-0 text-sm font-medium tabular-nums text-street-foreground">
@@ -151,7 +151,7 @@ export function CartView() {
                       </div>
 
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <div className="inline-flex items-center rounded-street border border-street-muted">
+                        <div className="inline-flex items-center rounded-street border border-street-fog">
                           <button
                             type="button"
                             onClick={() =>

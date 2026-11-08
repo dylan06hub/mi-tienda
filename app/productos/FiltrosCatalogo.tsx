@@ -61,7 +61,7 @@ function Checkbox({
         checked={activa}
         onChange={(e) => actualizar(e.target.checked)}
         disabled={pendiente}
-        className="h-4 w-4 accent-street-accent rounded border-street-muted text-street-foreground focus:ring-street-secondary"
+        className="h-4 w-4 accent-street-accent rounded border-street-fog text-street-foreground focus:ring-street-secondary"
       />
       <span className="flex-1">{etiqueta}</span>
       <span className="text-xs text-street-muted">{conteo}</span>
@@ -143,7 +143,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
           aria-expanded={abiertos}
           aria-controls="filtros-catalogo"
           onClick={() => setAbiertos(!abiertos)}
-          className="inline-flex min-h-11 items-center rounded-street border border-street-muted px-5 text-sm font-medium text-street-foreground hover:border-street-accent lg:hidden"
+          className="inline-flex min-h-11 items-center rounded-street border border-street-fog px-5 text-sm font-medium text-street-foreground hover:border-street-accent lg:hidden"
         >
           {abiertos ? "Cerrar filtros" : "Filtrar"}{activos.length > 0 ? ` (${activos.length})` : ""}
         </button>
@@ -171,7 +171,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
                 checked={soloStock}
                 onChange={(e) => actualizarDisponible(e.target.checked)}
                 disabled={pendiente}
-                className="h-4 w-4 accent-street-accent rounded border-street-muted text-street-foreground focus:ring-street-secondary"
+                className="h-4 w-4 accent-street-accent rounded border-street-fog text-street-foreground focus:ring-street-secondary"
               />
               <span>Solo con stock</span>
             </label>
@@ -233,7 +233,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
                     className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-street border px-3 text-sm transition-colors ${
                       activa
                         ? "border-street-accent bg-street-accent text-street-on-accent"
-                        : "border-street-muted text-street-muted hover:border-street-accent"
+                        : "border-street-fog text-street-muted hover:border-street-accent"
                     } disabled:opacity-50`}
                     title={`${conteo} producto${conteo === 1 ? "" : "s"}`}
                   >
@@ -288,7 +288,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
                     actualizarPrecio("min", e.currentTarget.value);
                   }
                 }}
-                className="mt-1 h-11 w-full rounded-street border border-street-muted bg-street-surface px-2 text-base tabular-nums text-street-foreground focus:border-street-secondary"
+                className="mt-1 h-11 w-full rounded-street border border-street-fog bg-street-surface px-2 text-base tabular-nums text-street-foreground focus:border-street-secondary"
               />
             </div>
             <div>
@@ -309,7 +309,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
                     actualizarPrecio("max", e.currentTarget.value);
                   }
                 }}
-                className="mt-1 h-11 w-full rounded-street border border-street-muted bg-street-surface px-2 text-base tabular-nums text-street-foreground focus:border-street-secondary"
+                className="mt-1 h-11 w-full rounded-street border border-street-fog bg-street-surface px-2 text-base tabular-nums text-street-foreground focus:border-street-secondary"
               />
             </div>
           </div>

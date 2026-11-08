@@ -106,7 +106,7 @@ export function ProductoForm({
             name="nombre"
             required
             defaultValue={producto?.nombre}
-            className="mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-4 text-base transition-colors focus:border-street-secondary"
+            className="mt-2 h-11 w-full rounded-street border border-street-fog bg-street-surface px-4 text-base transition-colors focus:border-street-secondary"
           />
         </div>
 
@@ -122,7 +122,7 @@ export function ProductoForm({
             name="descripcion"
             rows={4}
             defaultValue={producto?.descripcion}
-            className="mt-2 w-full rounded-street border border-street-muted bg-street-surface px-4 py-3 text-base transition-colors focus:border-street-secondary"
+            className="mt-2 w-full rounded-street border border-street-fog bg-street-surface px-4 py-3 text-base transition-colors focus:border-street-secondary"
           />
         </div>
 
@@ -141,7 +141,7 @@ export function ProductoForm({
             step="0.01"
             required
             defaultValue={producto?.precio}
-            className="mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-4 text-base tabular-nums transition-colors focus:border-street-secondary"
+            className="mt-2 h-11 w-full rounded-street border border-street-fog bg-street-surface px-4 text-base tabular-nums transition-colors focus:border-street-secondary"
           />
         </div>
 
@@ -158,7 +158,7 @@ export function ProductoForm({
             name="categoria"
             required
             defaultValue={producto?.categoria}
-            className="mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-4 text-base transition-colors focus:border-street-secondary"
+            className="mt-2 h-11 w-full rounded-street border border-street-fog bg-street-surface px-4 text-base transition-colors focus:border-street-secondary"
           />
           <datalist id="categorias-existentes">
             {categorias.map((categoria) => <option key={categoria} value={categoria} />)}
@@ -215,7 +215,7 @@ export function ProductoForm({
           <button
             type="button"
             onClick={agregarVariante}
-            className="min-h-11 rounded-street border border-street-muted px-4 text-sm font-medium text-street-foreground transition hover:border-street-accent"
+            className="min-h-11 rounded-street border border-street-fog px-4 text-sm font-medium text-street-foreground transition hover:border-street-accent"
           >
             Agregar talle y color
           </button>
@@ -255,7 +255,7 @@ export function ProductoForm({
                       event.target.value,
                     )
                   }
-                  className="mt-1 min-h-11 w-full rounded-street border border-street-muted bg-street-background px-3 text-base transition-colors read-only:bg-street-background read-only:text-street-muted focus:border-street-secondary"
+                  className="mt-1 min-h-11 w-full rounded-street border border-street-fog bg-street-background px-3 text-base transition-colors read-only:bg-street-background read-only:text-street-muted focus:border-street-secondary"
                 />
               </div>
 
@@ -280,7 +280,7 @@ export function ProductoForm({
                       event.target.value,
                     )
                   }
-                  className="mt-1 min-h-11 w-full rounded-street border border-street-muted bg-street-background px-3 text-base transition-colors read-only:bg-street-background read-only:text-street-muted focus:border-street-secondary"
+                  className="mt-1 min-h-11 w-full rounded-street border border-street-fog bg-street-background px-3 text-base transition-colors read-only:bg-street-background read-only:text-street-muted focus:border-street-secondary"
                 />
               </div>
 
@@ -306,7 +306,7 @@ export function ProductoForm({
                       event.target.value,
                     )
                   }
-                  className="mt-1 min-h-11 w-full rounded-street border border-street-muted bg-street-background px-3 text-base tabular-nums transition-colors focus:border-street-secondary"
+                  className="mt-1 min-h-11 w-full rounded-street border border-street-fog bg-street-background px-3 text-base tabular-nums transition-colors focus:border-street-secondary"
                 />
               </div>
 
@@ -315,7 +315,7 @@ export function ProductoForm({
                 onClick={() => quitarVariante(variante.key)}
                 aria-label={`Quitar variante ${indice + 1}`}
                 disabled={variantes.length === 1 || pendiente}
-                className="min-h-11 rounded-street px-3 text-sm text-red-200 hover:bg-red-950/50 disabled:cursor-not-allowed disabled:text-street-muted"
+                className="min-h-11 rounded-street px-3 text-sm text-street-foreground hover:bg-street-danger disabled:cursor-not-allowed disabled:text-street-muted"
               >
                 Quitar
               </button>
@@ -332,7 +332,7 @@ export function ProductoForm({
             type="checkbox"
             name="activo"
             defaultChecked={producto?.activo ?? true}
-            className="size-4 rounded border-street-muted accent-street-accent"
+            className="size-4 rounded border-street-fog accent-street-accent"
           />
           Publicar en la tienda
         </label>
@@ -342,7 +342,7 @@ export function ProductoForm({
             type="checkbox"
             name="destacado"
             defaultChecked={producto?.destacado ?? false}
-            className="size-4 rounded border-street-muted accent-street-accent"
+            className="size-4 rounded border-street-fog accent-street-accent"
           />
           Destacar en el inicio de la tienda
         </label>
@@ -352,7 +352,7 @@ export function ProductoForm({
             type="checkbox"
             name="oferta"
             defaultChecked={producto?.oferta ?? false}
-            className="size-4 rounded border-street-muted accent-street-accent"
+            className="size-4 rounded border-street-fog accent-street-accent"
           />
           Mostrar en Ofertas del inicio
         </label>
@@ -368,7 +368,7 @@ export function ProductoForm({
       {estado?.error && (
         <p
           role="alert"
-          className="rounded-street bg-amber-950/50 px-4 py-3 text-sm text-amber-200"
+          className="rounded-street bg-street-danger px-4 py-3 text-sm text-street-foreground"
         >
           {estado.error}
         </p>

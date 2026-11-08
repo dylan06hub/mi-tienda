@@ -46,11 +46,11 @@ export default async function AdminPedidosPage({ searchParams }: {
       <form key={`${q}-${estado}`} method="get" className="mt-6 grid items-end gap-3 rounded-street border border-street-border bg-street-surface p-4 sm:grid-cols-[minmax(0,1fr)_180px_auto]">
         <div>
           <label htmlFor="buscar-pedidos" className="text-sm font-medium">Buscar pedido</label>
-          <input id="buscar-pedidos" name="q" type="search" defaultValue={q} placeholder="Número, cliente o email" className="mt-2 h-11 w-full rounded-street border border-street-muted px-3 text-base bg-street-background" />
+          <input id="buscar-pedidos" name="q" type="search" defaultValue={q} placeholder="Número, cliente o email" className="mt-2 h-11 w-full rounded-street border border-street-fog px-3 text-base bg-street-background" />
         </div>
         <div>
           <label htmlFor="estado-pedidos" className="text-sm font-medium">Estado</label>
-          <select id="estado-pedidos" name="estado" defaultValue={estado} className="mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-3 text-base">
+          <select id="estado-pedidos" name="estado" defaultValue={estado} className="mt-2 h-11 w-full rounded-street border border-street-fog bg-street-surface px-3 text-base">
             <option value="">Todos</option>
             <option value="pendiente">Pendiente de pago</option>
             <option value="pagado">Pagado · por enviar</option>
@@ -70,7 +70,7 @@ export default async function AdminPedidosPage({ searchParams }: {
           <h2 className="text-xl font-semibold">Revisión de pagos</h2>
           <p className="text-sm text-street-muted">Los reembolsos se gestionan en Mercado Pago. Registrá aquí la resolución después de comprobar cada caso.</p>
           {pendientes.map((incidencia) => (
-            <article key={incidencia.mp_payment_id} className="rounded-street border border-amber-700 bg-amber-950/50 p-5">
+            <article key={incidencia.mp_payment_id} className="rounded-street border border-street-fog bg-street-danger p-5">
               <h3 className="text-sm font-medium">{motivos[incidencia.motivo] ?? "Pago que requiere revisión"}</h3>
               <p className="mt-2 break-all text-sm">Pago: <span className="font-mono">{incidencia.mp_payment_id}</span> · {incidencia.monto == null ? "Importe no informado" : `${incidencia.monto} ${incidencia.moneda ?? ""}`}</p>
               <p className="mt-1 text-xs text-street-muted">{formatearFecha(incidencia.creado_en)}</p>
@@ -79,7 +79,7 @@ export default async function AdminPedidosPage({ searchParams }: {
                   <input type="hidden" name="pago_id" value={incidencia.mp_payment_id} />
                   <label className="min-w-0 flex-1 text-sm">
                     Resolución
-                    <input name="resolucion" required maxLength={500} className="mt-1 block h-11 w-full rounded-street border border-street-muted bg-street-background px-3 text-base" />
+                    <input name="resolucion" required maxLength={500} className="mt-1 block h-11 w-full rounded-street border border-street-fog bg-street-background px-3 text-base" />
                   </label>
                   <button className="street-button self-end">Marcar como resuelta</button>
                 </form>
@@ -118,7 +118,7 @@ export default async function AdminPedidosPage({ searchParams }: {
                 <p className="mt-1 text-xs text-street-muted">{formatearFecha(pedido.creadoEn)}</p>
               </div>
               <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end"><span className="whitespace-nowrap text-sm font-medium tabular-nums">{formatearPrecio(pedido.total)}</span><EstadoPedidoBadge estado={pedido.estado} /></div>
-              <Link href={`/admin/pedidos/${pedido.id}`} aria-label={`Abrir pedido ${pedido.id.slice(0, 8)}`} className="inline-flex min-h-11 items-center justify-center rounded-street border border-street-muted px-4 text-sm font-medium hover:border-street-accent">Ver pedido</Link>
+              <Link href={`/admin/pedidos/${pedido.id}`} aria-label={`Abrir pedido ${pedido.id.slice(0, 8)}`} className="inline-flex min-h-11 items-center justify-center rounded-street border border-street-fog px-4 text-sm font-medium hover:border-street-accent">Ver pedido</Link>
             </li>
           ))}
         </ul>

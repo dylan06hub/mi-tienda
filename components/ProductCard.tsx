@@ -20,7 +20,7 @@ export function ProductCard({ producto }: { producto: Producto }) {
         {(producto.oferta || agotado) && (
           <div className="absolute inset-x-3 bottom-3 flex flex-wrap gap-2">
             {producto.oferta && <span className="bg-street-accent px-2 py-1.5 text-xs font-semibold text-street-on-accent">Oferta</span>}
-            {agotado && <span className="bg-street-background px-2 py-1.5 text-xs font-semibold text-street-foreground">Agotado</span>}
+            {agotado && <span className="bg-street-danger px-2 py-1.5 text-xs font-semibold text-street-foreground">Agotado</span>}
           </div>
         )}
       </div>
@@ -28,7 +28,7 @@ export function ProductCard({ producto }: { producto: Producto }) {
         <h3 className="street-product-name font-display text-2xl font-black uppercase leading-none text-street-foreground sm:text-3xl">{producto.nombre}</h3>
         <p className="mt-2 text-xs leading-5 text-street-muted">{agotado ? "Sin stock disponible" : `Talles: ${talles.join(" / ")}`}</p>
         <div className="mt-auto flex items-center justify-between gap-2 border-t border-street-border pt-3">
-          <p className="street-product-price text-sm font-semibold tabular-nums text-street-accent sm:text-base">{formatearPrecio(producto.precio)}</p>
+          <p className="street-product-price text-sm font-semibold tabular-nums text-street-foreground sm:text-base">{formatearPrecio(producto.precio)}</p>
           <span aria-hidden="true" className="street-product-arrow">↗</span>
         </div>
       </div>

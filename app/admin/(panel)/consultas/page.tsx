@@ -26,7 +26,7 @@ export default async function AdminConsultasPage({ searchParams }: { searchParam
       <form key={q} method="get" className="mt-6 flex flex-wrap items-end gap-3 rounded-street border border-street-border bg-street-surface p-4">
         <div className="min-w-0 flex-1">
           <label htmlFor="buscar-consultas" className="text-sm font-medium">Buscar consulta</label>
-          <input id="buscar-consultas" type="search" name="q" defaultValue={q} placeholder="Nombre, email, asunto o mensaje" className="mt-2 h-11 w-full rounded-street border border-street-muted px-3 text-base bg-street-background" />
+          <input id="buscar-consultas" type="search" name="q" defaultValue={q} placeholder="Nombre, email, asunto o mensaje" className="mt-2 h-11 w-full rounded-street border border-street-fog px-3 text-base bg-street-background" />
         </div>
         <button className="min-h-11 rounded-street border border-street-accent px-5 text-sm font-medium hover:bg-street-background">Buscar</button>
       </form>
@@ -46,7 +46,7 @@ export default async function AdminConsultasPage({ searchParams }: { searchParam
               {consulta.telefono && <p className="mt-1 break-words text-sm text-street-muted">Teléfono: {consulta.telefono}</p>}
               <p className="mt-2 text-xs text-street-muted">{formatearFecha(consulta.creado_en)}</p>
               <p className="mt-5 whitespace-pre-wrap break-words border-t border-street-border pt-5 text-sm leading-6 text-street-muted">{consulta.mensaje}</p>
-              <a href={`mailto:${encodeURIComponent(consulta.email)}?subject=${encodeURIComponent(`Re: ${consulta.asunto}`)}`} className="mt-4 inline-flex min-h-11 items-center rounded-street border border-street-muted px-4 text-sm font-medium hover:border-street-accent">Responder por email</a>
+              <a href={`mailto:${encodeURIComponent(consulta.email)}?subject=${encodeURIComponent(`Re: ${consulta.asunto}`)}`} className="mt-4 inline-flex min-h-11 items-center rounded-street border border-street-fog px-4 text-sm font-medium hover:border-street-accent">Responder por email</a>
             </details>
           ))}
         </div>

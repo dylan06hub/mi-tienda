@@ -140,7 +140,7 @@ export function CheckoutForm() {
                 autoComplete={campo.autoComplete}
                 maxLength={campo.maxLength}
                 required
-                className="mt-2 h-11 w-full rounded-street border border-street-muted bg-street-surface px-4 text-base text-street-foreground transition focus:border-street-secondary"
+                className="mt-2 h-11 w-full rounded-street border border-street-fog bg-street-surface px-4 text-base text-street-foreground transition focus:border-street-secondary"
               />
             </div>
           ))}
@@ -149,7 +149,7 @@ export function CheckoutForm() {
         {(error || (estado && "error" in estado)) && (
           <p
             role="alert"
-            className="rounded-street bg-amber-50 px-4 py-3 text-sm text-amber-900"
+            className="rounded-street bg-street-danger px-4 py-3 text-sm text-street-foreground"
           >
             {estado && "error" in estado ? estado.error : error}
           </p>
@@ -167,7 +167,7 @@ export function CheckoutForm() {
           Reservamos tus prendas durante 30 minutos para completar el pago.
           Si vence la reserva, las unidades vuelven a estar disponibles.
         </p>
-        {sinStock && <p role="alert" className="text-sm text-amber-300">Revisá el carrito: alguna cantidad supera el stock disponible.</p>}
+        {sinStock && <p role="alert" className="text-sm text-street-foreground">Revisá el carrito: alguna cantidad supera el stock disponible.</p>}
       </form>
 
       <aside className="h-fit rounded-street border border-street-border bg-street-surface p-6">

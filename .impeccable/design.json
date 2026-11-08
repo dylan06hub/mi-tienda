@@ -1,16 +1,16 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-11-07T14:12:17.748484+00:00",
-  "title": "norte. — Streetwear neón",
+  "title": "norte. — Streetwear negro y rojo",
   "extensions": {
     "colorMeta": {
       "accent": {
         "role": "primary",
-        "displayName": "Lima neón"
+        "displayName": "Rojo carmesí"
       },
       "secondary": {
         "role": "accent",
-        "displayName": "Cian eléctrico"
+        "displayName": "Pure White"
       }
     },
     "typographyMeta": {
@@ -42,24 +42,22 @@
     ]
   },
   "narrative": {
-    "northStar": "La ropa ocupa el centro; el neón marca el ritmo.",
-    "overview": "Identidad aplicada a portada, catálogo, ficha, carrito, checkout y contacto. El panel administrativo y su acceso comparten la base oscura, acciones lima y foco cian, con estados semánticos diferenciados.",
+    "northStar": "La ropa ocupa el centro; el rojo señala la acción.",
+    "overview": "Paleta negra, gris y roja compartida por todas las vistas públicas y administrativas.",
     "keyCharacteristics": [
       "Fotografía real",
       "Títulos condensados",
-      "Carrusel manual con gesto nativo y teclado",
-      "Tarjetas con talles y precios lima",
-      "Lima, cian, rosa y naranja sobre fondos oscuros",
-      "Cuatro campañas rotativas con pausa y cinta superior",
-      "Footer de comunidad, ubicación de muestra y pagos"
+      "CTA carmesí y fondos borravino",
+      "Tarjetas Asphalt Gray y texto blanco",
+      "Foco blanco y pausas accesibles"
     ],
     "dos": [
-      "Texto oscuro sobre neón.",
-      "Mantener controles y precios legibles."
+      "Usar texto blanco sobre rojo.",
+      "Fog Gray para texto secundario sobre superficies grises."
     ],
     "donts": [
-      "No usar texto blanco sobre lima o cian.",
-      "No usar luces pulsantes ni brillos decorativos."
+      "No usar Concrete Gray sobre Asphalt Gray para lectura.",
+      "No inventar descuentos ni escasez."
     ]
   }
 }

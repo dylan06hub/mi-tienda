@@ -7,7 +7,7 @@ import { cambiarEstadoPedido } from "./actions";
 const ESTILO_PRIMARIO =
   "street-button";
 const ESTILO_PELIGRO =
-  "min-h-11 rounded-street border border-red-700 px-5 text-sm font-medium text-red-200 transition hover:bg-red-950/50 disabled:opacity-50";
+  "min-h-11 rounded-street border border-street-fog px-5 text-sm font-medium text-street-foreground transition hover:bg-street-danger disabled:opacity-50";
 
 export function AccionesPedido({
   id,
@@ -54,12 +54,12 @@ export function AccionesPedido({
         )}
       </div>
       {resultado && "error" in resultado && (
-        <p role="alert" className="mt-3 text-sm text-red-200">
+        <p role="alert" className="mt-3 text-sm text-street-foreground">
           {resultado.error}
         </p>
       )}
       {resultado && "ok" in resultado && (
-        <p role="status" className="mt-3 text-sm text-emerald-200">
+        <p role="status" className="mt-3 text-sm text-street-foreground">
           {resultado.ok}
         </p>
       )}

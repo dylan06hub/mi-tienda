@@ -8,9 +8,9 @@ const ETIQUETAS: Record<EstadoPedido, string> = {
 };
 
 const ESTILOS: Record<EstadoPedido, string> = {
-  pendiente: "bg-amber-950/50 text-amber-200",
-  pagado: "bg-emerald-950/50 text-emerald-200",
-  enviado: "bg-sky-950/50 text-sky-200",
+  pendiente: "bg-street-danger text-street-foreground",
+  pagado: "bg-street-background text-street-foreground",
+  enviado: "bg-street-surface text-street-foreground",
   cancelado: "bg-street-background text-street-muted",
 };
 

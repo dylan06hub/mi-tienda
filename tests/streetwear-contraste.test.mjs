@@ -16,17 +16,26 @@ function contraste(a, b) {
 
 for (const [texto, fondo] of [
   ['foreground', 'background'], ['foreground', 'surface'],
-  ['muted', 'background'], ['muted', 'surface'],
-  ['on-accent', 'pink'], ['on-accent', 'orange'], ['pink', 'background'], ['orange', 'background'],
-  ['on-accent', 'accent'], ['on-accent', 'accent-hover'], ['on-accent', 'secondary'],
+  ['muted', 'background'], ['fog', 'surface'], ['fog', 'danger'],
+  ['foreground', 'danger'], ['background', 'secondary'],
+  ['on-accent', 'accent'], ['on-accent', 'accent-hover'],
 ]) {
   test(`texto ${texto} sobre ${fondo} cumple contraste AA`, () => {
     const ratio = contraste(colores[texto], colores[fondo]);
     assert.ok(ratio >= 4.5, `Contraste insuficiente: ${ratio.toFixed(2)}:1`);
   });
 }
-test('el foco cian contrasta con las superficies oscuras', () => {
+test('el foco blanco contrasta con las superficies oscuras', () => {
   for (const fondo of ['background', 'surface']) {
     assert.ok(contraste(colores.secondary, colores[fondo]) >= 3);
   }
+});
+
+test('la identidad usa la paleta negra, gris y roja acordada', () => {
+  assert.deepEqual(colores, {
+    background: '#0a0a0a', surface: '#404040', foreground: '#f8f8f8',
+    muted: '#808080', border: '#404040', accent: '#e60000',
+    'accent-hover': '#800000', secondary: '#ffffff', 'on-accent': '#ffffff',
+    fog: '#c0c0c0', danger: '#800000',
+  });
 });

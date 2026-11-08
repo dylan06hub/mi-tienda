@@ -87,7 +87,7 @@ export function AddToCart({ producto }: { producto: Producto }) {
               className={`min-h-11 rounded-street border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-street-border disabled:bg-street-surface disabled:text-street-muted disabled:line-through ${
                 seleccionado
                   ? "border-street-accent bg-street-accent text-street-on-accent"
-                  : "border-street-muted text-street-foreground hover:border-street-accent"
+                  : "border-street-fog text-street-foreground hover:border-street-accent"
               }`}
             >
               {opcion}
@@ -114,7 +114,7 @@ export function AddToCart({ producto }: { producto: Producto }) {
               className={`min-h-11 min-w-11 rounded-street border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:border-street-border disabled:bg-street-surface disabled:text-street-muted disabled:line-through ${
                 seleccionado
                   ? "border-street-accent bg-street-accent text-street-on-accent"
-                  : "border-street-muted text-street-foreground hover:border-street-accent"
+                  : "border-street-fog text-street-foreground hover:border-street-accent"
               }`}
             >
               {opcion.talle}

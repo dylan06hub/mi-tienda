@@ -53,8 +53,8 @@ export default async function AdminPage() {
       <section className="mt-8">
         <h2 className="text-lg font-semibold">Pendiente de atención</h2>
         <ul className="mt-3 divide-y divide-street-border rounded-street border border-street-border bg-street-surface">
-          <li><Link href="/admin/pedidos?estado=pagado" className="flex min-h-16 items-center justify-between gap-4 px-5 py-4 hover:bg-street-background"><span>Pedidos pagados por enviar</span><span className="rounded-street bg-emerald-950/50 px-3 py-1 font-medium tabular-nums text-emerald-200">{porEnviar}</span></Link></li>
-          <li><Link href="/admin/pedidos#incidencias" className="flex min-h-16 items-center justify-between gap-4 px-5 py-4 hover:bg-street-background"><span>Pagos que necesitan revisión</span><span className={`rounded-street px-3 py-1 font-medium tabular-nums ${revisar > 0 ? "bg-amber-950/50 text-amber-200" : "bg-street-background text-street-muted"}`}>{revisar}</span></Link></li>
+          <li><Link href="/admin/pedidos?estado=pagado" className="flex min-h-16 items-center justify-between gap-4 px-5 py-4 hover:bg-street-background"><span>Pedidos pagados por enviar</span><span className="rounded-street bg-street-background px-3 py-1 font-medium tabular-nums text-street-foreground">{porEnviar}</span></Link></li>
+          <li><Link href="/admin/pedidos#incidencias" className="flex min-h-16 items-center justify-between gap-4 px-5 py-4 hover:bg-street-background"><span>Pagos que necesitan revisión</span><span className={`rounded-street px-3 py-1 font-medium tabular-nums ${revisar > 0 ? "bg-street-danger text-street-foreground" : "bg-street-background text-street-muted"}`}>{revisar}</span></Link></li>
           <li><Link href="/admin/productos?estado=sin-stock" className="flex min-h-16 items-center justify-between gap-4 px-5 py-4 hover:bg-street-background"><span>Productos sin stock</span><span className="rounded-street bg-street-background px-3 py-1 font-medium tabular-nums">{sinStock}</span></Link></li>
         </ul>
       </section>

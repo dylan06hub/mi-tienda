@@ -24,7 +24,7 @@ export default async function AdminLayout({
         <div className="flex flex-wrap items-center gap-4 text-sm">
           <Link href="/" className="inline-flex min-h-11 items-center underline underline-offset-4">Ver tienda</Link>
           <form action={cerrarSesionAdmin}>
-            <button className="min-h-11 rounded-street border border-street-muted px-4 hover:bg-street-background">Cerrar sesión</button>
+            <button className="min-h-11 rounded-street border border-street-fog px-4 hover:bg-street-background">Cerrar sesión</button>
           </form>
         </div>
       </div>

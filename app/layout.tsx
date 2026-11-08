@@ -37,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="street-theme flex min-h-full flex-col">
         <Suspense fallback={<div className="street-theme min-h-screen p-6" role="status">Cargando tienda…</div>}>
-          <a href="#contenido" className="sr-only z-[60] rounded-lg bg-white px-4 py-3 text-stone-900 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
+          <a href="#contenido" className="sr-only z-[60] rounded-lg bg-white px-4 py-3 text-street-background focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
             Saltar al contenido
           </a>
           <CartProvider>
