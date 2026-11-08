@@ -12,7 +12,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-street-border/80 bg-street-background/95 backdrop-blur">
-      <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-2 px-4 sm:px-6">
+      <div className="site-shell flex min-h-16 items-center justify-between gap-2">
         {/* Marca */}
         <Link
           href="/"

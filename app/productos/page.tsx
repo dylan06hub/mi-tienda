@@ -113,7 +113,7 @@ async function Catalogo({
     soloStock;
 
   return (
-    <div className="mt-6 grid gap-6 lg:mt-10 lg:grid-cols-[240px_1fr] lg:gap-10">
+    <div className="mt-6 grid gap-6 lg:mt-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
       <FiltrosCatalogo conteos={conteos} precios={precios} />
       <div>
         <p role="status" className="text-sm text-street-muted">
@@ -144,7 +144,7 @@ async function Catalogo({
 
 function CatalogoSkeleton() {
   return (
-    <div className="mt-10 grid gap-10 lg:grid-cols-[240px_1fr]">
+    <div className="mt-10 grid gap-10 lg:grid-cols-[240px_minmax(0,1fr)]">
       <div className="hidden space-y-6 lg:block">
         {Array.from({ length: 4 }).map((_, indice) => (
           <div key={indice} className="animate-pulse">
@@ -179,7 +179,7 @@ export default function ProductosPage({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-8 md:py-16">
+    <div className="site-shell py-8 md:py-16">
       <h1 className="street-title text-5xl sm:text-6xl">
         Toda la colección
       </h1>

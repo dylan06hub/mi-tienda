@@ -239,3 +239,10 @@ La cinta bajo el header tiene pausa y respeta movimiento reducido. El footer
 enlaza a las páginas generales de Instagram, TikTok y Facebook y a una ubicación
 de muestra en Buenos Aires. Son datos de demostración, no perfiles o un local de
 la marca. Los medios reales se confirman en el checkout de Mercado Pago.
+
+## Ancho de las pantallas
+
+`.site-shell` unifica el ancho máximo en 1.600 px y los márgenes laterales entre
+16 y 48 px. Se usa en home, banners, destacados, ofertas, catálogo, ficha, carrito,
+checkout, contacto, resultado de pago, header, footer y administración. Los estados
+de carga usan la misma anchura; el formulario de acceso conserva un ancho de lectura cómodo.

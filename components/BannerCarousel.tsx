@@ -58,7 +58,7 @@ export function BannerCarousel({ banners }: { banners: HomeCampaign[] }) {
   return (
     <section className={`campaign campaign--${banner.id}`} aria-roledescription="carrusel" aria-label="Campañas de norte." onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocusCapture={() => setPaused(true)} onClickCapture={(event) => { if (swiped.current && event.detail !== 0) { event.preventDefault(); event.stopPropagation(); swiped.current = false; } }}>
       <div id={id} aria-live={playing ? "off" : "polite"} aria-atomic="true">
-        <div key={banner.id} className="campaign-panel mx-auto max-w-6xl" data-animate={playing} role="group" aria-roledescription="diapositiva" aria-label={`${index + 1} de ${banners.length}: ${banner.label}`} onPointerDown={(event) => { swiped.current = false; if (event.pointerType === "touch") touch.current = { x: event.clientX, y: event.clientY }; }} onPointerUp={swipe} onPointerCancel={() => { touch.current = null; }}>
+        <div key={banner.id} className="campaign-panel site-shell" data-animate={playing} role="group" aria-roledescription="diapositiva" aria-label={`${index + 1} de ${banners.length}: ${banner.label}`} onPointerDown={(event) => { swiped.current = false; if (event.pointerType === "touch") touch.current = { x: event.clientX, y: event.clientY }; }} onPointerUp={swipe} onPointerCancel={() => { touch.current = null; }}>
           <div className="campaign-copy">
             <p className="campaign-eyebrow font-mono">{banner.eyebrow}</p>
             <h1 className="campaign-title street-title">{banner.title}<br /><span>{banner.highlight}</span></h1>
@@ -67,14 +67,14 @@ export function BannerCarousel({ banners }: { banners: HomeCampaign[] }) {
           </div>
           {banner.product ? (
             <Link href={`/productos/${banner.product.id}`} aria-label={`Ver ${banner.product.nombre}`} className="campaign-visual">
-              <Image src={banner.product.imagen} alt={banner.product.nombre} fill loading={index === 0 ? "eager" : "lazy"} fetchPriority={index === 0 ? "high" : "auto"} sizes="(min-width: 1152px) 528px, (min-width: 768px) 50vw, 100vw" className="object-cover" />
+              <Image src={banner.product.imagen} alt={banner.product.nombre} fill loading={index === 0 ? "eager" : "lazy"} fetchPriority={index === 0 ? "high" : "auto"} sizes="(min-width: 1600px) 752px, (min-width: 768px) 50vw, 100vw" className="object-cover" />
               <span className="campaign-category font-mono">{banner.product.categoria}</span>
               <span className="campaign-caption"><span><span className="block font-mono text-xs uppercase tracking-wider text-street-muted">Explorá la prenda</span><span className="mt-1 block font-display text-3xl font-black uppercase leading-none">{banner.product.nombre}</span></span><span aria-hidden="true">↗</span></span>
             </Link>
           ) : <div className="campaign-visual campaign-wordmark" aria-hidden="true">{banner.id === "ofertas" ? "OFERTAS" : "norte."}</div>}
         </div>
       </div>
-      <div className="campaign-controls mx-auto max-w-6xl">
+      <div className="campaign-controls site-shell">
         <div className="campaign-selectors" aria-label="Elegir campaña">
           {banners.map((item, number) => <button key={item.id} type="button" aria-pressed={index === number} aria-controls={id} onClick={() => select(number)}><span className="font-mono">0{number + 1}</span>{item.label}</button>)}
         </div>

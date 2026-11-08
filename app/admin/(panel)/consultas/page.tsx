@@ -20,7 +20,7 @@ export default async function AdminConsultasPage({ searchParams }: { searchParam
   );
 
   return (
-    <div className="max-w-4xl py-6 md:py-8">
+    <div className="min-w-0 py-6 md:py-8">
       <h1 className="street-title text-5xl sm:text-6xl">Consultas</h1>
       <p className="mt-2 text-sm text-street-muted">Mensajes del formulario de contacto, del más reciente al más antiguo. Abrí una consulta para leerla y responder por email.</p>
       <form key={q} method="get" className="mt-6 flex flex-wrap items-end gap-3 rounded-street border border-street-border bg-street-surface p-4">

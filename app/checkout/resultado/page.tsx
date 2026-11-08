@@ -110,7 +110,7 @@ export default function ResultadoPage({
   searchParams: Promise<{ pedido?: string; comprobante?: string }>;
 }) {
   return (
-    <div className="mx-auto max-w-2xl px-6 py-16 md:py-24">
+    <div className="site-shell py-16 md:py-24">
       <Suspense
         fallback={
           <div className="animate-pulse space-y-4">

@@ -37,7 +37,7 @@ const PREGUNTAS = [
 
 export default function ContactoPage() {
   return (
-    <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
+    <div className="site-shell py-12 md:py-16">
       <Link
         href="/"
         className="text-sm text-street-muted underline-offset-4 hover:text-street-foreground hover:underline"

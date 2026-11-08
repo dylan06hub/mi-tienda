@@ -9,25 +9,27 @@ export const metadata: Metadata = {
 
 export default function AdminLoginPage() {
   return (
-    <div className="mx-auto flex max-w-md flex-col justify-center px-6 py-16 md:min-h-[70vh]">
-      <p className="text-xs uppercase tracking-[0.25em] text-street-muted">
-        Administración
-      </p>
-      <h1 className="mt-3 street-title text-5xl sm:text-6xl">
-        Acceso al panel
-      </h1>
-      <p className="mt-3 text-sm leading-6 text-street-muted">
-        Ingresá con tu cuenta de administrador.
-      </p>
+    <div className="site-shell py-16">
+      <div className="mx-auto flex w-full max-w-md flex-col justify-center md:min-h-[70vh]">
+        <p className="text-xs uppercase tracking-[0.25em] text-street-muted">
+          Administración
+        </p>
+        <h1 className="mt-3 street-title text-5xl sm:text-6xl">
+          Acceso al panel
+        </h1>
+        <p className="mt-3 text-sm leading-6 text-street-muted">
+          Ingresá con tu cuenta de administrador.
+        </p>
 
-      <LoginForm />
+        <LoginForm />
 
-      <Link
-        href="/"
-        className="mt-8 text-center text-sm text-street-muted underline-offset-4 hover:text-street-foreground hover:underline"
-      >
-        Volver a la tienda
-      </Link>
+        <Link
+          href="/"
+          className="mt-8 text-center text-sm text-street-muted underline-offset-4 hover:text-street-foreground hover:underline"
+        >
+          Volver a la tienda
+        </Link>
+      </div>
     </div>
   );
 }

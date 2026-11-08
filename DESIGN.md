@@ -99,6 +99,9 @@ Licencia SIL Open Font License en `public/fonts/OFL-barlow-condensed.txt`.
 ## Layout
 
 - Controles de esquinas casi rectas: radio de 4 px. Fotografías con bordes rectos.
+- `.site-shell` comparte un ancho máximo de 1.600 px entre tienda y panel.
+  El margen lateral crece de 16 a 48 px según la pantalla (`clamp(16px, 3vw, 48px)`).
+  Login conserva un formulario compacto dentro de ese contenedor.
 - Alineaciones compartidas, bordes laterales iguales y espacios en múltiplos de
   4 px. Los bloques separan sus grupos por proximidad y espacio.
 - Títulos contundentes, separadores finos y grilla de producto compacta.

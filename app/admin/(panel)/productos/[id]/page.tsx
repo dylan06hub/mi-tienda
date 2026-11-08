@@ -24,7 +24,7 @@ export default async function EditarProductoPage({
   if (!producto) notFound();
 
   return (
-    <div className="max-w-3xl py-6 md:py-8">
+    <div className="min-w-0 py-6 md:py-8">
       <Link
         href="/admin/productos"
         className="text-sm text-street-muted underline-offset-4 hover:text-street-foreground hover:underline"

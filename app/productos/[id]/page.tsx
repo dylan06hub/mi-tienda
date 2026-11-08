@@ -37,7 +37,7 @@ async function FichaProducto({
   if (!producto) notFound();
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10 md:py-16">
+    <div className="site-shell py-10 md:py-16">
       {/* Migas de pan */}
       <nav className="text-sm text-street-muted">
         <Link href="/productos" className="hover:text-street-foreground">
@@ -111,7 +111,7 @@ async function FichaProducto({
 
 function FichaProductoSkeleton() {
   return (
-    <div className="mx-auto max-w-6xl animate-pulse px-6 py-10 md:py-16">
+    <div className="site-shell animate-pulse py-10 md:py-16">
       <div className="h-4 w-40 rounded bg-street-surface" />
       <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-16">
         <div className="aspect-[4/5] rounded-street bg-street-surface" />

@@ -54,7 +54,7 @@ export default async function AdminPedidoPage({
   const acciones = accionesDisponibles(pedido.estado);
 
   return (
-    <div className="max-w-4xl py-6 md:py-8">
+    <div className="min-w-0 py-6 md:py-8">
       <Link
         href="/admin/pedidos"
         className="text-sm text-street-muted underline-offset-4 hover:text-street-foreground hover:underline"

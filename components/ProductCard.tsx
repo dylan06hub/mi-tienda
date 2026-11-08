@@ -12,7 +12,7 @@ export function ProductCard({ producto }: { producto: Producto }) {
     <Link href={`/productos/${producto.id}`} className="street-product group">
       <div className="street-product-image relative aspect-[4/5] overflow-hidden bg-street-background">
         {producto.imagen ? (
-          <Image src={producto.imagen} alt={producto.nombre} fill sizes="(min-width: 1280px) 330px, (min-width: 768px) 40vw, 75vw" className="street-product-photo h-full w-full object-cover" />
+          <Image src={producto.imagen} alt={producto.nombre} fill sizes="(min-width: 1600px) 420px, (min-width: 1280px) 32vw, (min-width: 768px) 50vw, 78vw" className="street-product-photo h-full w-full object-cover" />
         ) : (
           <div className="flex h-full items-center justify-center text-sm text-street-muted">Sin imagen</div>
         )}

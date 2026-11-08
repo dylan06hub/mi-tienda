@@ -11,7 +11,7 @@ export function Footer() {
   return (
     <footer className="future-footer">
       <div className="footer-spectrum" aria-hidden="true"><span /><span /><span /><span /></div>
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="site-shell">
         <div className="footer-heading">
           <div>
             <Link href="/" className="footer-brand font-display font-black">norte<span>.</span></Link>

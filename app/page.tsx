@@ -21,7 +21,7 @@ async function ColeccionInicio({ campo }: { campo: "destacado" | "oferta" }) {
   if (seleccion.length === 0) return null;
 
   return (
-    <section id={ofertas ? "ofertas" : "destacados"} className={`home-collection mx-auto max-w-6xl scroll-mt-32 px-6 py-10 md:py-14 ${ofertas ? "home-collection--offers" : "home-collection--featured"}`}>
+    <section id={ofertas ? "ofertas" : "destacados"} className={`home-collection site-shell scroll-mt-32 py-10 md:py-14 ${ofertas ? "home-collection--offers" : "home-collection--featured"}`}>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="mb-3 font-mono text-xs uppercase tracking-widest text-street-secondary">{ofertas ? "Selección en oferta" : "Selección norte."}</p>
@@ -48,7 +48,7 @@ async function ColeccionInicio({ campo }: { campo: "destacado" | "oferta" }) {
 
 function SeccionSkeleton() {
   return (
-    <div className="mx-auto max-w-6xl animate-pulse px-6 py-8 md:py-12">
+    <div className="site-shell animate-pulse py-8 md:py-12">
       <div className="h-3 w-24 rounded bg-street-surface" />
       <div className="mt-3 h-12 w-64 rounded bg-street-surface" />
       <div className="mt-8 grid auto-cols-[78%] grid-flow-col gap-4 overflow-hidden sm:auto-cols-[calc((100%_-_16px)/2)] lg:auto-cols-[calc((100%_-_48px)/4)]">
@@ -81,7 +81,7 @@ export default function Home() {
       </Suspense>
 
       {/* Ventajas */}
-      <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
+      <section className="site-shell py-12 md:py-16">
         <div className="home-benefits grid gap-8 border-y border-street-border py-10 sm:grid-cols-3">
           <div>
             <p className="text-sm font-medium">

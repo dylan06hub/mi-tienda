@@ -8,6 +8,8 @@
 }
 
 :root {
+  --page-width: 1600px;
+  --page-gutter: clamp(16px, 3vw, 48px);
   --street-background: #0b0b0d;
   --street-surface: #17171b;
   --street-foreground: #f4f4ed;
@@ -32,6 +34,13 @@
   --color-street-on-accent: var(--street-on-accent);
   --font-display: var(--street-font-display);
   --radius-street: 0.25rem;
+}
+
+.site-shell {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
 }
 
 .street-theme {
@@ -229,7 +238,7 @@
 .campaign--ofertas { --campaign-accent: var(--street-pink); --campaign-ground: #25101e; }
 .campaign--fiestas { --campaign-accent: var(--street-orange); --campaign-ground: #23150f; }
 .campaign--destacados { --campaign-accent: var(--street-secondary); --campaign-ground: #101c37; }
-.campaign-panel { display: grid; align-items: center; gap: 28px; padding: 32px 24px; touch-action: pan-y; }
+.campaign-panel { display: grid; align-items: center; gap: 28px; padding: 32px var(--page-gutter); touch-action: pan-y; }
 .campaign-panel[data-animate="true"] { animation: campaign-appear 180ms cubic-bezier(.23, 1, .32, 1); }
 @keyframes campaign-appear { from { opacity: .3; } to { opacity: 1; } }
 .campaign-eyebrow { margin-bottom: 20px; max-width: 34em; color: var(--campaign-accent); font-size: 11px; line-height: 1.8; text-transform: uppercase; letter-spacing: .13em; }
@@ -250,7 +259,7 @@
 .campaign--fiestas .campaign-visual::after { content: "✳"; position: absolute; top: 12px; right: 16px; color: var(--campaign-accent); font-size: 64px; line-height: 1; pointer-events: none; }
 .campaign--fiestas .campaign-title > span { -webkit-text-stroke: 1px var(--campaign-accent); color: transparent; }
 .campaign--destacados .campaign-copy { border-left: 3px solid var(--campaign-accent); padding-left: 20px; }
-.campaign-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 0 24px 24px; }
+.campaign-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 0 var(--page-gutter) 24px; }
 .campaign-selectors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
 .campaign-selectors button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; border: 1px solid #f4f4ed60; padding: 8px 12px; font-size: 12px; text-align: left; cursor: pointer; }
 .campaign-selectors button > span { color: var(--campaign-accent); font-size: 10px; }

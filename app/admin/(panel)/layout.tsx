@@ -15,7 +15,7 @@ export default async function AdminLayout({
   const admin = await requireAdmin();
 
   return (
-    <section aria-label="Panel de administración" className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+    <section aria-label="Panel de administración" className="site-shell py-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="font-display text-3xl font-black tracking-tight">Administración de norte.</p>
