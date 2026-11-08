@@ -32,7 +32,8 @@ export function DeleteProductButton({
       <button
         type="submit"
         disabled={pendiente}
-        className="text-sm text-street-foreground underline-offset-4 transition hover:text-street-foreground hover:underline disabled:opacity-50"
+        aria-label={`Eliminar ${nombre}`}
+        className="min-h-11 w-full rounded-street border border-street-danger bg-street-danger px-4 text-sm font-medium text-street-foreground transition hover:border-street-fog disabled:opacity-50"
       >
         {pendiente ? "Eliminando…" : "Eliminar"}
       </button>

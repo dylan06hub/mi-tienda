@@ -206,7 +206,7 @@ El formulario de producto separa los datos de la prenda, los talles y stock, y l
 publicación. Ofrece categorías existentes y muestra la foto actual. Los talles y
 colores de combinaciones guardadas no se renombran: para cambiarlos, crear una
 combinación nueva. El stock sigue siendo editable y se conserva la comprobación
-de cambios concurrentes. Eliminar queda dentro de la edición, con confirmación y
+de cambios concurrentes. Eliminar está disponible desde el listado y la edición, con confirmación y
 las mismas restricciones de historial de pedidos.
 
 ## Identidad streetwear negra y roja

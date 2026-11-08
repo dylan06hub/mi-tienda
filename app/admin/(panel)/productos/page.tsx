@@ -4,6 +4,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/admin-auth";
 import { getProductosAdmin } from "@/lib/productos";
 import { formatearPrecio } from "@/lib/utils";
+import { DeleteProductButton } from "./DeleteProductButton";
 
 export const metadata: Metadata = {
   title: "Productos | Administración",
@@ -100,7 +101,10 @@ export default async function AdminProductosPage({ searchParams }: { searchParam
                   <p className={stock === 0 ? "font-medium text-street-foreground" : "text-street-foreground"}>{stock === 0 ? "Sin stock" : `${stock} ${stock === 1 ? "unidad" : "unidades"}`}</p>
                   <p className="mt-1 text-xs text-street-muted">{producto.variantes.length} {producto.variantes.length === 1 ? "combinación" : "combinaciones"}</p>
                 </div>
-                <Link href={`/admin/productos/${producto.id}`} aria-label={`Editar ${producto.nombre}`} className="inline-flex min-h-11 items-center justify-center rounded-street border border-street-fog px-4 text-sm font-medium hover:border-street-accent">Editar</Link>
+                <div className="flex flex-wrap items-center gap-2 lg:flex-col lg:items-stretch">
+                  <Link href={`/admin/productos/${producto.id}`} aria-label={`Editar ${producto.nombre}`} className="inline-flex min-h-11 items-center justify-center rounded-street border border-street-fog px-4 text-sm font-medium hover:border-street-accent">Editar</Link>
+                  <DeleteProductButton id={producto.id} nombre={producto.nombre} />
+                </div>
               </li>
             );
           })}

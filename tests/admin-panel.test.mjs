@@ -22,9 +22,14 @@ for (const [path, actual] of [['/admin', 'Resumen'], ['/admin/productos/nuevo', 
   });
 }
 
+const { DeleteProductButton } = cargarTS('app/admin/(panel)/productos/DeleteProductButton.tsx', {
+  ...base, react: React, './actions': { eliminarProducto: async () => null },
+});
+
 async function listado(params = {}, autorizado = true) {
   const { default: Page } = cargarTS('app/admin/(panel)/productos/page.tsx', {
     ...base,
+    './DeleteProductButton': { DeleteProductButton },
     '@/lib/admin-auth': { requireAdmin: async () => { if (!autorizado) throw Error('NO_ADMIN'); } },
     '@/lib/productos': { getProductosAdmin: async () => { assert.ok(autorizado); return productos; } },
     '@/lib/utils': { formatearPrecio: String },
@@ -32,10 +37,13 @@ async function listado(params = {}, autorizado = true) {
   return renderToStaticMarkup(await Page({ searchParams: Promise.resolve(params) }));
 }
 
-test('productos combina búsqueda, categoría y estado y permite limpiar sin borrar', async () => {
+test('productos combina filtros y permite editar o eliminar desde el listado', async () => {
   const html = await listado({ q: 'camisa', categoria: 'Camisas', estado: 'publicados' });
   assert.match(html, /Camisa Azul/);
-  assert.doesNotMatch(html, /Remera Blanca|Eliminar/);
+  assert.doesNotMatch(html, /Remera Blanca/);
+  assert.match(html, /aria-label="Eliminar Camisa Azul"/);
+  assert.match(html, /name="id" value="camisa"/);
+  assert.match(html, /aria-label="Editar Camisa Azul"/);
   assert.match(html, /Limpiar filtros/);
 });
 test('productos permite encontrar ocultos sin stock', async () => {
