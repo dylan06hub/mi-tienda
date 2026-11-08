@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 };
 
 type SearchParams = {
+  q?: string | string[];
   categoria?: string | string[];
   talle?: string | string[];
   color?: string | string[];
@@ -46,6 +47,8 @@ async function Catalogo({
   const min = params.min ? Number(params.min) : NaN;
   const max = params.max ? Number(params.max) : NaN;
   const soloStock = params.disponible === "1";
+  const busqueda = (Array.isArray(params.q) ? params.q[0] : params.q)?.trim().slice(0, 100) ?? "";
+  const terminos = normalizar(busqueda).split(/\s+/).filter(Boolean);
 
   const productos = await getProductos();
 
@@ -56,6 +59,8 @@ async function Catalogo({
   const coloresSet = new Set(coloresActivos.filter((v) => v).map(normalizar));
 
   const filtrados = productos.filter((producto) => {
+    const texto = normalizar(`${producto.nombre} ${producto.categoria}`);
+    if (!terminos.every((termino) => texto.includes(termino))) return false;
     if (categoriasSet.size > 0) {
       if (!categoriasSet.has(normalizar(producto.categoria))) return false;
     }
@@ -119,15 +124,16 @@ async function Catalogo({
         <p role="status" className="text-sm text-street-muted">
           {filtrados.length}{" "}
           {filtrados.length === 1 ? "prenda encontrada" : "prendas encontradas"}
+          {busqueda && ` para “${busqueda}”` }
           {hayFiltros ? " con los filtros seleccionados." : "."}
         </p>
         {filtrados.length === 0 ? (
           <div className="mt-10 rounded-street border border-street-border bg-street-surface px-6 py-16 text-center">
             <p className="text-sm text-street-muted">
-              No hay productos que coincidan con esos filtros.
+              No hay productos que coincidan con la búsqueda o los filtros.
             </p>
             <p className="mt-2 text-xs text-street-muted">
-              Probá quitando algún filtro o cambiando los criterios.
+              Probá otra búsqueda o quitá algún filtro.
             </p>
           </div>
         ) : (

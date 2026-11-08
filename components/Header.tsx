@@ -31,7 +31,7 @@ export function Header() {
 
   return (
     <header ref={header} data-hidden={hidden} className="street-header sticky top-0 z-50 border-b border-street-border/80 bg-street-background/95 backdrop-blur">
-      <div className="site-shell flex min-h-16 items-center justify-between gap-2">
+      <div className="site-shell flex min-h-16 flex-wrap items-center justify-between gap-x-3 gap-y-2 py-2 lg:flex-nowrap">
         {/* Marca */}
         <Link
           href="/"
@@ -40,12 +40,20 @@ export function Header() {
           norte<span className="text-street-accent">.</span>
         </Link>
 
+        <form action="/productos" method="get" role="search" aria-label="Buscar en el catálogo" className="header-search order-last flex w-full items-center rounded-street border border-street-fog bg-street-surface lg:order-none lg:mx-6 lg:max-w-lg">
+          <label htmlFor="buscar-catalogo" className="sr-only">Buscar productos</label>
+          <input id="buscar-catalogo" name="q" type="search" placeholder="Buscar prendas o categorías" maxLength={100} className="h-11 min-w-0 flex-1 bg-transparent px-3 text-base text-street-foreground" />
+          <button type="submit" aria-label="Buscar" className="header-nav-link flex h-11 w-11 shrink-0 items-center justify-center">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></svg>
+          </button>
+        </form>
+
         {/* Navegación */}
         <nav aria-label="Principal" className="flex items-center gap-2 text-sm text-street-muted sm:gap-5">
-          <Link href="/productos" className="inline-flex min-h-11 items-center transition-colors hover:text-street-foreground">
-            Productos
+          <Link href="/productos" className="header-nav-link header-nav-text inline-flex min-h-11 items-center font-semibold">
+            Catálogo
           </Link>
-          <Link href="/contacto" className="inline-flex min-h-11 items-center transition-colors hover:text-street-foreground">
+          <Link href="/contacto" className="header-nav-link header-nav-text inline-flex min-h-11 items-center font-semibold">
             Contacto
           </Link>
           <Link
@@ -53,7 +61,7 @@ export function Header() {
             aria-label={
               unidades > 0 ? `Carrito, ${unidades} ${unidades === 1 ? "artículo" : "artículos"}` : "Carrito"
             }
-            className="flex min-h-11 items-center gap-2 rounded-street bg-street-accent px-3 py-2 font-semibold text-street-on-accent hover:bg-street-accent-hover sm:px-4"
+            className="header-nav-link flex min-h-11 items-center gap-2 rounded-street bg-street-accent px-3 py-2 font-semibold text-street-on-accent hover:bg-street-accent-hover sm:px-4"
           >
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 sm:hidden"><path d="M6 7h12l1 14H5L6 7Z" /><path d="M9 8V5a3 3 0 0 1 6 0v3" /></svg>
             <span className="hidden sm:inline">Carrito</span>

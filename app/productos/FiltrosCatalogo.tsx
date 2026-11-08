@@ -88,7 +88,7 @@ export function FiltrosCatalogo({ conteos, precios }: Props) {
 
   const activos = Array.from(searchParams.entries()).filter(
     ([clave, valor]) =>
-      (["categoria", "talle", "color", "min", "max"].includes(clave) && valor.trim() !== "") ||
+      (["q", "categoria", "talle", "color", "min", "max"].includes(clave) && valor.trim() !== "") ||
       (clave === "disponible" && valor === "1"),
   );
 

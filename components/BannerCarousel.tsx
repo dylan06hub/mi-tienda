@@ -85,11 +85,7 @@ export function BannerCarousel({ banners }: { banners: HomeCampaign[] }) {
           ) : <div className="campaign-visual campaign-wordmark" aria-hidden="true">{banner.id === "ofertas" ? "OFERTAS" : "norte."}</div>}
         </div>
       </div>
-      <div className="campaign-status site-shell">
-        <p className="font-mono text-xs text-street-muted" aria-hidden="true">{String(index + 1).padStart(2, "0")} / {String(banners.length).padStart(2, "0")}</p>
-        <p id={`${id}-ayuda`} className="sr-only">Deslizá o usá las flechas del teclado para cambiar de campaña. Inicio y Fin llevan a la primera y última.</p>
-        {!reduced && <button type="button" className="campaign-pause" aria-controls={id} aria-label={paused ? "Reanudar banners" : "Pausar banners"} onClick={() => setPaused((value) => !value)}>{paused ? "▶" : "Ⅱ"}</button>}
-      </div>
+      <p id={`${id}-ayuda`} className="sr-only">Deslizá o usá las flechas del teclado para cambiar de campaña. Inicio y Fin llevan a la primera y última.</p>
     </section>
   );
 }

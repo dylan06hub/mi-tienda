@@ -17,7 +17,7 @@ function contraste(a, b) {
 for (const [texto, fondo] of [
   ['foreground', 'background'], ['foreground', 'surface'],
   ['muted', 'background'], ['fog', 'surface'], ['fog', 'danger'],
-  ['foreground', 'danger'], ['background', 'secondary'],
+  ['foreground', 'danger'], ['background', 'secondary'], ['link', 'background'],
   ['on-accent', 'accent'], ['on-accent', 'accent-hover'],
 ]) {
   test(`texto ${texto} sobre ${fondo} cumple contraste AA`, () => {
@@ -36,6 +36,6 @@ test('la identidad usa la paleta negra, gris y roja acordada', () => {
     background: '#0a0a0a', surface: '#404040', foreground: '#f8f8f8',
     muted: '#808080', border: '#404040', accent: '#e60000',
     'accent-hover': '#800000', secondary: '#ffffff', 'on-accent': '#ffffff',
-    fog: '#c0c0c0', danger: '#800000',
+    fog: '#c0c0c0', danger: '#800000', link: '#ff0000',
   });
 });

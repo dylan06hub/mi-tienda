@@ -231,7 +231,8 @@ talles con stock y precio visible; la elección de variantes sigue en la ficha.
 ## Campañas, cinta y footer
 
 La portada usa cuatro campañas visuales (marca, ofertas, celebraciones y
-destacados), con rotación de 6,5 segundos, gesto táctil, teclado y pausa. El foco y
+destacados), con rotación de 6,5 segundos, gesto táctil y teclado, sin contador
+ni botón de pausa. El foco y
 la navegación manual detienen la rotación; hover, pestaña oculta y movimiento
 reducido también la suspenden. Las ofertas y sus enlaces se toman del catálogo
 publicado; no se calculan descuentos. Las campañas sin fotos usan un cartel gráfico.
@@ -248,3 +249,7 @@ la marca. Los medios reales se confirman en el checkout de Mercado Pago.
 16 y 48 px. Se usa en home, banners, destacados, ofertas, catálogo, ficha, carrito,
 checkout, contacto, resultado de pago, header, footer y administración. Los estados
 de carga usan la misma anchura; el formulario de acceso conserva un ancho de lectura cómodo.
+
+El buscador del header consulta `/productos?q=...` por nombre y categoría;
+las palabras se combinan con los filtros existentes. Se muestra el término
+buscado con los resultados y «Limpiar todo» también elimina la búsqueda.

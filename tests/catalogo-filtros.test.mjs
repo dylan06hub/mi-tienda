@@ -62,3 +62,13 @@ test('una combinación inexistente muestra el estado vacío', async () => {
   assert.deepEqual(result.ids, []);
   assert.match(result.textos, /No hay productos que coincidan/);
 });
+
+test('busca nombre y categoría, combina palabras y conserva filtros de stock', async () => {
+  const data = [producto('Buzo Norte', [variante('M', 'Negro')], 'Buzos'), producto('Buzo Relax', [variante('M', 'Negro', 0)], 'Buzos'), producto('Jean Norte', [variante('M', 'Azul')], 'Pantalones')];
+  assert.deepEqual((await renderizar(data, {q: ' NORTE buzos '})).ids, ['Buzo Norte']);
+  assert.deepEqual((await renderizar(data, {q: 'buzos'})).ids, ['Buzo Norte', 'Buzo Relax']);
+  assert.deepEqual((await renderizar(data, {q: 'buzos', disponible: '1'})).ids, ['Buzo Norte']);
+  assert.deepEqual((await renderizar(data, {q: ['Jean', 'Buzo']})).ids, ['Jean Norte']);
+  assert.equal((await renderizar(data, {q: '  '})).ids.length, 3);
+  assert.deepEqual((await renderizar(data, {q: 'inexistente'})).ids, []);
+});

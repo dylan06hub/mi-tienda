@@ -15,6 +15,7 @@ Fotografías reales, títulos condensados y composición editorial conservan el 
 | accent | #E60000 | CTA, carrito, selección y ofertas |
 | danger / accent-hover | #800000 | Alertas, banners, agotado y hover |
 | on-accent | #FFFFFF | Texto sobre rojo |
+| link | #FF0000 | Texto de navegación en hover sobre negro |
 
 El rojo principal usa la variante #E60000 para permitir texto blanco legible.
 Concrete Gray sobre Asphalt Gray no alcanza contraste de lectura: usar Fog Gray.
@@ -28,8 +29,8 @@ Controles con radio de 4 px y acciones de al menos 48 px de alto.
 `.site-shell`: ancho máximo 1600 px, margen lateral de 16 a 48 px.
 Login mantiene un formulario compacto; catálogo de dos columnas en móvil.
 
-Cuatro campañas rotan cada 6,5 segundos, con gesto, teclado y pausa discreta,
-sin flechas ni selectores. La cinta tiene 32 px y gira sin botón de pausa ni interrupción por hover o foco;
+Cuatro campañas rotan cada 6,5 segundos, con gesto y teclado,
+sin flechas, selectores, contador ni botón de pausa. La interacción pausa la rotación. La cinta tiene 32 px y gira sin botón de pausa ni interrupción por hover o foco;
 respeta movimiento reducido.
 Los carruseles de productos conservan desplazamiento nativo, teclado y contador.
 Hover de fotografía solo con puntero preciso. Respetar movimiento reducido.
@@ -41,3 +42,7 @@ Revisar contraste, navegación con teclado, escritorio y móvil antes de publica
 Las tarjetas muestran categoría debajo del título, fuera de la fotografía.
 La cabecera se oculta al bajar y reaparece al subir o recibir foco de teclado;
 la transición de 200 ms se elimina con movimiento reducido.
+
+El header incluye búsqueda por nombre y categoría mediante `/productos?q=...`,
+con una fila propia en móvil. Los enlaces tienen un subrayado rojo de izquierda
+a derecha en hover, instantáneo por teclado o con movimiento reducido.

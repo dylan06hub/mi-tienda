@@ -62,6 +62,8 @@ test('los banners rotan, se pausan al interactuar y respetan movimiento reducido
   assert.equal(stopped, true);
   let ui = render();
   assert.equal(find(ui, (el) => el.props?.['aria-label'] === 'Banner siguiente'), undefined);
+  assert.equal(find(ui, (el) => el.type === 'button'), undefined);
+  assert.equal(find(ui, (el) => el.props?.className === 'campaign-status site-shell'), undefined);
   const target = {};
   ui.props.onKeyDown({ key: 'ArrowRight', target, currentTarget: target, preventDefault() {} });
   assert.equal(values[0], 2);
