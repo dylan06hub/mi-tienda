@@ -3,15 +3,34 @@
 // Cabecera común: marca, navegación y contador de unidades del carrito.
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { AnnouncementRibbon } from "./AnnouncementRibbon";
 import { useCart } from "./CartProvider";
 
 export function Header() {
   const { items } = useCart();
+  const header = useRef<HTMLElement>(null);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    let previous = Math.max(0, window.scrollY);
+    const onScroll = () => {
+      const current = Math.max(0, window.scrollY);
+      if (current <= (header.current?.offsetHeight ?? 96)) {
+        setHidden(false);
+        previous = current;
+      } else if (Math.abs(current - previous) >= 8) {
+        setHidden(current > previous);
+        previous = current;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   const unidades = items.reduce((total, item) => total + item.cantidad, 0);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-street-border/80 bg-street-background/95 backdrop-blur">
+    <header ref={header} data-hidden={hidden} className="street-header sticky top-0 z-50 border-b border-street-border/80 bg-street-background/95 backdrop-blur">
       <div className="site-shell flex min-h-16 items-center justify-between gap-2">
         {/* Marca */}
         <Link

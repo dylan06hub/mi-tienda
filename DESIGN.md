@@ -36,3 +36,7 @@ Hover de fotografía solo con puntero preciso. Respetar movimiento reducido.
 Footer con redes generales, dirección de muestra identificada y Mercado Pago.
 Catálogo, variantes, carrito, autenticación y pagos mantienen su funcionamiento.
 Revisar contraste, navegación con teclado, escritorio y móvil antes de publicar.
+
+Las tarjetas muestran categoría debajo del título, fuera de la fotografía.
+La cabecera se oculta al bajar y reaparece al subir o recibir foco de teclado;
+la transición de 200 ms se elimina con movimiento reducido.

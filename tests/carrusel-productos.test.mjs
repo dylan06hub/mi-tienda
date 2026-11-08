@@ -77,6 +77,15 @@ test('la tarjeta muestra talles disponibles sin duplicados y conserva el estado 
   const html = renderToStaticMarkup(React.createElement(ProductCard, { producto }));
   assert.match(html, /href="\/productos\/buzo"/);
   assert.match(html, /Talles: M/);
+  const card = ProductCard({ producto });
+  const photo = find(card, el => el.props?.className?.includes('street-product-image'));
+  assert.equal(find(photo, el => el.props?.className === 'street-product-category'), undefined);
+  const title = find(card, el => el.type === 'h3');
+  const details = React.Children.toArray(card.props.children)[1];
+  const fields = React.Children.toArray(details.props.children);
+  assert.equal(fields[0].props.children, title.props.children);
+  assert.equal(fields[1].props.className, 'street-product-category');
+  assert.equal(fields[1].props.children, 'Buzos');
   assert.doesNotMatch(html, /M \/ M|Talles:.*L/);
   const agotado = renderToStaticMarkup(React.createElement(ProductCard, { producto: { ...producto, variantes: [] } }));
   assert.match(agotado, /Agotado/);
