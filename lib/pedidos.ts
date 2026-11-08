@@ -56,6 +56,7 @@ export const getPedidosAdmin = cache(async (): Promise<PedidoAdmin[]> => {
   const { data, error } = await supabase
     .from("pedidos")
     .select(CAMPOS_PEDIDO)
+    .eq("eliminado_admin", false)
     .order("creado_en", { ascending: false });
 
   if (error) {

@@ -32,14 +32,6 @@ export function AccionesPedido({
             name="estado"
             value={accion.estado}
             disabled={pendiente}
-            onClick={(evento) => {
-              if (
-                accion.confirmar &&
-                !window.confirm(accion.confirmar)
-              ) {
-                evento.preventDefault();
-              }
-            }}
             className={
               accion.estado === "cancelado"
                 ? ESTILO_PELIGRO

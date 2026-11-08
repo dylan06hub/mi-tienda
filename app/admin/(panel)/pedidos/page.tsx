@@ -5,6 +5,7 @@ import { getPedidosAdmin, getIncidenciasPago } from "@/lib/pedidos";
 import { formatearFecha, formatearPrecio } from "@/lib/utils";
 import { EstadoPedidoBadge } from "./EstadoPedidoBadge";
 import { resolverIncidenciaPago } from "./actions";
+import { DeleteOrderButton } from "./DeleteOrderButton";
 
 export const metadata: Metadata = {
   title: "Pedidos | Administración",
@@ -41,7 +42,7 @@ export default async function AdminPedidosPage({ searchParams }: {
   return (
     <div className="py-6 md:py-8">
       <h1 className="street-title text-5xl sm:text-6xl">Pedidos</h1>
-      <p className="mt-2 text-sm text-street-muted">Buscá un pedido o elegí un estado. Abrí el detalle para preparar el envío o gestionar una cancelación.</p>
+      <p className="mt-2 text-sm text-street-muted">Buscá un pedido o elegí un estado. Abrí el detalle para preparar el envío o gestionar una cancelación. Eliminar quita el pedido del listado sin cancelar ni reembolsar la compra.</p>
 
       <form key={`${q}-${estado}`} method="get" className="mt-6 grid items-end gap-3 rounded-street border border-street-border bg-street-surface p-4 sm:grid-cols-[minmax(0,1fr)_180px_auto]">
         <div>
@@ -118,7 +119,10 @@ export default async function AdminPedidosPage({ searchParams }: {
                 <p className="mt-1 text-xs text-street-muted">{formatearFecha(pedido.creadoEn)}</p>
               </div>
               <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end"><span className="whitespace-nowrap text-sm font-medium tabular-nums">{formatearPrecio(pedido.total)}</span><EstadoPedidoBadge estado={pedido.estado} /></div>
-              <Link href={`/admin/pedidos/${pedido.id}`} aria-label={`Abrir pedido ${pedido.id.slice(0, 8)}`} className="inline-flex min-h-11 items-center justify-center rounded-street border border-street-fog px-4 text-sm font-medium hover:border-street-accent">Ver pedido</Link>
+              <div className="flex flex-wrap gap-2 sm:flex-col">
+                <Link href={`/admin/pedidos/${pedido.id}`} aria-label={`Abrir pedido ${pedido.id.slice(0, 8)}`} className="inline-flex min-h-11 items-center justify-center rounded-street border border-street-fog px-4 text-sm font-medium hover:border-street-accent">Ver pedido</Link>
+                <DeleteOrderButton id={pedido.id} />
+              </div>
             </li>
           ))}
         </ul>

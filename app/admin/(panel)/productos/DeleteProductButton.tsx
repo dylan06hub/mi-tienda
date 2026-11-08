@@ -16,18 +16,7 @@ export function DeleteProductButton({
   );
 
   return (
-    <form
-      action={action}
-      onSubmit={(event) => {
-        if (
-          !window.confirm(
-            `¿Eliminar "${nombre}"? Esta acción no se puede deshacer.`,
-          )
-        ) {
-          event.preventDefault();
-        }
-      }}
-    >
+    <form action={action}>
       <input type="hidden" name="id" value={id} />
       <button
         type="submit"

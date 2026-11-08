@@ -38,6 +38,7 @@ create table public.pedidos (
   telefono text,
   direccion text,
   mp_payment_id text,
+  eliminado_admin boolean not null default false,
   creado_en timestamptz not null default now()
 );
 

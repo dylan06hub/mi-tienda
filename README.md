@@ -206,7 +206,7 @@ El formulario de producto separa los datos de la prenda, los talles y stock, y l
 publicación. Ofrece categorías existentes y muestra la foto actual. Los talles y
 colores de combinaciones guardadas no se renombran: para cambiarlos, crear una
 combinación nueva. El stock sigue siendo editable y se conserva la comprobación
-de cambios concurrentes. Eliminar está disponible desde el listado y la edición, con confirmación y
+de cambios concurrentes. Eliminar está disponible desde el listado y la edición, sin confirmación y con
 las mismas restricciones de historial de pedidos.
 
 ## Identidad streetwear negra y roja
@@ -253,3 +253,9 @@ de carga usan la misma anchura; el formulario de acceso conserva un ancho de lec
 El buscador del header consulta `/productos?q=...` por nombre y categoría;
 las palabras se combinan con los filtros existentes. Se muestra el término
 buscado con los resultados y «Limpiar todo» también elimina la búsqueda.
+
+Eliminar un pedido lo quita del listado y los contadores administrativos
+mediante `pedidos.eliminado_admin`; conserva reservas, pagos e incidencias.
+No cancela ni reembolsa la compra. El detalle sigue accesible para revisar
+incidencias. Aplicar `supabase/pedidos.sql` antes de desplegar esta versión.
+Las acciones de productos y pedidos se ejecutan sin diálogos de confirmación.

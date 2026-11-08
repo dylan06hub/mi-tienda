@@ -109,7 +109,6 @@ export interface PedidoDetalleAdmin extends PedidoAdmin {
 export interface AccionPedido {
   estado: "enviado" | "cancelado";
   label: string;
-  confirmar?: string;
 }
 
 export interface IncidenciaPago {

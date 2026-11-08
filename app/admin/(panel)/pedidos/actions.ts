@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin-auth";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
@@ -89,4 +90,21 @@ export async function cambiarEstadoPedido(
           ? "Pedido cancelado y stock devuelto."
           : "Pedido cancelado.",
   };
+}
+
+export async function eliminarPedido(_resultado: Resultado, formData: FormData): Promise<Resultado> {
+  await requireAdmin();
+  const id = formData.get("id");
+  if (typeof id !== "string" || !UUID.test(id)) return { error: "Pedido inválido." };
+
+  // Se conserva el registro para pagos tardíos, reservas e incidencias.
+  const { data, error } = await createSupabaseAdminClient().from("pedidos")
+    .update({ eliminado_admin: true }).eq("id", id).select("id").maybeSingle();
+  if (error) return { error: "No se pudo eliminar el pedido." };
+  if (!data) return { error: "El pedido no existe." };
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/pedidos");
+  revalidatePath(`/admin/pedidos/${id}`);
+  redirect("/admin/pedidos");
 }

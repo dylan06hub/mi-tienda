@@ -102,12 +102,14 @@ const datosPedidos = {
   '@/lib/pedidos': { getPedidosAdmin: async () => pedidos, getIncidenciasPago: async () => incidencias },
   '@/lib/utils': { formatearPrecio: String, formatearFecha: String },
   './EstadoPedidoBadge': { EstadoPedidoBadge: ({ estado }) => estado },
+  './DeleteOrderButton': { DeleteOrderButton: ({ id }) => React.createElement('button', { 'aria-label': `Eliminar pedido ${id.slice(0, 8)}` }, 'Eliminar') },
   './actions': { resolverIncidenciaPago: async () => {} },
 };
 test('pedidos combina estado y búsqueda sin esconder las incidencias pendientes ni su historial', async () => {
   const { default: Page } = cargarTS('app/admin/(panel)/pedidos/page.tsx', datosPedidos);
   const html = renderToStaticMarkup(await Page({ searchParams: Promise.resolve({ q: 'dos', estado: 'pagado' }) }));
   assert.match(html, /Cliente dos/);
+  assert.match(html, /aria-label="Eliminar pedido pagado-2"/);
   assert.doesNotMatch(html, /Cliente uno/);
   assert.match(html, /pago-pendiente/);
   assert.match(html, /pago-resuelto/);

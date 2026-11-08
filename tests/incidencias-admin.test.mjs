@@ -6,6 +6,7 @@ function preparar(autorizado = true) {
   const escrituras = [];
   const { resolverIncidenciaPago } = cargarTS('app/admin/(panel)/pedidos/actions.ts', {
     'next/cache': { revalidatePath() {} },
+    'next/navigation': { redirect() {} },
     '@/lib/admin-auth': { requireAdmin: async () => { if (!autorizado) throw new Error('NO_AUTORIZADO'); } },
     '@/lib/supabase/admin': { createSupabaseAdminClient: () => ({ from: (tabla) => ({
       update(datos) { escrituras.push({ tabla, datos }); return this; },

@@ -7,6 +7,7 @@ import { formatearFecha, formatearPrecio } from "@/lib/utils";
 import type { AccionPedido } from "@/types";
 import { AccionesPedido } from "../AccionesPedido";
 import { EstadoPedidoBadge } from "../EstadoPedidoBadge";
+import { DeleteOrderButton } from "../DeleteOrderButton";
 
 export const metadata: Metadata = {
   title: "Detalle del pedido | Administración",
@@ -19,8 +20,6 @@ function accionesDisponibles(estado: string): AccionPedido[] {
       {
         estado: "cancelado",
         label: "Cancelar pedido",
-        confirmar:
-          "¿Cancelar este pedido y liberar las unidades reservadas, si tiene una reserva activa?",
       },
     ];
   }
@@ -31,8 +30,6 @@ function accionesDisponibles(estado: string): AccionPedido[] {
       {
         estado: "cancelado",
         label: "Cancelar y devolver stock",
-        confirmar:
-          "¿Cancelar este pedido y devolver el stock? El reembolso se gestiona en Mercado Pago y quedará pendiente de revisión.",
       },
     ];
   }
@@ -195,6 +192,10 @@ export default async function AdminPedidoPage({
           </table>
         </div>
       </section>
+      <div className="mt-8 border-t border-street-border pt-6">
+        <p className="mb-3 text-sm text-street-muted">Eliminar lo quita del listado; conserva pagos e historial. No cancela ni reembolsa la compra.</p>
+        <DeleteOrderButton id={pedido.id} />
+      </div>
     </div>
   );
 }
