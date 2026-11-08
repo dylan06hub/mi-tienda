@@ -3,6 +3,7 @@
 // Cabecera común: marca, navegación y contador de unidades del carrito.
 
 import Link from "next/link";
+import { AnnouncementRibbon } from "./AnnouncementRibbon";
 import { useCart } from "./CartProvider";
 
 export function Header() {
@@ -45,6 +46,7 @@ export function Header() {
           </Link>
         </nav>
       </div>
+      <AnnouncementRibbon />
     </header>
   );
 }

@@ -11,6 +11,8 @@ colors:
   accent-hover: "#B8E600"
   secondary: "#00F0FF"
   on-accent: "#0B0B0D"
+  pink: "#FF69B4"
+  orange: "#FF9A52"
 typography:
   display:
     fontFamily: "Barlow Condensed, sans-serif"
@@ -43,7 +45,7 @@ components:
 
 Marca urbana de ropa con fotografía real, títulos condensados y composición
 editorial. Negro carbón y blanco hueso sostienen la identidad. El lima neón
-marca la acción principal; el cian acompaña el foco y detalles puntuales.
+marca la identidad; el cian, rosa y naranja identifican campañas y zonas del home.
 La dirección futurista usa líneas guía, esquinas cian y bloques tipográficos
 contundentes. Evita luces pulsantes y brillos que tapen las prendas.
 
@@ -65,7 +67,8 @@ descuentos ni lanzamientos sin datos que las respalden.
 | `--street-secondary` | `#00F0FF` | Foco visible y detalles secundarios |
 | `--street-on-accent` | `#0B0B0D` | Texto sobre lima o cian |
 
-- Distribución orientativa: 80% neutros, 15% lima y 5% cian.
+- Base oscura con bloques azul noche, rosa profundo y naranja oscuro en el home.
+  Los acentos lima, cian, rosa y naranja usan texto oscuro cuando son fondo.
 - El texto de botones neón es oscuro. No usar blanco sobre lima o cian.
 - El lima es la prioridad visual; evitar varios botones lima compitiendo dentro
   del mismo bloque.
@@ -117,6 +120,14 @@ de la colección si no hay uno.
 - Hover: cambio de color de 140 ms. Presión: desplazamiento de 1 px.
 - Foco por teclado: contorno cian de 2 px, separado 4 px del control.
 - Deshabilitado: superficie oscura, texto legible y cursor que indica el estado.
+- Carrusel principal de cuatro campañas: marca, ofertas, celebraciones y
+  destacados. Rotación cada 6,5 segundos, botones por campaña y anterior/siguiente.
+  Pausa por foco, interacción manual, hover, pestaña oculta y movimiento reducido;
+  botón para reanudar. Las campañas ficticias están identificadas como muestra.
+- Cinta de 32 px bajo la navegación, movimiento lineal de 32 segundos y botón
+  de pausa. Se detiene con hover/foco y queda estática con movimiento reducido.
+- Footer azul noche con enlaces generales de redes, ubicación de muestra en Maps,
+  Mercado Pago y opciones ilustrativas; no se inventa una cuenta oficial o un local.
 - Destacados en carrusel horizontal con scroll snap, gesto nativo, flechas de 48 px
   y contador. Flechas de teclado, Inicio y Fin actúan sin animación. No hay avance
   automático. Se deshabilita el desplazamiento suave con movimiento reducido.

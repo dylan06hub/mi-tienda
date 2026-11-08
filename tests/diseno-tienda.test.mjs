@@ -9,8 +9,13 @@ const Link = ({ href, children, ...props }) => React.createElement('a', { href, 
 const Image = ({ src, alt, className }) => React.createElement('img', { src, alt, className });
 const prenda = (id, cambios = {}) => ({ id, nombre: id, imagen: '/productos/abrigo.jpg', destacado: true, variantes: [{ stock: 2 }], ...cambios });
 async function portada(productos) {
-  const { HomeHero } = cargarTS('components/HomeHero.tsx', {
+  const { BannerCarousel } = cargarTS('components/BannerCarousel.tsx', {
+    react: React, 'react/jsx-runtime': jsxRuntime,
     'next/image': { default: Image }, 'next/link': { default: Link },
+  });
+  const campaigns = cargarTS('lib/home-campaigns.ts');
+  const { HomeHero } = cargarTS('components/HomeHero.tsx', {
+    './BannerCarousel': { BannerCarousel }, '@/lib/home-campaigns': campaigns,
     'next/server': { connection: async () => {} },
     'react/jsx-runtime': jsxRuntime,
     '@/lib/productos': { getProductos: async () => productos },

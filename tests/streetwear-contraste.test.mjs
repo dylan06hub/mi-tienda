@@ -17,6 +17,7 @@ function contraste(a, b) {
 for (const [texto, fondo] of [
   ['foreground', 'background'], ['foreground', 'surface'],
   ['muted', 'background'], ['muted', 'surface'],
+  ['on-accent', 'pink'], ['on-accent', 'orange'], ['pink', 'background'], ['orange', 'background'],
   ['on-accent', 'accent'], ['on-accent', 'accent-hover'], ['on-accent', 'secondary'],
 ]) {
   test(`texto ${texto} sobre ${fondo} cumple contraste AA`, () => {

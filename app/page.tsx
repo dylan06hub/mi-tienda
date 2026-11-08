@@ -21,7 +21,7 @@ async function ColeccionInicio({ campo }: { campo: "destacado" | "oferta" }) {
   if (seleccion.length === 0) return null;
 
   return (
-    <section id={ofertas ? "ofertas" : "destacados"} className="mx-auto max-w-6xl scroll-mt-24 px-6 py-8 md:py-12">
+    <section id={ofertas ? "ofertas" : "destacados"} className={`home-collection mx-auto max-w-6xl scroll-mt-32 px-6 py-10 md:py-14 ${ofertas ? "home-collection--offers" : "home-collection--featured"}`}>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="mb-3 font-mono text-xs uppercase tracking-widest text-street-secondary">{ofertas ? "Selección en oferta" : "Selección norte."}</p>
@@ -66,7 +66,7 @@ function SeccionSkeleton() {
 
 export default function Home() {
   return (
-    <div>
+    <div className="home-future">
       <Suspense fallback={<div className="h-[840px] animate-pulse md:h-[648px] bg-street-background" aria-label="Cargando la colección" role="status" />}>
         <HomeHero />
       </Suspense>
@@ -82,7 +82,7 @@ export default function Home() {
 
       {/* Ventajas */}
       <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
-        <div className="grid gap-8 border-y border-street-border py-10 sm:grid-cols-3">
+        <div className="home-benefits grid gap-8 border-y border-street-border py-10 sm:grid-cols-3">
           <div>
             <p className="text-sm font-medium">
               Envío gratis desde {formatearPrecio(ENVIO_GRATIS_DESDE)}

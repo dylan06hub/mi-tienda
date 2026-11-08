@@ -226,3 +226,16 @@ siguiente. El carrusel informa el rango visible y admite flechas de teclado,
 Inicio y Fin cuando recibe foco. No avanza automáticamente y respeta movimiento
 reducido. Las tarjetas del carrusel y catálogo comparten fotografía 4:5, categoría,
 talles con stock y precio visible; la elección de variantes sigue en la ficha.
+
+## Campañas, cinta y footer
+
+La portada usa cuatro campañas visuales (marca, ofertas, celebraciones y
+destacados), con rotación de 6,5 segundos, selección manual y pausa. El foco y
+la navegación manual detienen la rotación; hover, pestaña oculta y movimiento
+reducido también la suspenden. Las ofertas y sus enlaces se toman del catálogo
+publicado; no se calculan descuentos. Las campañas sin fotos usan un cartel gráfico.
+
+La cinta bajo el header tiene pausa y respeta movimiento reducido. El footer
+enlaza a las páginas generales de Instagram, TikTok y Facebook y a una ubicación
+de muestra en Buenos Aires. Son datos de demostración, no perfiles o un local de
+la marca. Los medios reales se confirman en el checkout de Mercado Pago.
