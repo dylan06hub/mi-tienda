@@ -19,3 +19,10 @@ Use case: photorealistic-natural. Wide 3:2 architectural editorial photograph of
 ## Prompt del detalle
 
 Use case: photorealistic-natural. Wide 3:2 editorial close-up photograph inside a fictional streetwear concept boutique: neatly folded heavyweight black, charcoal and off-white oversized tees on a rough concrete display table, subtle deep red wall behind, black metal clothing rails slightly out of focus, red fabric detail, daylight from storefront window. Calm and tactile, real cotton textures and seams, high-end independent fashion editorial, no people, no branding, no text, no watermark. Consistent concrete and black steel store setting, photorealistic rather than CGI.
+
+## Bocetos de la primera etapa
+
+Archivo final: `public/nosotros/idea.webp`. Generado con la herramienta integrada,
+conversión a WebP sin cambiar la composición.
+
+Use case: photorealistic-natural. Wide 3:2 editorial photograph for the first chapter of the fictional Argentine streetwear brand norte. A black desk in a modest concrete design studio, open sketchbook with rough pencil drawings of an oversized hoodie and T-shirt, fabric swatches in black charcoal cream and a small deep red piece, metal ruler and pencil, blurred black steel clothing rack in background. Soft window daylight and restrained warm shadow, tactile realistic paper and cotton. No people, no readable text, no logos, no watermark. Photographic, not CGI; cohesive with a concrete and black steel streetwear concept boutique. This is a fictional brand-history illustration.

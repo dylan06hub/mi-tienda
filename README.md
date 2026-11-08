@@ -272,3 +272,8 @@ generadas con IA, galería continua sin controles, tarjetas, línea de tiempo
 y dos sucursales conceptuales con mapas OpenStreetMap. Las imágenes están
 optimizadas en `public/nosotros`. No representan locales reales. La galería
 respeta movimiento reducido. La cinta de ofertas se muestra solo en `/`.
+
+La historia de Nosotros avanza cada 6,5 segundos, con foto y punto activo por
+año. Solo avanza cuando está visible, la pestaña está activa y no hay foco
+dentro del recorrido. Cada año se puede elegir con clic o teclado. Respeta
+movimiento reducido y mantiene la historia identificada como ficticia.

@@ -30,6 +30,7 @@ test('la cinta queda solo en el home y Nosotros se puede abrir desde el header',
 test('Nosotros incluye galería sin controles, historia de muestra y dos mapas identificados', () => {
   const {default:Page}=cargarTS('app/nosotros/page.tsx', {
     'react/jsx-runtime':jsxRuntime,
+    '@/components/HistoryTimeline':{HistoryTimeline:()=>null},
     'next/link':{default:({children,...props})=>React.createElement('a',props,children)},
     'next/image':{default:({src,alt})=>React.createElement('img',{src,alt})},
   });

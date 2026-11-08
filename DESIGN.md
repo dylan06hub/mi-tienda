@@ -52,3 +52,8 @@ conceptuales forman una galería lineal continua, sin controles ni pausas por
 hover. Con movimiento reducido se muestra una grilla estática. La historia
 y las sucursales se identifican como ficticias; los mapas son ilustrativos.
 La cinta de ofertas bajo el header se limita al inicio.
+
+La línea de tiempo de Nosotros destaca un año por vez y muestra una imagen
+y relato por etapa. Avanza cada 6,5 segundos mientras está en pantalla, sin
+cambiar la página ni desplazar el foco. La selección manual pausa mientras
+el foco permanece dentro; sin avance automático con movimiento reducido.

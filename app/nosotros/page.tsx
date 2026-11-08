@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { HistoryTimeline } from "@/components/HistoryTimeline";
 
 export const metadata: Metadata = {
   title: "Nosotros",
@@ -13,10 +14,10 @@ const fotos = [
   { src: "/nosotros/detalle.webp", alt: "Prendas dobladas sobre una mesa de hormigón en un local ficticio", caption: "03 / Texturas de todos los días" },
 ];
 const historia = [
-  { year: "2022", title: "Una idea en la calle", text: "Una libreta, referencias urbanas y ganas de armar algo propio." },
-  { year: "2023", title: "La primera selección", text: "Remeras amplias, tonos neutros y prendas que se combinan entre sí." },
-  { year: "2024", title: "Un espacio para cruzarnos", text: "Imaginamos un local abierto a la ropa, la música y las conversaciones." },
-  { year: "2026", title: "El próximo capítulo", text: "Una tienda digital para seguir construyendo el universo de norte." },
+  { year: "2022", title: "Una idea en la calle", text: "Una libreta, referencias urbanas y ganas de armar algo propio.", image: { src: "/nosotros/idea.webp", alt: "Bocetos y muestras de telas en un estudio ficticio de diseño de streetwear" } },
+  { year: "2023", title: "La primera selección", text: "Remeras amplias, tonos neutros y prendas que se combinan entre sí.", image: fotos[2] },
+  { year: "2024", title: "Un espacio para cruzarnos", text: "Imaginamos un local abierto a la ropa, la música y las conversaciones.", image: fotos[1] },
+  { year: "2026", title: "El próximo capítulo", text: "Una tienda digital para seguir construyendo el universo de norte.", image: fotos[0] },
 ];
 const sucursales = [
   { name: "Centro", zone: "Av. 9 de Julio y Av. Corrientes · Buenos Aires", lat: -34.6037, lon: -58.3816, bbox: "-58.390,-34.609,-58.373,-34.598", photo: fotos[1] },
@@ -69,7 +70,7 @@ export default function NosotrosPage() {
       <section id="historia" className="about-history" aria-labelledby="historia-titulo">
         <div className="site-shell about-section">
           <div className="about-section-heading"><p className="about-eyebrow">Nuestro recorrido</p><h2 id="historia-titulo" className="street-title text-5xl sm:text-6xl">De una idea a norte.</h2><p className="mt-4 max-w-xl text-sm leading-6 text-street-fog">Una línea de tiempo ficticia para contar la identidad de esta tienda de demostración.</p></div>
-          <ol className="about-timeline">{historia.map((item) => <li key={item.year}><span className="about-year font-display font-black">{item.year}</span><h3 className="mt-4 text-lg font-semibold">{item.title}</h3><p className="mt-3 text-sm leading-6 text-street-fog">{item.text}</p></li>)}</ol>
+          <HistoryTimeline steps={historia} />
         </div>
       </section>
 
