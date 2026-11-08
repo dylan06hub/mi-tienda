@@ -277,3 +277,12 @@ La historia de Nosotros avanza cada 6,5 segundos, con foto y punto activo por
 año. Solo avanza cuando está visible, la pestaña está activa y no hay foco
 dentro del recorrido. Cada año se puede elegir con clic o teclado. Respeta
 movimiento reducido y mantiene la historia identificada como ficticia.
+
+## Catálogo adicional de 100 productos
+
+`supabase/seed-100-productos.sql` agrega 100 prendas y accesorios ficticios en
+10 categorías, con 880 variantes, 20 imprescindibles y 30 ofertas. Usa imágenes
+locales ilustrativas correspondientes al tipo de producto; se comparten entre
+modelos. Solo inserta IDs nuevos y sus variantes, sin reactivar productos
+eliminados ni sobrescribir precios, talles o stock editados. La prueba aislada
+`supabase/tests/catalogo-100.sql` verifica el lote y esa repetición segura.

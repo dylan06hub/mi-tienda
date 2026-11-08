@@ -45,7 +45,7 @@ SQL
 for archivo in schema sections checkout productos reservas consultas; do
   psql -X -v ON_ERROR_STOP=1 -q -f "$proyecto/supabase/$archivo.sql"
 done
-for archivo in productos reservas consultas productos-eliminados; do
+for archivo in productos reservas consultas productos-eliminados catalogo-100; do
   psql -X -v ON_ERROR_STOP=1 -q -f "$proyecto/supabase/tests/$archivo.sql"
 done
 python3 "$proyecto/supabase/tests/reservas-concurrencia.py"
